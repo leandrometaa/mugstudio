@@ -1,2 +1,6 @@
 # ReactBabylon
-commento di prova
+
+
+cd vite-project
+npm install
+npm run dev
