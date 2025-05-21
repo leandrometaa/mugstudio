@@ -1,17 +1,7 @@
-// import "./App.css";
-
-// function App() {
-//   return (
-//     <>
-//       <h1>Hello</h1>
-//     </>
-//   );
-// }
-
-// export default App;
 
 import { useState } from 'react';
 import BabylonScene from './components/BabylonScene';
+import BabylonScene2 from './components/BabylonScene2';
 
 interface AvailableColors {
   id: string;
@@ -33,7 +23,7 @@ export default function App() {
 
   return (
     <div>
-      <ul
+      {/* <ul
         style={{ listStyle: 'none', padding: 0, display: 'flex', gap: '12px' }}
       >
         {availableColors.map((color) => {
@@ -73,7 +63,8 @@ export default function App() {
           );
         })}
       </ul>
-      <BabylonScene selectedColor={selectedColor} />
+      <BabylonScene selectedColor={selectedColor} /> */}
+      <BabylonScene2 />
     </div>
   );
 }
