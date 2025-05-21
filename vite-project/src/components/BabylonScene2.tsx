@@ -10,6 +10,7 @@ import "@babylonjs/loaders/glTF";
 import * as GUI from "@babylonjs/gui";
 import { Color3 } from "babylonjs";
 
+
 const CupViewer: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
