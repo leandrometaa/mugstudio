@@ -31,3 +31,7 @@ Argomenti visti in classe potenzialmente utili da implementare:
   - Aggiunta di qualche luce per vedere meglio il tipo di materiale della tazza
 - EventListener
   - Cliccando sulle parti della tazza si viene rimandati alla categoria di personalizzazioni corrispondente
+
+
+Libreria shadcn:
+https://ui.shadcn.com/docs/installation/vite
