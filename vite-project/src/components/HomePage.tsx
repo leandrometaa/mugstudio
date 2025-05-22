@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Minus, Plus, Home, ChevronRight } from 'lucide-react';
 
+// oppure
+import CupViewer from './CupViewer';
+
 export default function HomePage() {
     const [selectedType, setSelectedType] = useState(0);
     const [selectedSize, setSelectedSize] = useState('Grande');
@@ -74,12 +77,13 @@ export default function HomePage() {
                             </p>
 
                             {/* Product preview placeholder */}
-                            <div className="w-full h-96 mx-auto bg-gray-100 rounded-lg flex items-center justify-center mb-6">
-                                <div className="text-center">
-                                    <div className="w-32 h-32 mx-auto bg-gray-200 rounded-full mb-4"></div>
-                                    <p className="text-gray-500">Anteprima tazza</p>
-                                </div>
-                            </div>
+
+                            <CupViewer
+                                selectedColor={selectedColor}
+                                selectedMaterial={selectedMaterial}
+                                selectedSize={selectedSize}
+                                selectedType={cupTypes[selectedType].name}
+                            />
 
                             <button className="hover:bg-orange-500 text-white px-3 py-1 rounded-lg font-medium transition-colors" style={{ backgroundColor: '#D6A77A' }}>
                                 Bevi il caffè
@@ -96,7 +100,7 @@ export default function HomePage() {
                         {/* Tipo */}
                         <div className="mb-6">
                             <h3 className="font-semibold text-gray-800 mb-2">Tipo</h3>
-                            <p className="text-sm text-gray-600 mb-3">Selezionato: <span className='font-bold' style={{ color: '#242424' }}>TODO</span></p>
+                            <p className="text-sm text-gray-600 mb-3">Selezionato: <span className='font-bold' style={{ color: '#242424' }}>{cupTypes[selectedType].name}</span></p>
                             <div className="grid grid-cols-5 gap-2">
                                 {cupTypes.map((type) => (
                                     <button
