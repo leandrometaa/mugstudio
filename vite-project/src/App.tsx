@@ -1,9 +1,10 @@
-import { useState } from "react";
-import BabylonScene from "./components/BabylonScene";
-import BabylonScene2 from "./components/BabylonScene2";
-import BabylonScene3 from "./components/BabylonScene3";
-import Navbar from "./components/Navbar";
-import "./App.css";
+import { useState } from 'react';
+import BabylonScene from './components/BabylonScene';
+import BabylonScene2 from './components/BabylonScene2';
+import BabylonScene3 from './components/BabylonScene3';
+import Navbar from './components/Navbar';
+import './App.css';
+import { Footer } from './components/Footer.tsx';
 interface AvailableColors {
   id: string;
   name: string;
@@ -11,10 +12,10 @@ interface AvailableColors {
 }
 
 const availableColors: AvailableColors[] = [
-  { id: "red", name: "Rosso", code: "#ff0000" },
-  { id: "green", name: "Verde", code: "#00ff00" },
-  { id: "blue", name: "Blu", code: "#0000ff" },
-  { id: "white", name: "Bianco", code: "#ffffff" },
+  { id: 'red', name: 'Rosso', code: '#ff0000' },
+  { id: 'green', name: 'Verde', code: '#00ff00' },
+  { id: 'blue', name: 'Blu', code: '#0000ff' },
+  { id: 'white', name: 'Bianco', code: '#ffffff' },
 ];
 
 // interface AvailableColors {
@@ -92,7 +93,7 @@ export default function App() {
         })}
       </ul>
       <BabylonScene selectedColor={selectedColor} /> */}
-      <div style={{ height: "100vh", width: "100vw" }}>
+      <div style={{ height: '100vh', width: '100vw' }}>
         <BabylonScene3 />
       </div>
 
@@ -203,6 +204,7 @@ export default function App() {
           </div>
         </div>
       </div> */}
+      <Footer />
     </div>
   );
 }
