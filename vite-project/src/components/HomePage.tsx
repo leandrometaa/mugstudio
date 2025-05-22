@@ -18,7 +18,7 @@ export default function HomePage() {
     { id: 1, name: "Moderna", value: "tazza_2" },
     { id: 2, name: "Vintage", value: "tazza_3" },
     { id: 3, name: "Elegante", value: "tazza_4" },
-    { id: 4, name: "Sportiva", value: "tazzina_2" },
+    { id: 4, name: "Sportiva", value: "tazzina" },
   ];
 
   const sizes = [
