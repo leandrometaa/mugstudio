@@ -1,7 +1,7 @@
-
 import { useState } from 'react';
 import BabylonScene from './components/BabylonScene';
 import BabylonScene2 from './components/BabylonScene2';
+import BabylonScene3 from './components/BabylonScene3';
 
 interface AvailableColors {
   id: string;
@@ -64,7 +64,9 @@ export default function App() {
         })}
       </ul>
       <BabylonScene selectedColor={selectedColor} /> */}
-      <BabylonScene2 />
+      <div style={{ height: '100vh', width: '100vw' }}>
+        <BabylonScene3 />
+      </div>
     </div>
   );
 }
