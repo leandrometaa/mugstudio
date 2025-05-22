@@ -30,8 +30,12 @@ const Navbar = () => {
 
       {/* Icons */}
       <div className="flex gap-4 items-center text-white text-lg">
-        <FaUser />
-        <FaShoppingCart />
+        <a href="#">
+          <FaUser />
+        </a>
+        <a href="">
+          <FaShoppingCart />
+        </a>
       </div>
     </nav>
   );
