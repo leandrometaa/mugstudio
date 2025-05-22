@@ -42,7 +42,7 @@ export default function HomePage() {
 
   const materials = ["Lucido", "Opaco"];
 
-  const handleQuantityChange = (change) => {
+  const handleQuantityChange = (change:any) => {
     const newQuantity = quantity + change;
     if (newQuantity >= 1) {
       setQuantity(newQuantity);
