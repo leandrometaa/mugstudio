@@ -7,7 +7,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
 import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
 import "@babylonjs/loaders/glTF";
-import { Color3 } from "babylonjs";
+import { Color3, MeshBuilder, StandardMaterial } from "babylonjs";
 
 interface MaterialParams {
   metallic?: number;
@@ -85,7 +85,10 @@ const CupViewer: React.FC<CupViewerProps> = ({
         }
       });
 
-      console.log("Meshes:", meshes.map((m) => m.name));
+      console.log(
+        "Meshes:",
+        meshes.map((m) => m.name)
+      );
     });
 
     engine.runRenderLoop(() => {
