@@ -2,7 +2,7 @@ import { FaUser, FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <nav className="bg-[#6c544e] h-16  text-white font-bold text-sm py-4 px-4 flex items-center justify-evenly">
+    <nav className="bg-[#6c544e] h-16  text-white font-bold text-sm py-4 px-4 flex items-center justify-evenly sticky top-0 z-50">
       {/* Logo */}
       <div className="flex items-center gap-2">
         <span className="text-2xl">☕</span>
