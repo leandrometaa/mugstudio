@@ -14,11 +14,11 @@ export default function HomePage() {
   const [fontSize, setFontSize] = useState("18");
 
   const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_1" },
-    { id: 1, name: "Moderna", value: "tazza_2" },
+    { id: 0, name: "Classica", value: "tazza_2" },
+    { id: 1, name: "Moderna", value: "tazza_1" },
     { id: 2, name: "Vintage", value: "tazza_3" },
-    { id: 3, name: "Elegante", value: "tazza_4" },
-    { id: 4, name: "Sportiva", value: "tazzina" },
+    { id: 3, name: "Elegante", value: "tazzina" },
+    { id: 4, name: "Sportiva", value: "tazza_4" },
   ];
 
   const sizes = [
