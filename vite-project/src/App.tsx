@@ -4,7 +4,9 @@ import BabylonScene2 from './components/BabylonScene2';
 import BabylonScene3 from './components/BabylonScene3';
 import Navbar from './components/Navbar';
 import './App.css';
-import { Footer } from './components/Footer.tsx';
+import { Footer } from './components/Footer.tsx'; import HomePage from './components/HomePage';
+
+
 interface AvailableColors {
   id: string;
   name: string;
@@ -52,6 +54,7 @@ export default function App() {
   return (
     <div>
       <Navbar />
+      <HomePage />
       {/* <ul
         style={{ listStyle: 'none', padding: 0, display: 'flex', gap: '12px' }}
       >
@@ -93,9 +96,9 @@ export default function App() {
         })}
       </ul>
       <BabylonScene selectedColor={selectedColor} /> */}
-      <div style={{ height: '100vh', width: '100vw' }}>
+      {/* <div style={{ height: '100vh', width: '100vw' }}>
         <BabylonScene3 />
-      </div>
+      </div> */}
 
       {/* <div style={{ display: "flex" }}>
         <div>
