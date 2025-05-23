@@ -351,9 +351,12 @@ export default function HomePage() {
             </div>
 
             {/* Action buttons */}
-            <div className="flex gap-3">
+            <div
+              className="flex gap-3  p-2 rounded-lg bg-[#D6A77A]"
+              style={{ position: "sticky", bottom: 0 }}
+            >
               <button
-                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors"
+                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
                 style={{ color: "#4B2E2B" }}
               >
                 Aggiungi al carrello
