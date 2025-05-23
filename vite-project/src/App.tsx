@@ -9,13 +9,23 @@ export default function App() {
   const [cartItems, setCartItems] = useState([]);
 
   const handleBuyClick = () => {
+    const now = new Date();
+  const formattedDate = now.toLocaleString('it-IT', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
     toast.custom((t: any) => (
       <div
         className="bg-[#4B2E2B] text-white px-4 py-3 rounded shadow-lg"
         onClick={() => toast.dismiss(t.id)}
       >
         <p className="font-bold">Acquisto effettuato</p>
-        <p className="text-sm text-white opacity-80">Sunday, December 03, 2023 at 9:00 AM</p>
+        <p className="text-sm text-white opacity-80">{formattedDate}</p>
       </div>
     ));
   };
