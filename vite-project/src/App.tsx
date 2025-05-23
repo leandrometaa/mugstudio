@@ -2,23 +2,26 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import { Footer } from "./components/Footer.tsx";
 import HomePage from "./components/HomePage";
+import TazzePage from "./components/Tazze";
 import React, { useState } from "react";
 import { toast, Toaster } from "sonner";
 
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState('tazze');
+  const [selectedCupValue, setSelectedCupValue] = useState<string | null>(null);
 
   const handleBuyClick = () => {
     const now = new Date();
-  const formattedDate = now.toLocaleString('it-IT', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
+    const formattedDate = now.toLocaleString('it-IT', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
     toast.custom((t: any) => (
       <div
         className="bg-[#4B2E2B] text-white px-4 py-3 rounded shadow-lg"
@@ -53,6 +56,21 @@ export default function App() {
       ).filter((item: any) => item.quantity > 0)
     );
   };
+
+  const handleSelectCup = (cupValue: string) => {
+    setSelectedCupValue(cupValue);
+    setCurrentPage('configuratore');
+  };
+
+  const handleGoToTazze = () => {
+    setCurrentPage('tazze');
+    setSelectedCupValue(null);
+  };
+
+  const handleGoToConfiguratore = () => {
+    setCurrentPage('configuratore');
+  };
+
   return (
     <div>
       <Navbar
@@ -60,8 +78,19 @@ export default function App() {
         updateQuantity={updateQuantity}
         removeItem={removeFromCart}
         handleBuyClick={handleBuyClick}
+        onGoToTazze={handleGoToTazze}
+        onGoToConfiguratore={handleGoToConfiguratore}
+        currentPage={currentPage}
       />
-      <HomePage addToCart={addToCart} handleBuyClick={handleBuyClick} />
+      {currentPage === 'tazze' ? (
+        <TazzePage onSelectCup={handleSelectCup} />
+      ) : (
+        <HomePage
+          addToCart={addToCart}
+          handleBuyClick={handleBuyClick}
+          initialCupValue={selectedCupValue}
+        />
+      )}
       <Footer />
       <Toaster />
     </div>

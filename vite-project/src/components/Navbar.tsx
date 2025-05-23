@@ -32,9 +32,12 @@ type NavbarProps = {
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   handleBuyClick: () => void;
+  onGoToTazze: () => void;
+  onGoToConfiguratore: () => void;
+  currentPage: string;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ items, updateQuantity, removeItem, handleBuyClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ items, updateQuantity, removeItem, handleBuyClick, onGoToTazze, onGoToConfiguratore, currentPage }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -47,8 +50,20 @@ const Navbar: React.FC<NavbarProps> = ({ items, updateQuantity, removeItem, hand
 
       {/* Navigation Links */}
       <div className="flex gap-6 items-center text-white">
-        <a href="#" className="hover:underline">Tazze</a>
-        <a href="#" className="text-[#e3bb91]">Configuratore</a>
+        <a
+          href="#"
+          onClick={onGoToTazze}
+          className={`hover:underline ${currentPage === 'tazze' ? 'text-[#e3bb91]' : ''}`}
+        >
+          Tazze
+        </a>
+        <a
+          href="#"
+          onClick={onGoToConfiguratore}
+          className={`hover:underline ${currentPage === 'configuratore' ? 'text-[#e3bb91]' : ''}`}
+        >
+          Configuratore
+        </a>
         <a href="#" className="hover:underline">Chi siamo</a>
         <a href="#" className="hover:underline">Contattaci</a>
       </div>

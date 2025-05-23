@@ -5,8 +5,21 @@ import { toast } from "sonner";
 // oppure
 import CupViewer from "./CupViewer";
 
-export default function HomePage({ addToCart, handleBuyClick }: any) {
-    const [selectedType, setSelectedType] = useState(0);
+export default function HomePage({ addToCart, handleBuyClick, initialCupValue }: any) {
+    const cupTypes = [
+        { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
+        { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€", supportsImage: true },
+        { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€", supportsImage: false },
+        { id: 3, name: "Elegante", value: "tazzina", price: "9,50€", supportsImage: false },
+        { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€", supportsImage: true },
+    ];
+
+    // Trova l'indice iniziale basato su initialCupValue, altrimenti usa 0
+    const initialTypeIndex = initialCupValue
+        ? cupTypes.findIndex(cup => cup.value === initialCupValue)
+        : 0;
+
+    const [selectedType, setSelectedType] = useState(initialTypeIndex); // Usa l'indice trovato
     const [selectedSize, setSelectedSize] = useState("Grande");
     const [selectedColor, setSelectedColor] = useState("Bianco");
     const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
@@ -17,44 +30,6 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
     const [customColor, setCustomColor] = useState("#FFFFFF");
     const [imageSize, setImageSize] = useState(1);
 
-
-    const cupTypes = [
-        {
-            id: 0,
-            name: "Classica",
-            value: "tazza_2",
-            price: "10,00€",
-            supportsImage: true,
-        },
-        {
-            id: 1,
-            name: "Moderna",
-            value: "tazza_1",
-            price: "12,00€",
-            supportsImage: true,
-        },
-        {
-            id: 2,
-            name: "Vintage",
-            value: "tazza_3",
-            price: "15,00€",
-            supportsImage: false,
-        },
-        {
-            id: 3,
-            name: "Elegante",
-            value: "tazzina",
-            price: "9,50€",
-            supportsImage: false,
-        },
-        {
-            id: 4,
-            name: "Sportiva",
-            value: "tazza_4",
-            price: "11,00€",
-            supportsImage: true,
-        },
-    ];
 
     const sizes = [
         { name: "Grande", height: "32cm" },
