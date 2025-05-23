@@ -18,7 +18,6 @@ interface CupViewerProps {
     selectedType: string;
     uploadedImage: string | null;
     imageSize: number;
-    customText: string;
     selectedTexture: string | null;
 }
 
@@ -29,7 +28,6 @@ const CupViewer: React.FC<CupViewerProps> = ({
     selectedType,
     uploadedImage,
     imageSize,
-    customText,
     selectedTexture,
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
