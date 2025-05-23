@@ -4,13 +4,68 @@ import { Minus, Plus, Home, ChevronRight } from "lucide-react";
 // oppure
 import CupViewer from "./CupViewer";
 
+// Definisci i tipi per le dimensioni e i prezzi
+type CupSize = "Grande" | "Media" | "Piccola";
+type CupPrices = Record<CupSize, string>;
+
+// Interfaccia per gli oggetti delle tazze in cupTypes
+interface CupType {
+    id: number;
+    name: string;
+    value: string;
+    prices: CupPrices; // Usa il tipo definito
+    supportsImage: boolean;
+}
+
 export default function HomePage({ addToCart, handleBuyClick, initialCupValue }: any) {
-    const cupTypes = [
-        { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
-        { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€", supportsImage: true },
-        { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€", supportsImage: false },
-        { id: 3, name: "Elegante", value: "tazzina", price: "9,50€", supportsImage: false },
-        { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€", supportsImage: true },
+    // Funzione helper per calcolare i prezzi basati sulla dimensione Media
+    const calculatePrices = (mediaPriceString: string): CupPrices => { // Specifica il tipo di ritorno
+        const mediaPrice = parseFloat(mediaPriceString.replace(',', '.'));
+        const grandePrice = (mediaPrice * 1.2).toFixed(2).replace('.', ',');
+        const piccolaPrice = (mediaPrice * 0.8).toFixed(2).replace('.', ',');
+        return {
+            Grande: `${grandePrice}€`,
+            Media: mediaPriceString,
+            Piccola: `${piccolaPrice}€`,
+        };
+    };
+
+    const cupTypes: CupType[] = [
+        {
+            id: 0,
+            name: "Classica",
+            value: "tazza_2",
+            prices: calculatePrices("10,00€"), // Prezzo medio attuale
+            supportsImage: true,
+        },
+        {
+            id: 1,
+            name: "Moderna",
+            value: "tazza_1",
+            prices: calculatePrices("12,00€"), // Prezzo medio attuale
+            supportsImage: true,
+        },
+        {
+            id: 2,
+            name: "Vintage",
+            value: "tazza_3",
+            prices: calculatePrices("15,00€"), // Prezzo medio attuale
+            supportsImage: false,
+        },
+        {
+            id: 3,
+            name: "Elegante",
+            value: "tazzina",
+            prices: calculatePrices("9,50€"), // Prezzo medio attuale
+            supportsImage: false,
+        },
+        {
+            id: 4,
+            name: "Sportiva",
+            value: "tazza_4",
+            prices: calculatePrices("11,00€"), // Prezzo medio attuale
+            supportsImage: true,
+        },
     ];
 
     // Trova l'indice iniziale basato su initialCupValue, altrimenti usa 0
@@ -19,19 +74,16 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
         : 0;
 
     const [selectedType, setSelectedType] = useState(initialTypeIndex); // Usa l'indice trovato
-    const [selectedSize, setSelectedSize] = useState("Grande");
+    const [selectedSize, setSelectedSize] = useState<CupSize>("Grande"); // Specifica il tipo CupSize
     const [selectedColor, setSelectedColor] = useState("Bianco");
     const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
     const [quantity, setQuantity] = useState(1);
-    const [customText, setCustomText] = useState("");
-    const [savedCustomText, setSavedCustomText] = useState("");
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState("#FFFFFF");
     const [imageSize, setImageSize] = useState(1);
     const [selectedTexture, setSelectedTexture] = useState<string | null>(null);
 
-
-    const sizes = [
+    const sizes: { name: CupSize; height: string }[] = [
         { name: "Grande", height: "32cm" },
         { name: "Media", height: "24cm" },
         { name: "Piccola", height: "16cm" },
@@ -136,7 +188,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                     >
                         <div className="mb-6">
                             <h2 className="text-3xl font-bold text-gray-800">
-                                {cupTypes[selectedType].price}
+                                {cupTypes[selectedType].prices[selectedSize]} {/* Mostra il prezzo in base alla dimensione selezionata */}
                             </h2>
                         </div>
 
@@ -160,9 +212,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                             } ${selectedType !== type.id ? "border-gray-200" : ""}`}
                                         style={
                                             selectedType === type.id
-                                                ? {
-                                                    borderColor: "#D6A77A",
-                                                }
+                                                ? { borderColor: "#D6A77A" }
                                                 : {}
                                         }
                                     >
@@ -198,9 +248,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                             } ${selectedSize !== size.name ? "" : ""}`}
                                         style={
                                             selectedSize === size.name
-                                                ? {
-                                                    borderColor: "#D6A77A",
-                                                }
+                                                ? { borderColor: "#D6A77A" }
                                                 : {}
                                         }
                                     >
@@ -232,8 +280,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                             setSelectedTexture(null);
                                         }}
                                         className={`w-8 h-8 rounded-full border-2 ${color.value} ${color.border
-                                            } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""
-                                            }`}
+                                            } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""}`}
                                         style={
                                             color.name === "Arcobaleno"
                                                 ? {
@@ -292,7 +339,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                             setSelectedTexture(selectedTexture === texture ? null : texture);
                                             setUploadedImage(null);
                                         }}
-                                        className={`w-8 h-8 rounded-full border-2 overflow-hidden ${selectedTexture === texture ? "ring-2 ring-offset-2" : "border-gray-200 hover:border-gray-300"
+                                        className={`w-8 h-8 rounded-full border-2 overflow-hidden ${selectedTexture === texture ? "ring-2 ring-offset-2" : "border-gray-200 hover:border-gray-300"}
                                             }`}
                                         style={{
                                             boxShadow: selectedTexture === texture ? "0 0 0 2px #D6A77A, 0 0 0 4px white" : "none"
@@ -397,9 +444,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                             }`}
                                         style={
                                             selectedMaterial === material
-                                                ? {
-                                                    borderColor: "#D6A77A",
-                                                }
+                                                ? { borderColor: "#D6A77A" }
                                                 : {}
                                         }
                                     >
@@ -444,7 +489,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     const item = {
                                         id: `${selectedCup.value}-${selectedColor}-${selectedSize}-${selectedMaterial}`, // chiave unica
                                         name: `Tazza ${selectedCup.name} ${selectedColor} ${selectedSize} ${selectedMaterial}`,
-                                        price: parseFloat(selectedCup.price.replace(",", ".")),
+                                        price: parseFloat(selectedCup.prices[selectedSize].replace(',', '.')), // Usa il prezzo basato sulla dimensione
                                         quantity: quantity,
                                         image: `/images/${selectedCup.value}.png`,
                                     };
