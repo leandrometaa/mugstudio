@@ -10,38 +10,17 @@
 
 // export default App;
 
-import { useState } from 'react';
-import BabylonScene from './components/BabylonScene';
-import { MugBodyColor } from './components/MugBodyColor.tsx';
-import { availableColors, availableMaterials } from './constants/constants.ts';
-import type { AvailableColor, AvailableMaterial } from './types/types.ts';
-import { MugBodyMaterial } from './components/MugMaterial.tsx';
+import { Footer } from './components/Footer.tsx';
+import { Main } from './components/Main.tsx';
+
+import Navbar from './components/Navbar.tsx';
 
 export default function App() {
-  const [mugBodyColor, setMugBodyColor] = useState<AvailableColor>(
-    availableColors[0],
-  );
-
-  const [mugBodyMaterial, setMugBodyMaterial] = useState<AvailableMaterial>(
-    availableMaterials[0],
-  );
-
   return (
-    <div className="flex gap-4 p-4">
-      <BabylonScene
-        mugBodyColor={mugBodyColor.code}
-        mugBodyMaterial={mugBodyMaterial.code}
-      />
-      <div className="flex flex-col gap-4">
-        <MugBodyColor
-          mugBodyColor={mugBodyColor}
-          setMugBodyColor={setMugBodyColor}
-        />
-        <MugBodyMaterial
-          mugBodyMaterial={mugBodyMaterial}
-          setMugBodyMaterial={setMugBodyMaterial}
-        />
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <Main />
+      <Footer />
+    </>
   );
 }
