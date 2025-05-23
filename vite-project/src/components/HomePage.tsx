@@ -5,23 +5,23 @@ import { Minus, Plus, Home, ChevronRight } from "lucide-react";
 import CupViewer from "./CupViewer";
 
 export default function HomePage({ addToCart }: any) {
-  const [selectedType, setSelectedType] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("Grande");
-  const [selectedColor, setSelectedColor] = useState("Bianco");
-  const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
-  const [quantity, setQuantity] = useState(1);
-  const [customText, setCustomText] = useState("");
-  const [fontSize, setFontSize] = useState("18");
-   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+    const [selectedType, setSelectedType] = useState(0);
+    const [selectedSize, setSelectedSize] = useState("Grande");
+    const [selectedColor, setSelectedColor] = useState("Bianco");
+    const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
+    const [quantity, setQuantity] = useState(1);
+    const [customText, setCustomText] = useState("");
+    const [fontSize, setFontSize] = useState("18");
+    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState('#FFFFFF');
 
-  const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
-    { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€", supportsImage: true },
-    { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€", supportsImage: false },
-    { id: 3, name: "Elegante", value: "tazzina", price: "9,50€", supportsImage: false },
-    { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€", supportsImage: true },
-  ];
+    const cupTypes = [
+        { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
+        { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€", supportsImage: true },
+        { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€", supportsImage: false },
+        { id: 3, name: "Elegante", value: "tazzina", price: "9,50€", supportsImage: false },
+        { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€", supportsImage: true },
+    ];
 
     const sizes = [
         { name: "Grande", height: "32cm" },
@@ -44,13 +44,13 @@ export default function HomePage({ addToCart }: any) {
 
     const materials = ["Lucido", "Opaco"];
 
-  const handleQuantityChange = (change: any) => {
-    const newQuantity = quantity + change;
-    if (newQuantity >= 1) {
-      setQuantity(newQuantity);
-    }
-  };
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleQuantityChange = (change: any) => {
+        const newQuantity = quantity + change;
+        if (newQuantity >= 1) {
+            setQuantity(newQuantity);
+        }
+    };
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file && cupTypes[selectedType].supportsImage) {
             const reader = new FileReader();
@@ -60,11 +60,11 @@ export default function HomePage({ addToCart }: any) {
             reader.readAsDataURL(file);
         }
     };
-  const handleBuyClick = () => {
-    console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
+    const handleBuyClick = () => {
+        console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
 
-    alert("Acquisto effettuato!");
-  };
+        alert("Acquisto effettuato!");
+    };
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "#F5F0E8" }}>
@@ -116,16 +116,16 @@ export default function HomePage({ addToCart }: any) {
                         </div>
                     </div>
 
-          {/* Right side - Configuration */}
-          <div
-            className="rounded-lg p-6 mt-24 border-2 overflow-y-scroll"
-            style={{ height: "600px" }}
-          >
-            <div className="mb-6">
-              <h2 className="text-3xl font-bold text-gray-800">
-                {cupTypes[selectedType].price}
-              </h2>
-            </div>
+                    {/* Right side - Configuration */}
+                    <div
+                        className="rounded-lg p-6 mt-24 border-2 overflow-y-scroll"
+                        style={{ height: "600px" }}
+                    >
+                        <div className="mb-6">
+                            <h2 className="text-3xl font-bold text-gray-800">
+                                {cupTypes[selectedType].price}
+                            </h2>
+                        </div>
 
                         {/* Tipo */}
                         <div className="mb-6">
@@ -268,12 +268,23 @@ export default function HomePage({ addToCart }: any) {
                                         id="imageUploadInput"
                                         className="hidden"
                                     />
-                                    <label
-                                        htmlFor="imageUploadInput"
-                                        className="inline-block bg-white border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
-                                    >
-                                        Carica Immagine
-                                    </label>
+                                    <div className="flex items-center gap-2">
+                                        <label
+                                            htmlFor="imageUploadInput"
+                                            className="inline-block bg-white border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
+                                        >
+                                            Carica Immagine
+                                        </label>
+                                        {uploadedImage && (
+                                            <button
+                                                onClick={() => setUploadedImage(null)}
+                                                className="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                                                title="Rimuovi immagine"
+                                            >
+                                                X
+                                            </button>
+                                        )}
+                                    </div>
                                     {uploadedImage && (
                                         <p className="mt-2 text-sm text-gray-600">Immagine caricata pronta per l'anteprima.</p>
                                     )}
@@ -411,39 +422,39 @@ export default function HomePage({ addToCart }: any) {
                             </div>
                         </div>
 
-            {/* Action buttons */}
-            <div
-              className="flex gap-3  p-2 rounded-lg bg-[#D6A77A]"
-              style={{ position: "sticky", bottom: 0 }}
-            >
-              <button
-                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
-                style={{ color: "#4B2E2B" }}
-                onClick={() => {
-                  const selectedCup = cupTypes[selectedType];
-                  const item = {
-                    id: `${selectedCup.value}-${selectedColor}-${selectedSize}-${selectedMaterial}`, // chiave unica
-                    name: `Tazza ${selectedCup.name} ${selectedColor} ${selectedSize} ${selectedMaterial}`,
-                    price: parseFloat(selectedCup.price.replace(",", ".")),
-                    quantity: quantity,
-                    image: `/images/${selectedCup.value}.png`,
-                  };
-                  addToCart(item);
-                }}
-              >
-                Aggiungi al carrello
-              </button>
-              <button
-                className="flex-1 text-white py-3 px-6 rounded-lg font-medium transition-colors"
-                style={{ backgroundColor: "#4B2E2B" }}
-                onClick={handleBuyClick}
-              >
-                Acquista ora
-              </button>
+                        {/* Action buttons */}
+                        <div
+                            className="flex gap-3  p-2 rounded-lg bg-[#D6A77A]"
+                            style={{ position: "sticky", bottom: 0 }}
+                        >
+                            <button
+                                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
+                                style={{ color: "#4B2E2B" }}
+                                onClick={() => {
+                                    const selectedCup = cupTypes[selectedType];
+                                    const item = {
+                                        id: `${selectedCup.value}-${selectedColor}-${selectedSize}-${selectedMaterial}`, // chiave unica
+                                        name: `Tazza ${selectedCup.name} ${selectedColor} ${selectedSize} ${selectedMaterial}`,
+                                        price: parseFloat(selectedCup.price.replace(",", ".")),
+                                        quantity: quantity,
+                                        image: `/images/${selectedCup.value}.png`,
+                                    };
+                                    addToCart(item);
+                                }}
+                            >
+                                Aggiungi al carrello
+                            </button>
+                            <button
+                                className="flex-1 text-white py-3 px-6 rounded-lg font-medium transition-colors"
+                                style={{ backgroundColor: "#4B2E2B" }}
+                                onClick={handleBuyClick}
+                            >
+                                Acquista ora
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
