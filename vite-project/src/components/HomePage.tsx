@@ -16,6 +16,7 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState("#FFFFFF");
     const [imageSize, setImageSize] = useState(1);
+    const [selectedTexture, setSelectedTexture] = useState<string | null>(null);
 
 
     const cupTypes = [
@@ -136,6 +137,7 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
                                     uploadedImage={uploadedImage}
                                     customText={savedCustomText}
                                     imageSize={imageSize}
+                                    selectedTexture={selectedTexture}
                                 />
                             </div>
 
@@ -248,6 +250,7 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
                                         onClick={() => {
                                             setSelectedColor(color.name);
                                             setUploadedImage(null);
+                                            setSelectedTexture(null);
                                         }}
                                         className={`w-8 h-8 rounded-full border-2 ${color.value} ${color.border
                                             } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""
@@ -291,6 +294,43 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
                                     />
                                 </div>
                             )}
+                        </div>
+
+                        {/* Texture */}
+                        <div className="mb-6">
+                            <h3 className="font-semibold text-gray-800 mb-2">Texture</h3>
+                            <p className="text-sm text-gray-600 mb-3">
+                                Selezionato:{" "}
+                                <span className="font-bold" style={{ color: "#242424" }}>
+                                    {selectedTexture ? selectedTexture.replace(".png", "").replace("texture_", "Texture ") : "Nessuna"}
+                                </span>
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                {["texture_1.jpg", "texture_2.jpg", "texture_3.jpg", "texture_4.jpg", "texture_5.jpg"].map((texture) => (
+                                    <button
+                                        key={texture}
+                                        onClick={() => {
+                                            setSelectedTexture(selectedTexture === texture ? null : texture);
+                                            setUploadedImage(null);
+                                        }}
+                                        className={`w-8 h-8 rounded-full border-2 overflow-hidden ${
+                                            selectedTexture === texture ? "ring-2 ring-offset-2" : "border-gray-200 hover:border-gray-300"
+                                        }`}
+                                        style={{
+                                            boxShadow: selectedTexture === texture ? "0 0 0 2px #D6A77A, 0 0 0 4px white" : "none"
+                                        }}
+                                        title={texture.replace(".jpg", "").replace("texture_", "Texture ")}
+                                    >
+                                        <div className="w-full h-full">
+                                            <img
+                                                src={`/images/${texture}`}
+                                                alt={texture.replace(".jpg", "").replace("texture_", "Texture ")}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         {/* Immagine personalizzata */}
