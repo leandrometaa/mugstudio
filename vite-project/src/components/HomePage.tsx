@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Minus, Plus, Home, ChevronRight } from "lucide-react";
-import { toast } from "sonner";
 
 // oppure
 import CupViewer from "./CupViewer";
@@ -69,6 +68,11 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
         }
     };
 
+    const handlePourCoffee = () => {
+        //TODO
+        console.log("Versa il caffè");
+    };
+
     return (
         <div className="min-h-screen" style={{ backgroundColor: "#F5F0E8" }}>
             {/* Breadcrumb */}
@@ -109,7 +113,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     selectedSize={selectedSize}
                                     selectedType={cupTypes[selectedType].value}
                                     uploadedImage={uploadedImage}
-                                    customText={savedCustomText}
                                     imageSize={imageSize}
                                 />
                             </div>
@@ -117,8 +120,9 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                             <button
                                 className="hover:bg-orange-500 text-white px-3 py-1 rounded-lg font-medium transition-colors mt-2"
                                 style={{ backgroundColor: "#D6A77A" }}
+                                onClick={handlePourCoffee}
                             >
-                                Bevi il caffè
+                                Versa il caffè
                             </button>
                         </div>
                     </div>
@@ -332,38 +336,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     Questa tazza supporta solo colori e testo personalizzato.
                                 </p>
                             )}
-                        </div>
-
-                        {/* Testo personalizzato */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-gray-800 mb-2">
-                                Testo personalizzato
-                            </h3>
-
-                            <input
-                                type="text"
-                                placeholder="Scrivi qui il tuo testo personalizzato"
-                                value={customText}
-                                onChange={(e) => setCustomText(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none mb-3"
-                                style={{
-                                    borderColor: "#D6A77A",
-                                    boxShadow: customText ? "0 0 0 2px #D6A77A" : "none",
-                                }}
-                                onFocus={(e) => {
-                                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                                    e.target.style.borderColor = "#D6A77A";
-                                }}
-                                onBlur={(e) => {
-                                    if (!customText) {
-                                        e.target.style.boxShadow = "none";
-                                        e.target.style.borderColor = "#D1D5DB";
-                                    }
-                                    setSavedCustomText(customText);
-                                    console.log("Saved custom text:", customText);
-                                }}
-                            />
-
                         </div>
 
                         {/* Materiale */}

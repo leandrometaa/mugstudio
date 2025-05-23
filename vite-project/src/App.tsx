@@ -3,8 +3,8 @@ import "./App.css";
 import { Footer } from "./components/Footer.tsx";
 import HomePage from "./components/HomePage";
 import TazzePage from "./components/Tazze";
-import React, { useState } from "react";
 import { toast, Toaster } from "sonner";
+import { useState } from "react";
 
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
