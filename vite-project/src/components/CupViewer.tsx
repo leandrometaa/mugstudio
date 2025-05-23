@@ -107,6 +107,16 @@ const CupViewer: React.FC<CupViewerProps> = ({
         // Illuminazione identica a BabylonScene3
         const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
         light.intensity = 0.7; // Stesso valore di BabylonScene3
+        const light2 = new HemisphericLight("light2", new Vector3(0, -1, 0), scene);
+        const light3 = new HemisphericLight("light3", new Vector3(10, 0, 0), scene);
+        const light4 = new HemisphericLight(
+            "light4",
+            new Vector3(-10, 0, 0),
+            scene
+        );
+        light4.intensity = 0.3;
+        light3.intensity = 0.3;
+        light2.intensity = 0.5;
 
         // Creazione del materiale StandardMaterial (come BabylonScene3)
         const cupMaterial = new StandardMaterial("cup_material", scene);
@@ -201,7 +211,9 @@ const CupViewer: React.FC<CupViewerProps> = ({
             (error) => {
                 console.error("Errore nel caricamento del modello:", error);
                 // Mostra un messaggio di errore all'utente
-                alert(`Errore nel caricamento del modello ${selectedType}.glb. Verifica che il file esista nella cartella public/models/`);
+                alert(
+                    `Errore nel caricamento del modello ${selectedType}.glb. Verifica che il file esista nella cartella public/models/`
+                );
             }
         );
 
@@ -219,7 +231,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
             window.removeEventListener("resize", handleResize);
             engine.dispose();
         };
-    }, [selectedType, selectedSize]);
+    }, [selectedType]);
     const canvas = canvasRef.current;
 
     const handleMouseEnter = () => {
@@ -238,9 +250,9 @@ const CupViewer: React.FC<CupViewerProps> = ({
     };
 
     if (canvas) {
-        canvas.addEventListener('mouseenter', handleMouseEnter);
-        canvas.addEventListener('mouseleave', handleMouseLeave);
-        canvas.addEventListener('wheel', handleWheel, { passive: false });
+        canvas.addEventListener("mouseenter", handleMouseEnter);
+        canvas.addEventListener("mouseleave", handleMouseLeave);
+        canvas.addEventListener("wheel", handleWheel, { passive: false });
     }
 
     // Aggiornamento del materiale quando cambiano colore o finitura
@@ -312,8 +324,23 @@ const CupViewer: React.FC<CupViewerProps> = ({
 
         console.log("[material update] attivato");
 
-        updateCupMaterial(scene, cupMaterial, selectedColor, selectedMaterial, uploadedImage, selectedTexture, colorMap, uploadedTextureRef);
-    }, [selectedColor, selectedMaterial, uploadedImage, imageSize, selectedTexture]);
+        updateCupMaterial(
+            scene,
+            cupMaterial,
+            selectedColor,
+            selectedMaterial,
+            uploadedImage,
+            selectedTexture,
+            colorMap,
+            uploadedTextureRef
+        );
+    }, [
+        selectedColor,
+        selectedMaterial,
+        uploadedImage,
+        imageSize,
+        selectedTexture,
+    ]);
 
     // Funzione per aggiornare il materiale (gestisce sia colore che texture)
     const updateCupMaterial = (
@@ -328,7 +355,13 @@ const CupViewer: React.FC<CupViewerProps> = ({
     ) => {
         if (!material) return;
 
-        console.log("[updateCupMaterial] Aggiornamento materiale:", { color, materialType, imageUrl, imageSize, textureUrl });
+        console.log("[updateCupMaterial] Aggiornamento materiale:", {
+            color,
+            materialType,
+            imageUrl,
+            imageSize,
+            textureUrl,
+        });
 
         // Rimuovi la texture precedente se presente
         if (textureRef.current) {
@@ -339,7 +372,13 @@ const CupViewer: React.FC<CupViewerProps> = ({
 
         if (imageUrl) {
             // Se c'è un'immagine caricata, crea una texture
-            const texture = new Texture(imageUrl, scene, false, true, Texture.LINEAR_LINEAR_MIPLINEAR);
+            const texture = new Texture(
+                imageUrl,
+                scene,
+                false,
+                true,
+                Texture.LINEAR_LINEAR_MIPLINEAR
+            );
             texture.vScale = -imageSize;
             texture.uScale = imageSize;
             texture.wAng = -Math.PI;
@@ -347,17 +386,29 @@ const CupViewer: React.FC<CupViewerProps> = ({
             material.diffuseColor = Color3.White();
             material.alphaMode = Material.MATERIAL_ALPHATEST;
             textureRef.current = texture;
-            console.log("[updateCupMaterial] Applicata texture da immagine con scala:", imageSize);
+            console.log(
+                "[updateCupMaterial] Applicata texture da immagine con scala:",
+                imageSize
+            );
         } else if (textureUrl) {
             // Se è selezionata una texture predefinita
-            const texture = new Texture(`/images/${textureUrl}`, scene, false, true, Texture.LINEAR_LINEAR_MIPLINEAR);
+            const texture = new Texture(
+                `/images/${textureUrl}`,
+                scene,
+                false,
+                true,
+                Texture.LINEAR_LINEAR_MIPLINEAR
+            );
             texture.vScale = -1;
             texture.uScale = 1;
             material.diffuseTexture = texture;
             material.diffuseColor = Color3.White();
             material.alphaMode = Material.MATERIAL_ALPHATEST;
             textureRef.current = texture;
-            console.log("[updateCupMaterial] Applicata texture predefinita:", textureUrl);
+            console.log(
+                "[updateCupMaterial] Applicata texture predefinita:",
+                textureUrl
+            );
         } else {
             // Se non ci sono texture, applica il colore
             const hexColor = colorMap.hasOwnProperty(color) ? colorMap[color] : color;
@@ -365,7 +416,11 @@ const CupViewer: React.FC<CupViewerProps> = ({
             try {
                 babylonColor = Color3.FromHexString(hexColor);
             } catch (e) {
-                console.error("[updateCupMaterial] Errore nella conversione del colore esadecimale:", hexColor, e);
+                console.error(
+                    "[updateCupMaterial] Errore nella conversione del colore esadecimale:",
+                    hexColor,
+                    e
+                );
                 babylonColor = Color3.White();
             }
 
