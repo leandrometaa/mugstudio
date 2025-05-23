@@ -3,6 +3,7 @@ import "./App.css";
 import { Footer } from "./components/Footer.tsx";
 import HomePage from "./components/HomePage";
 import React, { useState } from "react";
+import { Toaster } from "sonner";
 
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -39,6 +40,7 @@ export default function App() {
       />
       <HomePage addToCart={addToCart} />
       <Footer />
+      <Toaster />
     </div>
   );
 }
