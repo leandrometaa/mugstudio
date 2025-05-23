@@ -12,6 +12,8 @@ export default function HomePage() {
   const [quantity, setQuantity] = useState(1);
   const [customText, setCustomText] = useState("");
   const [fontSize, setFontSize] = useState("18");
+  const [cart, setCart] = useState([]);
+
 
   const cupTypes = [
     { id: 0, name: "Classica", value: "tazza_2" },
@@ -52,6 +54,31 @@ export default function HomePage() {
     console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
 
     alert("Acquisto effettuato!");
+  };
+
+  const handleAddToCartClick = () => {
+    const newItem = {
+      color: selectedColor,
+      material: selectedMaterial,
+      size: selectedSize,
+      type: selectedType,
+      quantity: quantity,
+      customText: customText,
+      fontSize: fontSize,
+    };
+
+    // Opzionale: validazione
+    if (!selectedColor || quantity <= 0) {
+      alert(
+        "Per favore seleziona un colore valido e una quantità maggiore di 0"
+      );
+      return;
+    }
+
+    // Aggiorna carrello (immutabile)
+    setCart((prevCart) => [...prevCart, newItem]);
+
+    console.log([...cart, newItem]); // Se vuoi loggare subito l’array aggiornato
   };
 
   return (
@@ -363,6 +390,7 @@ export default function HomePage() {
               <button
                 className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
                 style={{ color: "#4B2E2B" }}
+                onClick={handleAddToCartClick}
               >
                 Aggiungi al carrello
               </button>
