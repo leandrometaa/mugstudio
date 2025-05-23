@@ -42,7 +42,7 @@ export default function HomePage() {
 
   const materials = ["Lucido", "Opaco"];
 
-  const handleQuantityChange = (change:any) => {
+  const handleQuantityChange = (change: any) => {
     const newQuantity = quantity + change;
     if (newQuantity >= 1) {
       setQuantity(newQuantity);
@@ -68,7 +68,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           {/* Left side - Product preview */}
           <div className="rounded-lg p-8">
-            <div className="">
+            <div>
               <h1
                 className="text-2xl font-bold mb-2"
                 style={{ color: "#4B2E2B" }}
@@ -80,16 +80,17 @@ export default function HomePage() {
               </p>
 
               {/* Product preview placeholder */}
-
-              <CupViewer
-                selectedColor={selectedColor}
-                selectedMaterial={selectedMaterial}
-                selectedSize={selectedSize}
-                selectedType={cupTypes[selectedType].value}
-              />
+              <div style={{height: "500px"}}>
+                <CupViewer
+                  selectedColor={selectedColor}
+                  selectedMaterial={selectedMaterial}
+                  selectedSize={selectedSize}
+                  selectedType={cupTypes[selectedType].value}
+                />
+              </div>
 
               <button
-                className="hover:bg-orange-500 text-white px-3 py-1 rounded-lg font-medium transition-colors"
+                className="hover:bg-orange-500 text-white px-3 py-1 rounded-lg font-medium transition-colors mt-2"
                 style={{ backgroundColor: "#D6A77A" }}
               >
                 Bevi il caffè

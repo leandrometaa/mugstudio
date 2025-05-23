@@ -28,6 +28,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
   const engineRef = useRef<Engine | null>(null);
   const cupMaterialRef = useRef<StandardMaterial | null>(null);
   const meshesRef = useRef<any[]>([]);
+   const isMouseOverCanvasRef = useRef<boolean>(false);
 
   // Mappa i colori dall'interfaccia ai valori esadecimali (più colori per maggiore varietà)
   const colorMap: { [key: string]: string } = {
@@ -70,6 +71,15 @@ const CupViewer: React.FC<CupViewerProps> = ({
     const scene = new Scene(engine);
     engineRef.current = engine;
     sceneRef.current = scene;
+
+    // AGGIUNTA SFONDO CHIARO - Opzione 1: Colore di clear semplice
+    scene.clearColor = new Color3(0.95, 0.95, 0.95); // Grigio molto chiaro
+
+    // OPZIONE ALTERNATIVA 2: Sfondo bianco puro
+    // scene.clearColor = new Color3(1, 1, 1); // Bianco puro
+
+    // OPZIONE ALTERNATIVA 3: Sfondo con leggera sfumatura azzurra (sky-like)
+    // scene.clearColor = new Color3(0.9, 0.95, 1.0); // Azzurro molto tenue
 
     // Camera con impostazioni simili a BabylonScene3
     const camera = new ArcRotateCamera(
@@ -200,6 +210,28 @@ const CupViewer: React.FC<CupViewerProps> = ({
       engine.dispose();
     };
   }, [selectedType]);
+  const canvas = canvasRef.current;
+
+    const handleMouseEnter = () => {
+      isMouseOverCanvasRef.current = true;
+    };
+
+    const handleMouseLeave = () => {
+      isMouseOverCanvasRef.current = false;
+    };
+
+    const handleWheel = (event: WheelEvent) => {
+      if (isMouseOverCanvasRef.current) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    if (canvas) {
+      canvas.addEventListener('mouseenter', handleMouseEnter);
+      canvas.addEventListener('mouseleave', handleMouseLeave);
+      canvas.addEventListener('wheel', handleWheel, { passive: false });
+    }
 
   // Aggiornamento del materiale quando cambiano colore o finitura
   useEffect(() => {
@@ -262,13 +294,13 @@ const CupViewer: React.FC<CupViewerProps> = ({
   }, [selectedType]);
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full border-2 rounded-lg">
       <canvas
         ref={canvasRef}
         className="w-full h-full rounded-lg"
         style={{
           display: "block",
-          maxHeight: "400px",
+          maxHeight: "600px",
           backgroundColor: "transparent",
         }}
       />
