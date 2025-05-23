@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Minus, Plus, Home, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 // oppure
 import CupViewer from "./CupViewer";
 
-export default function HomePage() {
+export default function HomePage({ addToCart }: any) {
   const [selectedType, setSelectedType] = useState(0);
   const [selectedSize, setSelectedSize] = useState("Grande");
   const [selectedColor, setSelectedColor] = useState("Bianco");
@@ -12,14 +13,46 @@ export default function HomePage() {
   const [quantity, setQuantity] = useState(1);
   const [customText, setCustomText] = useState("");
   const [savedCustomText, setSavedCustomText] = useState("");
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [customColor, setCustomColor] = useState("#FFFFFF");
 
 
   const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_2" },
-    { id: 1, name: "Moderna", value: "tazza_1" },
-    { id: 2, name: "Vintage", value: "tazza_3" },
-    { id: 3, name: "Elegante", value: "tazzina" },
-    { id: 4, name: "Sportiva", value: "tazza_4" },
+    {
+      id: 0,
+      name: "Classica",
+      value: "tazza_2",
+      price: "10,00€",
+      supportsImage: true,
+    },
+    {
+      id: 1,
+      name: "Moderna",
+      value: "tazza_1",
+      price: "12,00€",
+      supportsImage: true,
+    },
+    {
+      id: 2,
+      name: "Vintage",
+      value: "tazza_3",
+      price: "15,00€",
+      supportsImage: false,
+    },
+    {
+      id: 3,
+      name: "Elegante",
+      value: "tazzina",
+      price: "9,50€",
+      supportsImage: false,
+    },
+    {
+      id: 4,
+      name: "Sportiva",
+      value: "tazza_4",
+      price: "11,00€",
+      supportsImage: true,
+    },
   ];
 
   const sizes = [
@@ -48,6 +81,26 @@ export default function HomePage() {
     if (newQuantity >= 1) {
       setQuantity(newQuantity);
     }
+  };
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && cupTypes[selectedType].supportsImage) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleBuyClick = () => {
+    toast("Acquisto effettuato", {
+      description: "Sunday, December 03, 2023 at 9:00 AM",
+      action: {
+        label: "X",
+        onClick: () => console.log("Undo"),
+      },
+    });
   };
 
   return (
@@ -83,11 +136,13 @@ export default function HomePage() {
               {/* Product preview placeholder */}
               <div style={{ height: "500px" }}>
                 <CupViewer
-                  selectedColor={selectedColor}
+                  selectedColor={
+                    selectedColor === "Arcobaleno" ? customColor : selectedColor
+                  }
                   selectedMaterial={selectedMaterial}
                   selectedSize={selectedSize}
                   selectedType={cupTypes[selectedType].value}
-                  selectedText={customText}
+                  uploadedImage={uploadedImage}
                 />
               </div>
 
@@ -106,7 +161,9 @@ export default function HomePage() {
             style={{ height: "600px" }}
           >
             <div className="mb-6">
-              <h2 className="text-3xl font-bold text-gray-800">59,04€</h2>
+              <h2 className="text-3xl font-bold text-gray-800">
+                {cupTypes[selectedType].price}
+              </h2>
             </div>
 
             {/* Tipo */}
@@ -124,8 +181,8 @@ export default function HomePage() {
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
                     className={`aspect-square border-2 rounded-lg p-2 transition-colors ${selectedType === type.id
-                      ? "bg-opacity-20" // controlla l'opacità
-                      : "hover:border-gray-300"
+                        ? "bg-opacity-20"
+                        : "hover:border-gray-300"
                       } ${selectedType !== type.id ? "border-gray-200" : ""}`}
                     style={
                       selectedType === type.id
@@ -162,8 +219,8 @@ export default function HomePage() {
                     key={size.name}
                     onClick={() => setSelectedSize(size.name)}
                     className={`p-3 border-2 rounded-lg text-center transition-colors ${selectedSize === size.name
-                      ? "bg-opacity-20" // per rendere lo sfondo semi-trasparente
-                      : "border-gray-200 hover:border-gray-300"
+                        ? "bg-opacity-20"
+                        : "border-gray-200 hover:border-gray-300"
                       } ${selectedSize !== size.name ? "" : ""}`}
                     style={
                       selectedSize === size.name
@@ -188,26 +245,59 @@ export default function HomePage() {
               <p className="text-sm text-gray-600 mb-3">
                 Selezionato:{" "}
                 <span className="font-bold" style={{ color: "#242424" }}>
-                  {selectedColor}
+                  {selectedColor === "Arcobaleno" ? customColor : selectedColor}
                 </span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {colors.map((color) => (
                   <button
                     key={color.name}
-                    onClick={() => setSelectedColor(color.name)}
+                    onClick={() => {
+                      setSelectedColor(color.name);
+                      setUploadedImage(null);
+                    }}
                     className={`w-8 h-8 rounded-full border-2 ${color.value} ${color.border
                       } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""
                       }`}
                     style={
-                      selectedColor === color.name
-                        ? { boxShadow: "0 0 0 2px #D6A77A, 0 0 0 4px white" }
-                        : {}
+                      color.name === "Arcobaleno"
+                        ? {
+                          backgroundImage:
+                            "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
+                          borderColor:
+                            selectedColor === "Arcobaleno"
+                              ? "#D6A77A"
+                              : "gray",
+                          boxShadow:
+                            selectedColor === "Arcobaleno"
+                              ? "0 0 0 2px #D6A77A, 0 0 0 4px white"
+                              : "none",
+                        }
+                        : selectedColor === color.name
+                          ? { boxShadow: "0 0 0 2px #D6A77A, 0 0 0 4px white" }
+                          : {}
                     }
                     title={color.name}
                   />
                 ))}
               </div>
+              {selectedColor === "Arcobaleno" && (
+                <div className="mt-4">
+                  <label
+                    htmlFor="customColorPicker"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Scegli un colore:
+                  </label>
+                  <input
+                    id="customColorPicker"
+                    type="color"
+                    value={customColor}
+                    onChange={(e) => setCustomColor(e.target.value)}
+                    className="w-full h-10 rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Immagine personalizzata */}
@@ -216,11 +306,47 @@ export default function HomePage() {
                 Immagine personalizzata
               </h3>
               <p className="text-sm text-gray-600 mb-3">
-                TODO:{" "}
-                <span className="font-bold" style={{ color: "#242424" }}>
-                  TODO
-                </span>
+                {cupTypes[selectedType].supportsImage
+                  ? "Allega un'immagine da visualizzare sulla tazza."
+                  : "L'immagine personalizzata non è disponibile per questo tipo di tazza."}
               </p>
+              {cupTypes[selectedType].supportsImage ? (
+                <>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    id="imageUploadInput"
+                    className="hidden"
+                  />
+                  <div className="flex items-center gap-2">
+                    <label
+                      htmlFor="imageUploadInput"
+                      className="inline-block bg-white border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
+                    >
+                      Carica Immagine
+                    </label>
+                    {uploadedImage && (
+                      <button
+                        onClick={() => setUploadedImage(null)}
+                        className="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                        title="Rimuovi immagine"
+                      >
+                        X
+                      </button>
+                    )}
+                  </div>
+                  {uploadedImage && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      Immagine caricata pronta per l'anteprima.
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className="text-sm text-gray-500 italic">
+                  Questa tazza supporta solo colori e testo personalizzato.
+                </p>
+              )}
             </div>
 
             {/* Testo personalizzato */}
@@ -237,22 +363,62 @@ export default function HomePage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none mb-3"
                 style={{
                   borderColor: "#D6A77A",
-                  boxShadow: "0 0 0 2px #D6A77A",
+                  boxShadow: customText ? "0 0 0 2px #D6A77A" : "none",
                 }}
                 onFocus={(e) => {
                   e.target.style.boxShadow = "0 0 0 1px #D6A77A";
                   e.target.style.borderColor = "#D6A77A";
                 }}
                 onBlur={(e) => {
-                  e.target.style.boxShadow = "none";
-                  e.target.style.borderColor = "#D1D5DB";
-                  setSavedCustomText(customText); // Salvataggio al blur
+                  if (!customText) {
+                    e.target.style.boxShadow = "none";
+                    e.target.style.borderColor = "#D1D5DB";
+                  }
                 }}
               />
 
-              <p className="text-sm text-gray-600">
-                Testo salvato: {savedCustomText}
-              </p>
+              <div className="flex items-center gap-2">
+                <select
+                  value={fontSize}
+                  onChange={(e) => setFontSize(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                  style={{
+                    borderColor: "#D6A77A",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
+                    e.target.style.borderColor = "#D6A77A";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = "none";
+                    e.target.style.borderColor = "#D1D5DB";
+                  }}
+                >
+                  <option value="DynaPuff">DynaPuff</option>
+                  <option value="Arial">Arial</option>
+                  <option value="Times">Times</option>
+                </select>
+
+                <input
+                  type="number"
+                  value={fontSize}
+                  onChange={(e) => setFontSize(e.target.value)}
+                  className="w-16 px-2 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                  min="8"
+                  max="72"
+                  style={{
+                    borderColor: "#D6A77A",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
+                    e.target.style.borderColor = "#D6A77A";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = "none";
+                    e.target.style.borderColor = "#D1D5DB";
+                  }}
+                />
+              </div>
             </div>
 
             {/* Materiale */}
@@ -310,16 +476,31 @@ export default function HomePage() {
             </div>
 
             {/* Action buttons */}
-            <div className="flex gap-3">
+            <div
+              className="flex gap-3  p-2 rounded-lg bg-[#D6A77A]"
+              style={{ position: "sticky", bottom: 0 }}
+            >
               <button
-                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors"
+                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
                 style={{ color: "#4B2E2B" }}
+                onClick={() => {
+                  const selectedCup = cupTypes[selectedType];
+                  const item = {
+                    id: `${selectedCup.value}-${selectedColor}-${selectedSize}-${selectedMaterial}`, // chiave unica
+                    name: `Tazza ${selectedCup.name} ${selectedColor} ${selectedSize} ${selectedMaterial}`,
+                    price: parseFloat(selectedCup.price.replace(",", ".")),
+                    quantity: quantity,
+                    image: `/images/${selectedCup.value}.png`,
+                  };
+                  addToCart(item);
+                }}
               >
                 Aggiungi al carrello
               </button>
               <button
                 className="flex-1 text-white py-3 px-6 rounded-lg font-medium transition-colors"
                 style={{ backgroundColor: "#4B2E2B" }}
+                onClick={handleBuyClick}
               >
                 Acquista ora
               </button>
