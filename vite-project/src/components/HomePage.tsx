@@ -12,6 +12,8 @@ export default function HomePage() {
   const [quantity, setQuantity] = useState(1);
   const [customText, setCustomText] = useState("");
   const [fontSize, setFontSize] = useState("18");
+   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+    const [customColor, setCustomColor] = useState('#FFFFFF');
 
     const cupTypes = [
         { id: 0, name: "Classica", value: "tazza_2" },
@@ -48,6 +50,16 @@ export default function HomePage() {
       setQuantity(newQuantity);
     }
   };
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUploadedImage(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
   const handleBuyClick = () => {
     console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
 
