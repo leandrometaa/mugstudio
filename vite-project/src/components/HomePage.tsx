@@ -5,14 +5,14 @@ import { Minus, Plus, Home, ChevronRight } from "lucide-react";
 import CupViewer from "./CupViewer";
 
 export default function HomePage() {
-    const [selectedType, setSelectedType] = useState(0);
-    const [selectedSize, setSelectedSize] = useState("Grande");
-    const [selectedColor, setSelectedColor] = useState("Bianco");
-    const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
-    const [quantity, setQuantity] = useState(1);
-    const [customText, setCustomText] = useState("");
-    const [fontSize, setFontSize] = useState("18");
-    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState(0);
+  const [selectedSize, setSelectedSize] = useState("Grande");
+  const [selectedColor, setSelectedColor] = useState("Bianco");
+  const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
+  const [quantity, setQuantity] = useState(1);
+  const [customText, setCustomText] = useState("");
+  const [fontSize, setFontSize] = useState("18");
+   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState('#FFFFFF');
 
     const cupTypes = [
@@ -44,14 +44,13 @@ export default function HomePage() {
 
     const materials = ["Lucido", "Opaco"];
 
-    const handleQuantityChange = (change: any) => {
-        const newQuantity = quantity + change;
-        if (newQuantity >= 1) {
-            setQuantity(newQuantity);
-        }
-    };
-
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuantityChange = (change: any) => {
+    const newQuantity = quantity + change;
+    if (newQuantity >= 1) {
+      setQuantity(newQuantity);
+    }
+  };
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file && cupTypes[selectedType].supportsImage) {
             const reader = new FileReader();
@@ -61,19 +60,11 @@ export default function HomePage() {
             reader.readAsDataURL(file);
         }
     };
+  const handleBuyClick = () => {
+    console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
 
-    const handleBuyClick = () => {
-        console.log({
-            selectedColor: selectedColor === 'Arcobaleno' ? customColor : selectedColor,
-            selectedMaterial,
-            selectedSize,
-            selectedType: cupTypes[selectedType].value,
-            customText,
-            fontSize,
-            uploadedImage
-        });
-        alert("Acquisto effettuato! Controlla la console per i dettagli.");
-    };
+    alert("Acquisto effettuato!");
+  };
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "#F5F0E8" }}>
@@ -418,28 +409,28 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        {/* Action buttons */}
-                        <div
-                            className="flex gap-3  p-2 rounded-lg bg-[#D6A77A]"
-                            style={{ position: "sticky", bottom: 0 }}
-                        >
-                            <button
-                                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
-                                style={{ color: "#4B2E2B" }}
-                            >
-                                Aggiungi al carrello
-                            </button>
-                            <button
-                                className="flex-1 text-white py-3 px-6 rounded-lg font-medium transition-colors"
-                                style={{ backgroundColor: "#4B2E2B" }}
-                                onClick={handleBuyClick}
-                            >
-                                Acquista ora
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            {/* Action buttons */}
+            <div
+              className="flex gap-3  p-2 rounded-lg bg-[#D6A77A]"
+              style={{ position: "sticky", bottom: 0 }}
+            >
+              <button
+                className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
+                style={{ color: "#4B2E2B" }}
+              >
+                Aggiungi al carrello
+              </button>
+              <button
+                className="flex-1 text-white py-3 px-6 rounded-lg font-medium transition-colors"
+                style={{ backgroundColor: "#4B2E2B" }}
+                onClick={handleBuyClick}
+              >
+                Acquista ora
+              </button>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
