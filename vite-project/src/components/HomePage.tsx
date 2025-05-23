@@ -16,11 +16,11 @@ export default function HomePage({ addToCart }: any) {
     const [customColor, setCustomColor] = useState('#FFFFFF');
 
   const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_2", price: "10,00€" },
-    { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€" },
-    { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€" },
-    { id: 3, name: "Elegante", value: "tazzina", price: "9,50€" },
-    { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€" },
+    { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
+    { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€", supportsImage: true },
+    { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€", supportsImage: false },
+    { id: 3, name: "Elegante", value: "tazzina", price: "9,50€", supportsImage: false },
+    { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€", supportsImage: true },
   ];
 
     const sizes = [
@@ -52,7 +52,7 @@ export default function HomePage({ addToCart }: any) {
   };
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (file) {
+        if (file && cupTypes[selectedType].supportsImage) {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setUploadedImage(reader.result as string);
@@ -255,23 +255,33 @@ export default function HomePage({ addToCart }: any) {
                                 Immagine personalizzata
                             </h3>
                             <p className="text-sm text-gray-600 mb-3">
-                                Allega un'immagine da visualizzare sulla tazza.
+                                {cupTypes[selectedType].supportsImage
+                                    ? "Allega un'immagine da visualizzare sulla tazza."
+                                    : "L'immagine personalizzata non è disponibile per questo tipo di tazza."}
                             </p>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                                id="imageUploadInput"
-                                className="hidden"
-                            />
-                            <label
-                                htmlFor="imageUploadInput"
-                                className="inline-block bg-white border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
-                            >
-                                Carica Immagine
-                            </label>
-                            {uploadedImage && (
-                                <p className="mt-2 text-sm text-gray-600">Immagine caricata pronta per l'anteprima.</p>
+                            {cupTypes[selectedType].supportsImage ? (
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        id="imageUploadInput"
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="imageUploadInput"
+                                        className="inline-block bg-white border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
+                                    >
+                                        Carica Immagine
+                                    </label>
+                                    {uploadedImage && (
+                                        <p className="mt-2 text-sm text-gray-600">Immagine caricata pronta per l'anteprima.</p>
+                                    )}
+                                </>
+                            ) : (
+                                <p className="text-sm text-gray-500 italic">
+                                    Questa tazza supporta solo colori e testo personalizzato.
+                                </p>
                             )}
                         </div>
 
