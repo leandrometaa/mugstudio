@@ -181,8 +181,8 @@ export default function HomePage({ addToCart }: any) {
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
                     className={`aspect-square border-2 rounded-lg p-2 transition-colors ${selectedType === type.id
-                        ? "bg-opacity-20"
-                        : "hover:border-gray-300"
+                      ? "bg-opacity-20"
+                      : "hover:border-gray-300"
                       } ${selectedType !== type.id ? "border-gray-200" : ""}`}
                     style={
                       selectedType === type.id
@@ -219,8 +219,8 @@ export default function HomePage({ addToCart }: any) {
                     key={size.name}
                     onClick={() => setSelectedSize(size.name)}
                     className={`p-3 border-2 rounded-lg text-center transition-colors ${selectedSize === size.name
-                        ? "bg-opacity-20"
-                        : "border-gray-200 hover:border-gray-300"
+                      ? "bg-opacity-20"
+                      : "border-gray-200 hover:border-gray-300"
                       } ${selectedSize !== size.name ? "" : ""}`}
                     style={
                       selectedSize === size.name
@@ -377,48 +377,6 @@ export default function HomePage({ addToCart }: any) {
                 }}
               />
 
-              <div className="flex items-center gap-2">
-                <select
-                  value={fontSize}
-                  onChange={(e) => setFontSize(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  style={{
-                    borderColor: "#D6A77A",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                    e.target.style.borderColor = "#D6A77A";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.boxShadow = "none";
-                    e.target.style.borderColor = "#D1D5DB";
-                  }}
-                >
-                  <option value="DynaPuff">DynaPuff</option>
-                  <option value="Arial">Arial</option>
-                  <option value="Times">Times</option>
-                </select>
-
-                <input
-                  type="number"
-                  value={fontSize}
-                  onChange={(e) => setFontSize(e.target.value)}
-                  className="w-16 px-2 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  min="8"
-                  max="72"
-                  style={{
-                    borderColor: "#D6A77A",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                    e.target.style.borderColor = "#D6A77A";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.boxShadow = "none";
-                    e.target.style.borderColor = "#D1D5DB";
-                  }}
-                />
-              </div>
             </div>
 
             {/* Materiale */}
