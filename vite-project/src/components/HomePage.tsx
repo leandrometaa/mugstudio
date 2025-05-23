@@ -14,6 +14,7 @@ export default function HomePage({ addToCart }: any) {
     const [fontSize, setFontSize] = useState("18");
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState('#FFFFFF');
+    const [imageSize, setImageSize] = useState(1);
 
     const cupTypes = [
         { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
@@ -104,6 +105,7 @@ export default function HomePage({ addToCart }: any) {
                                     selectedSize={selectedSize}
                                     selectedType={cupTypes[selectedType].value}
                                     uploadedImage={uploadedImage}
+                                    imageSize={imageSize}
                                 />
                             </div>
 
@@ -286,7 +288,24 @@ export default function HomePage({ addToCart }: any) {
                                         )}
                                     </div>
                                     {uploadedImage && (
-                                        <p className="mt-2 text-sm text-gray-600">Immagine caricata pronta per l'anteprima.</p>
+                                        <>
+                                            <p className="mt-2 text-sm text-gray-600">Immagine caricata pronta per l'anteprima.</p>
+                                            <div className="mt-2">
+                                                <label htmlFor="imageSize" className="block text-sm font-medium text-gray-700 mb-1">
+                                                    Dimensione immagine: {Math.round(imageSize * 100)}%
+                                                </label>
+                                                <input
+                                                    type="range"
+                                                    id="imageSize"
+                                                    min="0.1"
+                                                    max="2"
+                                                    step="0.1"
+                                                    value={imageSize}
+                                                    onChange={(e) => setImageSize(parseFloat(e.target.value))}
+                                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                                />
+                                            </div>
+                                        </>
                                     )}
                                 </>
                             ) : (

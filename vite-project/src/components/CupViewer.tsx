@@ -17,6 +17,7 @@ interface CupViewerProps {
     selectedSize: string;
     selectedType: string;
     uploadedImage: string | null;
+    imageSize: number;
 }
 
 const CupViewer: React.FC<CupViewerProps> = ({
@@ -25,6 +26,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
     selectedSize,
     selectedType,
     uploadedImage,
+    imageSize,
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const sceneRef = useRef<Scene | null>(null);
@@ -306,16 +308,16 @@ const CupViewer: React.FC<CupViewerProps> = ({
 
         if (!scene || !cupMaterial) return;
 
-        console.log("useEffect [color, material, image] attivato");
+        console.log("useEffect [material update] attivato");
 
         updateCupMaterial(scene, cupMaterial, selectedColor, selectedMaterial, uploadedImage, colorMap, uploadedTextureRef);
-    }, [selectedColor, selectedMaterial, uploadedImage, sceneRef.current, cupMaterialRef.current]);
+    }, [selectedColor, selectedMaterial, uploadedImage, imageSize]);
 
     // Funzione per aggiornare il materiale (gestisce sia colore che texture)
     const updateCupMaterial = (scene: Scene, material: StandardMaterial | null, color: string, materialType: string, imageUrl: string | null, colorMap: { [key: string]: string }, textureRef: React.MutableRefObject<Texture | null>) => {
         if (!material) return;
 
-        console.log("[updateCupMaterial] Aggiornamento materiale:", { color, materialType, imageUrl });
+        console.log("[updateCupMaterial] Aggiornamento materiale:", { color, materialType, imageUrl, imageSize });
 
         // Rimuovi la texture precedente se presente
         if (textureRef.current) {
@@ -328,12 +330,14 @@ const CupViewer: React.FC<CupViewerProps> = ({
         if (imageUrl) {
             // Se c'è un'immagine caricata, crea una texture
             const texture = new Texture(imageUrl, scene, false, true, Texture.LINEAR_LINEAR_MIPLINEAR);
-            texture.vScale = -1; // Specchia verticalmente se necessario
+            texture.vScale = -imageSize; // Invertiamo la scala verticale
+            texture.uScale = imageSize;
+            texture.wAng = -Math.PI; // Ruota la texture di 270 gradi (o -90)
             material.diffuseTexture = texture;
             material.diffuseColor = Color3.White(); // Imposta il colore base a bianco quando usi una texture
             material.alphaMode = Material.MATERIAL_ALPHATEST; // O ALPHABLEND a seconda della texture
             textureRef.current = texture;
-            console.log("[updateCupMaterial] Applicata texture da immagine.");
+            console.log("[updateCupMaterial] Applicata texture da immagine con scala:", imageSize);
 
         } else {
             // Se non c'è immagine, applica il colore e la finitura selezionati
