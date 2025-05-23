@@ -8,16 +8,18 @@ import { toast, Toaster } from "sonner";
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
 
-   const handleBuyClick = () => {
-    toast("Acquisto effettuato", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "X",
-        onClick: () => console.log("Undo"),
-      },
-    });
+  const handleBuyClick = () => {
+    toast.custom((t: any) => (
+      <div
+        className="bg-[#4B2E2B] text-white px-4 py-3 rounded shadow-lg"
+        onClick={() => toast.dismiss(t.id)}
+      >
+        <p className="font-bold">Acquisto effettuato</p>
+        <p className="text-sm text-white opacity-80">Sunday, December 03, 2023 at 9:00 AM</p>
+      </div>
+    ));
   };
-  
+
   const addToCart = (item: any) => {
     setCartItems((prevItems: any) => {
       const existing = prevItems.find((i: any) => i.id === item.id);
