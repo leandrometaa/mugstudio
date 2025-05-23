@@ -1,27 +1,59 @@
 import React, { useState } from "react";
 import { Minus, Plus, Home, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 // oppure
 import CupViewer from "./CupViewer";
 
-export default function HomePage({ addToCart }: any) {
+export default function HomePage({ addToCart, handleBuyClick }: any) {
     const [selectedType, setSelectedType] = useState(0);
     const [selectedSize, setSelectedSize] = useState("Grande");
     const [selectedColor, setSelectedColor] = useState("Bianco");
     const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
     const [quantity, setQuantity] = useState(1);
     const [customText, setCustomText] = useState("");
-    const [fontSize, setFontSize] = useState("18");
+    const [savedCustomText, setSavedCustomText] = useState("");
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-    const [customColor, setCustomColor] = useState('#FFFFFF');
+    const [customColor, setCustomColor] = useState("#FFFFFF");
     const [imageSize, setImageSize] = useState(1);
 
+
     const cupTypes = [
-        { id: 0, name: "Classica", value: "tazza_2", price: "10,00€", supportsImage: true },
-        { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€", supportsImage: true },
-        { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€", supportsImage: false },
-        { id: 3, name: "Elegante", value: "tazzina", price: "9,50€", supportsImage: false },
-        { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€", supportsImage: true },
+        {
+            id: 0,
+            name: "Classica",
+            value: "tazza_2",
+            price: "10,00€",
+            supportsImage: true,
+        },
+        {
+            id: 1,
+            name: "Moderna",
+            value: "tazza_1",
+            price: "12,00€",
+            supportsImage: true,
+        },
+        {
+            id: 2,
+            name: "Vintage",
+            value: "tazza_3",
+            price: "15,00€",
+            supportsImage: false,
+        },
+        {
+            id: 3,
+            name: "Elegante",
+            value: "tazzina",
+            price: "9,50€",
+            supportsImage: false,
+        },
+        {
+            id: 4,
+            name: "Sportiva",
+            value: "tazza_4",
+            price: "11,00€",
+            supportsImage: true,
+        },
     ];
 
     const sizes = [
@@ -61,11 +93,6 @@ export default function HomePage({ addToCart }: any) {
             reader.readAsDataURL(file);
         }
     };
-    const handleBuyClick = () => {
-        console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
-
-        alert("Acquisto effettuato!");
-    };
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "#F5F0E8" }}>
@@ -100,11 +127,14 @@ export default function HomePage({ addToCart }: any) {
                             {/* Product preview placeholder */}
                             <div style={{ height: "500px" }}>
                                 <CupViewer
-                                    selectedColor={selectedColor === 'Arcobaleno' ? customColor : selectedColor}
+                                    selectedColor={
+                                        selectedColor === "Arcobaleno" ? customColor : selectedColor
+                                    }
                                     selectedMaterial={selectedMaterial}
                                     selectedSize={selectedSize}
                                     selectedType={cupTypes[selectedType].value}
                                     uploadedImage={uploadedImage}
+                                    customText={savedCustomText}
                                     imageSize={imageSize}
                                 />
                             </div>
@@ -208,7 +238,7 @@ export default function HomePage({ addToCart }: any) {
                             <p className="text-sm text-gray-600 mb-3">
                                 Selezionato:{" "}
                                 <span className="font-bold" style={{ color: "#242424" }}>
-                                    {selectedColor === 'Arcobaleno' ? customColor : selectedColor}
+                                    {selectedColor === "Arcobaleno" ? customColor : selectedColor}
                                 </span>
                             </p>
                             <div className="flex flex-wrap gap-2">
@@ -223,23 +253,35 @@ export default function HomePage({ addToCart }: any) {
                                             } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""
                                             }`}
                                         style={
-                                            color.name === 'Arcobaleno' ? {
-                                                backgroundImage: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)',
-                                                borderColor: selectedColor === 'Arcobaleno' ? '#D6A77A' : 'gray',
-                                                boxShadow: selectedColor === 'Arcobaleno' ? "0 0 0 2px #D6A77A, 0 0 0 4px white" : "none"
-                                            } : (
-                                                selectedColor === color.name
+                                            color.name === "Arcobaleno"
+                                                ? {
+                                                    backgroundImage:
+                                                        "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
+                                                    borderColor:
+                                                        selectedColor === "Arcobaleno"
+                                                            ? "#D6A77A"
+                                                            : "gray",
+                                                    boxShadow:
+                                                        selectedColor === "Arcobaleno"
+                                                            ? "0 0 0 2px #D6A77A, 0 0 0 4px white"
+                                                            : "none",
+                                                }
+                                                : selectedColor === color.name
                                                     ? { boxShadow: "0 0 0 2px #D6A77A, 0 0 0 4px white" }
                                                     : {}
-                                            )
                                         }
                                         title={color.name}
                                     />
                                 ))}
                             </div>
-                            {selectedColor === 'Arcobaleno' && (
+                            {selectedColor === "Arcobaleno" && (
                                 <div className="mt-4">
-                                    <label htmlFor="customColorPicker" className="block text-sm font-medium text-gray-700 mb-1">Scegli un colore:</label>
+                                    <label
+                                        htmlFor="customColorPicker"
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                    >
+                                        Scegli un colore:
+                                    </label>
                                     <input
                                         id="customColorPicker"
                                         type="color"
@@ -289,7 +331,9 @@ export default function HomePage({ addToCart }: any) {
                                     </div>
                                     {uploadedImage && (
                                         <>
-                                            <p className="mt-2 text-sm text-gray-600">Immagine caricata pronta per l'anteprima.</p>
+                                            <p className="mt-2 text-sm text-gray-600">
+                                                Immagine caricata pronta per l'anteprima.
+                                            </p>
                                             <div className="mt-2">
                                                 <label htmlFor="imageSize" className="block text-sm font-medium text-gray-700 mb-1">
                                                     Dimensione immagine: {Math.round(imageSize * 100)}%
@@ -340,51 +384,11 @@ export default function HomePage({ addToCart }: any) {
                                         e.target.style.boxShadow = "none";
                                         e.target.style.borderColor = "#D1D5DB";
                                     }
+                                    setSavedCustomText(customText);
+                                    console.log("Saved custom text:", customText);
                                 }}
                             />
 
-                            <div className="flex items-center gap-2">
-                                <select
-                                    value={fontSize}
-                                    onChange={(e) => setFontSize(e.target.value)}
-                                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                    style={{
-                                        borderColor: "#D6A77A",
-                                    }}
-                                    onFocus={(e) => {
-                                        e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                                        e.target.style.borderColor = "#D6A77A";
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.boxShadow = "none";
-                                        e.target.style.borderColor = "#D1D5DB";
-                                    }}
-                                >
-                                    <option value="DynaPuff">DynaPuff</option>
-                                    <option value="Arial">Arial</option>
-                                    <option value="Times">Times</option>
-                                </select>
-
-                                <input
-                                    type="number"
-                                    value={fontSize}
-                                    onChange={(e) => setFontSize(e.target.value)}
-                                    className="w-16 px-2 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                    min="8"
-                                    max="72"
-                                    style={{
-                                        borderColor: "#D6A77A",
-                                    }}
-                                    onFocus={(e) => {
-                                        e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                                        e.target.style.borderColor = "#D6A77A";
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.boxShadow = "none";
-                                        e.target.style.borderColor = "#D1D5DB";
-                                    }}
-                                />
-                            </div>
                         </div>
 
                         {/* Materiale */}
