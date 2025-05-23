@@ -40,8 +40,11 @@ export const Configurator = () => {
           <Separator className="bg-[#D3C3B8]" />
           <MugColorSelection />
           <Separator className="bg-[#D3C3B8]" />
-          <MugMaterialSelection />
+          <span>Immagine personalizzata</span>
           <Separator className="bg-[#D3C3B8]" />
+          <span>Testo personalizzato</span>
+          <Separator className="bg-[#D3C3B8]" />
+          <MugMaterialSelection />
           <BuySection />
         </div>
       </div>
