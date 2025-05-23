@@ -78,8 +78,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
     const [selectedColor, setSelectedColor] = useState("Bianco");
     const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
     const [quantity, setQuantity] = useState(1);
-    const [customText, setCustomText] = useState("");
-    const [savedCustomText, setSavedCustomText] = useState("");
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState("#FFFFFF");
     const [imageSize, setImageSize] = useState(1);
