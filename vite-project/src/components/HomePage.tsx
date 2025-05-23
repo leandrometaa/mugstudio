@@ -48,6 +48,11 @@ export default function HomePage() {
       setQuantity(newQuantity);
     }
   };
+  const handleBuyClick = () => {
+    console.log(selectedColor, selectedMaterial, selectedSize, selectedType);
+
+    alert("Acquisto effettuato!");
+  };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#F5F0E8" }}>
@@ -364,6 +369,7 @@ export default function HomePage() {
               <button
                 className="flex-1 text-white py-3 px-6 rounded-lg font-medium transition-colors"
                 style={{ backgroundColor: "#4B2E2B" }}
+                onClick={handleBuyClick}
               >
                 Acquista ora
               </button>
