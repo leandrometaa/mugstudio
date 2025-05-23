@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import { Footer } from "./components/Footer.tsx";
 import HomePage from "./components/HomePage";
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast, Toaster } from "sonner";
 
 export default function App() {
