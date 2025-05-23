@@ -196,6 +196,8 @@ const CupViewer: React.FC<CupViewerProps> = ({
             },
             (error) => {
                 console.error("Errore nel caricamento del modello:", error);
+                // Mostra un messaggio di errore all'utente
+                alert(`Errore nel caricamento del modello ${selectedType}.glb. Verifica che il file esista nella cartella public/models/`);
             }
         );
 
