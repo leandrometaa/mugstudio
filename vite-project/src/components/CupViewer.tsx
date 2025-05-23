@@ -55,9 +55,9 @@ const CupViewer: React.FC<CupViewerProps> = ({
 
     // Mappa le dimensioni ai fattori di scala
     const sizeMap: { [key: string]: number } = {
-        Piccola: 0.7,
-        Media: 0.85,
-        Grande: 1.0,
+        Piccola: 0.85,
+        Media: 1,
+        Grande: 1.25,
     };
 
     // Inizializzazione della scena e caricamento del modello
