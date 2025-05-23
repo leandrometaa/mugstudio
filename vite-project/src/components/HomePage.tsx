@@ -14,7 +14,7 @@ export default function HomePage() {
   const [fontSize, setFontSize] = useState("18");
 
   const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_2" },
+    { id: 0, name: "Classica", value: "tazza_2"},
     { id: 1, name: "Moderna", value: "tazza_1" },
     { id: 2, name: "Vintage", value: "tazza_3" },
     { id: 3, name: "Elegante", value: "tazzina" },
@@ -131,7 +131,13 @@ export default function HomePage() {
                         : {}
                     }
                   >
-                    <div className="w-full h-full bg-gray-100 rounded"></div>
+                    <div className="w-full h-full bg-gray-100 rounded">
+                      <img
+                        src={`/images/${type.value}.png`}
+                        alt={type.name}
+                        className="w-full h-full object-cover rounded"
+                      />
+                    </div>
                   </button>
                 ))}
               </div>
