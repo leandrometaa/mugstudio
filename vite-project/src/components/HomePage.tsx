@@ -11,7 +11,8 @@ export default function HomePage() {
   const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
   const [quantity, setQuantity] = useState(1);
   const [customText, setCustomText] = useState("");
-  const [fontSize, setFontSize] = useState("18");
+  const [savedCustomText, setSavedCustomText] = useState("");
+
 
   const cupTypes = [
     { id: 0, name: "Classica", value: "tazza_2" },
@@ -86,6 +87,7 @@ export default function HomePage() {
                   selectedMaterial={selectedMaterial}
                   selectedSize={selectedSize}
                   selectedType={cupTypes[selectedType].value}
+                  selectedText={customText}
                 />
               </div>
 
@@ -121,16 +123,15 @@ export default function HomePage() {
                   <button
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
-                    className={`aspect-square border-2 rounded-lg p-2 transition-colors ${
-                      selectedType === type.id
-                        ? "bg-opacity-20" // controlla l'opacità
-                        : "hover:border-gray-300"
-                    } ${selectedType !== type.id ? "border-gray-200" : ""}`}
+                    className={`aspect-square border-2 rounded-lg p-2 transition-colors ${selectedType === type.id
+                      ? "bg-opacity-20" // controlla l'opacità
+                      : "hover:border-gray-300"
+                      } ${selectedType !== type.id ? "border-gray-200" : ""}`}
                     style={
                       selectedType === type.id
                         ? {
-                            borderColor: "#D6A77A",
-                          }
+                          borderColor: "#D6A77A",
+                        }
                         : {}
                     }
                   >
@@ -160,16 +161,15 @@ export default function HomePage() {
                   <button
                     key={size.name}
                     onClick={() => setSelectedSize(size.name)}
-                    className={`p-3 border-2 rounded-lg text-center transition-colors ${
-                      selectedSize === size.name
-                        ? "bg-opacity-20" // per rendere lo sfondo semi-trasparente
-                        : "border-gray-200 hover:border-gray-300"
-                    } ${selectedSize !== size.name ? "" : ""}`}
+                    className={`p-3 border-2 rounded-lg text-center transition-colors ${selectedSize === size.name
+                      ? "bg-opacity-20" // per rendere lo sfondo semi-trasparente
+                      : "border-gray-200 hover:border-gray-300"
+                      } ${selectedSize !== size.name ? "" : ""}`}
                     style={
                       selectedSize === size.name
                         ? {
-                            borderColor: "#D6A77A",
-                          }
+                          borderColor: "#D6A77A",
+                        }
                         : {}
                     }
                   >
@@ -196,11 +196,9 @@ export default function HomePage() {
                   <button
                     key={color.name}
                     onClick={() => setSelectedColor(color.name)}
-                    className={`w-8 h-8 rounded-full border-2 ${color.value} ${
-                      color.border
-                    } ${
-                      selectedColor === color.name ? "ring-2 ring-offset-2" : ""
-                    }`}
+                    className={`w-8 h-8 rounded-full border-2 ${color.value} ${color.border
+                      } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""
+                      }`}
                     style={
                       selectedColor === color.name
                         ? { boxShadow: "0 0 0 2px #D6A77A, 0 0 0 4px white" }
@@ -247,52 +245,14 @@ export default function HomePage() {
                 }}
                 onBlur={(e) => {
                   e.target.style.boxShadow = "none";
-                  e.target.style.borderColor = "#D1D5DB"; // Tailwind gray-300
+                  e.target.style.borderColor = "#D1D5DB";
+                  setSavedCustomText(customText); // Salvataggio al blur
                 }}
               />
 
-              <div className="flex items-center gap-2">
-                <select
-                  value={fontSize}
-                  onChange={(e) => setFontSize(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  style={{
-                    borderColor: "#D6A77A",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                    e.target.style.borderColor = "#D6A77A";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.boxShadow = "none";
-                    e.target.style.borderColor = "#D1D5DB";
-                  }}
-                >
-                  <option value="DynaPuff">DynaPuff</option>
-                  <option value="Arial">Arial</option>
-                  <option value="Times">Times</option>
-                </select>
-
-                <input
-                  type="number"
-                  value={fontSize}
-                  onChange={(e) => setFontSize(e.target.value)}
-                  className="w-16 px-2 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  min="8"
-                  max="72"
-                  style={{
-                    borderColor: "#D6A77A",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                    e.target.style.borderColor = "#D6A77A";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.boxShadow = "none";
-                    e.target.style.borderColor = "#D1D5DB";
-                  }}
-                />
-              </div>
+              <p className="text-sm text-gray-600">
+                Testo salvato: {savedCustomText}
+              </p>
             </div>
 
             {/* Materiale */}
@@ -309,16 +269,15 @@ export default function HomePage() {
                   <button
                     key={material}
                     onClick={() => setSelectedMaterial(material)}
-                    className={`p-3 border-2 rounded-lg text-center transition-colors ${
-                      selectedMaterial !== material
-                        ? "border-gray-200 hover:border-gray-300"
-                        : ""
-                    }`}
+                    className={`p-3 border-2 rounded-lg text-center transition-colors ${selectedMaterial !== material
+                      ? "border-gray-200 hover:border-gray-300"
+                      : ""
+                      }`}
                     style={
                       selectedMaterial === material
                         ? {
-                            borderColor: "#D6A77A",
-                          }
+                          borderColor: "#D6A77A",
+                        }
                         : {}
                     }
                   >
