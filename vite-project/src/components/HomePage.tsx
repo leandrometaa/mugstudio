@@ -424,38 +424,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                             )}
                         </div>
 
-                        {/* Testo personalizzato */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-gray-800 mb-2">
-                                Testo personalizzato
-                            </h3>
-
-                            <input
-                                type="text"
-                                placeholder="Scrivi qui il tuo testo personalizzato"
-                                value={customText}
-                                onChange={(e) => setCustomText(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none mb-3"
-                                style={{
-                                    borderColor: "#D6A77A",
-                                    boxShadow: customText ? "0 0 0 2px #D6A77A" : "none",
-                                }}
-                                onFocus={(e) => {
-                                    e.target.style.boxShadow = "0 0 0 1px #D6A77A";
-                                    e.target.style.borderColor = "#D6A77A";
-                                }}
-                                onBlur={(e) => {
-                                    if (!customText) {
-                                        e.target.style.boxShadow = "none";
-                                        e.target.style.borderColor = "#D1D5DB";
-                                    }
-                                    setSavedCustomText(customText);
-                                    console.log("Saved custom text:", customText);
-                                }}
-                            />
-
-                        </div>
-
                         {/* Materiale */}
                         <div className="mb-6">
                             <h3 className="font-semibold text-gray-800 mb-2">Materiale</h3>
