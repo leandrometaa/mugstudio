@@ -4,7 +4,7 @@ import { Minus, Plus, Home, ChevronRight } from "lucide-react";
 // oppure
 import CupViewer from "./CupViewer";
 
-export default function HomePage() {
+export default function HomePage({ addToCart }: any) {
   const [selectedType, setSelectedType] = useState(0);
   const [selectedSize, setSelectedSize] = useState("Grande");
   const [selectedColor, setSelectedColor] = useState("Bianco");
@@ -14,11 +14,11 @@ export default function HomePage() {
   const [fontSize, setFontSize] = useState("18");
 
   const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_2" },
-    { id: 1, name: "Moderna", value: "tazza_1" },
-    { id: 2, name: "Vintage", value: "tazza_3" },
-    { id: 3, name: "Elegante", value: "tazzina" },
-    { id: 4, name: "Sportiva", value: "tazza_4" },
+    { id: 0, name: "Classica", value: "tazza_2", price: "10,00€" },
+    { id: 1, name: "Moderna", value: "tazza_1", price: "12,00€" },
+    { id: 2, name: "Vintage", value: "tazza_3", price: "15,00€" },
+    { id: 3, name: "Elegante", value: "tazzina", price: "9,50€" },
+    { id: 4, name: "Sportiva", value: "tazza_4", price: "11,00€" },
   ];
 
   const sizes = [
@@ -109,7 +109,9 @@ export default function HomePage() {
             style={{ height: "600px" }}
           >
             <div className="mb-6">
-              <h2 className="text-3xl font-bold text-gray-800">59,04€</h2>
+              <h2 className="text-3xl font-bold text-gray-800">
+                {cupTypes[selectedType].price}
+              </h2>
             </div>
 
             {/* Tipo */}
@@ -126,16 +128,15 @@ export default function HomePage() {
                   <button
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
-                    className={`aspect-square border-2 rounded-lg p-2 transition-colors ${
-                      selectedType === type.id
+                    className={`aspect-square border-2 rounded-lg p-2 transition-colors ${selectedType === type.id
                         ? "bg-opacity-20" // controlla l'opacità
                         : "hover:border-gray-300"
-                    } ${selectedType !== type.id ? "border-gray-200" : ""}`}
+                      } ${selectedType !== type.id ? "border-gray-200" : ""}`}
                     style={
                       selectedType === type.id
                         ? {
-                            borderColor: "#D6A77A",
-                          }
+                          borderColor: "#D6A77A",
+                        }
                         : {}
                     }
                   >
@@ -165,16 +166,15 @@ export default function HomePage() {
                   <button
                     key={size.name}
                     onClick={() => setSelectedSize(size.name)}
-                    className={`p-3 border-2 rounded-lg text-center transition-colors ${
-                      selectedSize === size.name
+                    className={`p-3 border-2 rounded-lg text-center transition-colors ${selectedSize === size.name
                         ? "bg-opacity-20" // per rendere lo sfondo semi-trasparente
                         : "border-gray-200 hover:border-gray-300"
-                    } ${selectedSize !== size.name ? "" : ""}`}
+                      } ${selectedSize !== size.name ? "" : ""}`}
                     style={
                       selectedSize === size.name
                         ? {
-                            borderColor: "#D6A77A",
-                          }
+                          borderColor: "#D6A77A",
+                        }
                         : {}
                     }
                   >
@@ -201,11 +201,9 @@ export default function HomePage() {
                   <button
                     key={color.name}
                     onClick={() => setSelectedColor(color.name)}
-                    className={`w-8 h-8 rounded-full border-2 ${color.value} ${
-                      color.border
-                    } ${
-                      selectedColor === color.name ? "ring-2 ring-offset-2" : ""
-                    }`}
+                    className={`w-8 h-8 rounded-full border-2 ${color.value} ${color.border
+                      } ${selectedColor === color.name ? "ring-2 ring-offset-2" : ""
+                      }`}
                     style={
                       selectedColor === color.name
                         ? { boxShadow: "0 0 0 2px #D6A77A, 0 0 0 4px white" }
@@ -314,16 +312,15 @@ export default function HomePage() {
                   <button
                     key={material}
                     onClick={() => setSelectedMaterial(material)}
-                    className={`p-3 border-2 rounded-lg text-center transition-colors ${
-                      selectedMaterial !== material
+                    className={`p-3 border-2 rounded-lg text-center transition-colors ${selectedMaterial !== material
                         ? "border-gray-200 hover:border-gray-300"
                         : ""
-                    }`}
+                      }`}
                     style={
                       selectedMaterial === material
                         ? {
-                            borderColor: "#D6A77A",
-                          }
+                          borderColor: "#D6A77A",
+                        }
                         : {}
                     }
                   >
@@ -363,6 +360,17 @@ export default function HomePage() {
               <button
                 className="flex-1 bg-white py-3 px-6 rounded-lg font-medium transition-colors  border-2"
                 style={{ color: "#4B2E2B" }}
+                onClick={() => {
+                  const selectedCup = cupTypes[selectedType];
+                  const item = {
+                    id: `${selectedCup.value}-${selectedColor}-${selectedSize}-${selectedMaterial}`, // chiave unica
+                    name: `Tazza ${selectedCup.name} ${selectedColor} ${selectedSize} ${selectedMaterial}`,
+                    price: parseFloat(selectedCup.price.replace(",", ".")),
+                    quantity: quantity,
+                    image: `/images/${selectedCup.value}.png`,
+                  };
+                  addToCart(item);
+                }}
               >
                 Aggiungi al carrello
               </button>
