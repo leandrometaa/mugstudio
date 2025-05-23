@@ -18,6 +18,7 @@ interface CupViewerProps {
     selectedType: string;
     uploadedImage: string | null;
     imageSize: number;
+    selectedTexture: string | null;
 }
 
 const CupViewer: React.FC<CupViewerProps> = ({
@@ -27,6 +28,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
     selectedType,
     uploadedImage,
     imageSize,
+    selectedTexture,
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const sceneRef = useRef<Scene | null>(null);
@@ -308,59 +310,73 @@ const CupViewer: React.FC<CupViewerProps> = ({
 
         if (!scene || !cupMaterial) return;
 
-        console.log("useEffect [material update] attivato");
+        console.log("[material update] attivato");
 
-        updateCupMaterial(scene, cupMaterial, selectedColor, selectedMaterial, uploadedImage, colorMap, uploadedTextureRef);
-    }, [selectedColor, selectedMaterial, uploadedImage, imageSize]);
+        updateCupMaterial(scene, cupMaterial, selectedColor, selectedMaterial, uploadedImage, selectedTexture, colorMap, uploadedTextureRef);
+    }, [selectedColor, selectedMaterial, uploadedImage, imageSize, selectedTexture]);
 
     // Funzione per aggiornare il materiale (gestisce sia colore che texture)
-    const updateCupMaterial = (scene: Scene, material: StandardMaterial | null, color: string, materialType: string, imageUrl: string | null, colorMap: { [key: string]: string }, textureRef: React.MutableRefObject<Texture | null>) => {
+    const updateCupMaterial = (
+        scene: Scene,
+        material: StandardMaterial | null,
+        color: string,
+        materialType: string,
+        imageUrl: string | null,
+        textureUrl: string | null,
+        colorMap: { [key: string]: string },
+        textureRef: React.MutableRefObject<Texture | null>
+    ) => {
         if (!material) return;
 
-        console.log("[updateCupMaterial] Aggiornamento materiale:", { color, materialType, imageUrl, imageSize });
+        console.log("[updateCupMaterial] Aggiornamento materiale:", { color, materialType, imageUrl, imageSize, textureUrl });
 
         // Rimuovi la texture precedente se presente
         if (textureRef.current) {
             textureRef.current.dispose();
             textureRef.current = null;
             material.diffuseTexture = null;
-            console.log("[updateCupMaterial] Texture precedente rimossa.");
         }
 
         if (imageUrl) {
             // Se c'è un'immagine caricata, crea una texture
             const texture = new Texture(imageUrl, scene, false, true, Texture.LINEAR_LINEAR_MIPLINEAR);
-            texture.vScale = -imageSize; // Invertiamo la scala verticale
+            texture.vScale = -imageSize;
             texture.uScale = imageSize;
-            texture.wAng = -Math.PI; // Ruota la texture di 270 gradi (o -90)
+            texture.wAng = -Math.PI;
             material.diffuseTexture = texture;
-            material.diffuseColor = Color3.White(); // Imposta il colore base a bianco quando usi una texture
-            material.alphaMode = Material.MATERIAL_ALPHATEST; // O ALPHABLEND a seconda della texture
+            material.diffuseColor = Color3.White();
+            material.alphaMode = Material.MATERIAL_ALPHATEST;
             textureRef.current = texture;
             console.log("[updateCupMaterial] Applicata texture da immagine con scala:", imageSize);
-
+        } else if (textureUrl) {
+            // Se è selezionata una texture predefinita
+            const texture = new Texture(`/images/${textureUrl}`, scene, false, true, Texture.LINEAR_LINEAR_MIPLINEAR);
+            texture.vScale = -1;
+            texture.uScale = 1;
+            material.diffuseTexture = texture;
+            material.diffuseColor = Color3.White();
+            material.alphaMode = Material.MATERIAL_ALPHATEST;
+            textureRef.current = texture;
+            console.log("[updateCupMaterial] Applicata texture predefinita:", textureUrl);
         } else {
-            // Se non c'è immagine, applica il colore e la finitura selezionati
+            // Se non ci sono texture, applica il colore
             const hexColor = colorMap.hasOwnProperty(color) ? colorMap[color] : color;
             let babylonColor: Color3;
             try {
                 babylonColor = Color3.FromHexString(hexColor);
             } catch (e) {
                 console.error("[updateCupMaterial] Errore nella conversione del colore esadecimale:", hexColor, e);
-                babylonColor = Color3.White(); // Fallback a bianco
+                babylonColor = Color3.White();
             }
 
             const isShiny = materialType === "Lucido";
             material.diffuseColor = babylonColor;
             material.specularColor = isShiny ? Color3.White() : Color3.Black();
             material.specularPower = isShiny ? 64 : 1;
-            material.alphaMode = Material.MATERIAL_OPAQUE; // Torna opaco se non c'è texture
-            console.log("[updateCupMaterial] Applicato colore e finitura Standard.");
+            material.alphaMode = Material.MATERIAL_OPAQUE;
         }
 
-        // Forza l'aggiornamento del materiale
-        material.markDirty(true); // Passa true per forzare l'aggiornamento completo
-        console.log("[updateCupMaterial] Materiale marcato come dirty.");
+        material.markDirty(true);
     };
 
     // Cleanup per la texture caricata quando il componente si smonta
