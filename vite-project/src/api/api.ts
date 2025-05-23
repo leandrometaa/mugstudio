@@ -40,7 +40,7 @@ export const getSizes = async () => {
 
 export const createPurchase = async (data: PostRequest) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const request = await axios.post(`${ENDPOINT}/purchases`, data);
+  const request = await axios.post(`${ENDPOINT}/orders`, data);
 
   return request.data;
 };

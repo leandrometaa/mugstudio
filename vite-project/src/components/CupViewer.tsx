@@ -10,7 +10,7 @@ import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
 import { SceneLoader } from '@babylonjs/core/Loading/sceneLoader';
 import { Material } from '@babylonjs/core/Materials/material';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import { Color3 } from '@babylonjs/core/Maths/math.color';
+import { Color3, Color4 } from '@babylonjs/core/Maths/math.color';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Scene } from '@babylonjs/core/scene';
 import '@babylonjs/loaders/glTF';
@@ -74,7 +74,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
     });
 
     const scene = new Scene(engine);
-    scene.clearColor = new BABYLON.Color4(1, 1, 1, 1);
+    scene.clearColor = new Color4(1, 1, 1, 1);
     engineRef.current = engine;
     sceneRef.current = scene;
 

@@ -8,12 +8,19 @@ export const Logo = () => {
         icon={faMugHot}
         className="text-3xl text-[#B29B86]"
       />
-      <h1
-        className="flex text-lg flex-col text-[#F5F0E8]"
-        style={{ fontFamily: 'DynaPuff' }}
-      >
-        <span className="leading-none">MyMug</span>
-        <span className="leading-none">Studio</span>
+      <h1 className="flex text-lg flex-col text-[#F5F0E8]">
+        <span
+          className="leading-none"
+          style={{ fontFamily: 'DynaPuff' }}
+        >
+          MyMug
+        </span>
+        <span
+          className="leading-none"
+          style={{ fontFamily: 'DynaPuff' }}
+        >
+          Studio
+        </span>
       </h1>
     </div>
   );

@@ -33,7 +33,7 @@ export const MugColorCard = ({ state, color }: MugColorCardProps) => {
         }}
       >
         <div
-          className="flex items-center justify-center h-9 rounded-full aspect-square"
+          className="flex items-center justify-center h-8 rounded-full aspect-square"
           style={{ backgroundColor: color.code }}
         ></div>
       </div>

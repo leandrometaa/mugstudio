@@ -6,7 +6,7 @@ import { MugColorSelection } from '@/features/mug-colors/components/MugColorSele
 import { useSelectedStore } from '@/store/store.ts';
 import CupViewer from './CupViewer.tsx';
 import { MugMaterialSelection } from '@/features/mug-materials/components/MugMaterialSelection.tsx';
-import { BuySection } from '@/features/buy-section/components/BuySection.tsx';
+import { BuySection } from './BuySection.tsx';
 
 export const Configurator = () => {
   //
