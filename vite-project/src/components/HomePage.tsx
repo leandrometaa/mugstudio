@@ -133,6 +133,7 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
                   selectedSize={selectedSize}
                   selectedType={cupTypes[selectedType].value}
                   uploadedImage={uploadedImage}
+                  customText={savedCustomText}
                 />
               </div>
 
@@ -364,6 +365,8 @@ export default function HomePage({ addToCart, handleBuyClick }: any) {
                     e.target.style.boxShadow = "none";
                     e.target.style.borderColor = "#D1D5DB";
                   }
+                  setSavedCustomText(customText);
+                  console.log("Saved custom text:", customText);
                 }}
               />
 
