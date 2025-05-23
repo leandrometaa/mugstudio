@@ -31,9 +31,10 @@ type NavbarProps = {
   items: CartItem[];
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
+  handleBuyClick: () => void;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ items, updateQuantity, removeItem }) => {
+const Navbar: React.FC<NavbarProps> = ({ items, updateQuantity, removeItem, handleBuyClick }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -140,10 +141,16 @@ const Navbar: React.FC<NavbarProps> = ({ items, updateQuantity, removeItem }) =>
                       </div>
 
                       {/* Totale carrello */}
-                      <div className="text-right mt-4 pr-4">
+                      <div className="flex justify-between items-center mt-4 px-4">
                         <p className="text-lg font-semibold">
                           Totale: <span className="text-[#e3bb91]">€{totalPrice.toFixed(2)}</span>
                         </p>
+                        <button
+                          className="bg-[#4B2E2B] text-white py-2 px-4 rounded-lg font-medium transition-colors hover:opacity-90"
+                          onClick={handleBuyClick}
+                        >
+                          Acquista ora
+                        </button>
                       </div>
                     </>
                   )}

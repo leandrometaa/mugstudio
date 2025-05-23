@@ -5,7 +5,7 @@ import { toast } from "sonner";
 // oppure
 import CupViewer from "./CupViewer";
 
-export default function HomePage({ addToCart }: any) {
+export default function HomePage({ addToCart, handleBuyClick }: any) {
   const [selectedType, setSelectedType] = useState(0);
   const [selectedSize, setSelectedSize] = useState("Grande");
   const [selectedColor, setSelectedColor] = useState("Bianco");
@@ -91,16 +91,6 @@ export default function HomePage({ addToCart }: any) {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleBuyClick = () => {
-    toast("Acquisto effettuato", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "X",
-        onClick: () => console.log("Undo"),
-      },
-    });
   };
 
   return (
