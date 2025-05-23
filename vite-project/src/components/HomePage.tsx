@@ -5,89 +5,99 @@ import { Minus, Plus, Home, ChevronRight } from "lucide-react";
 import CupViewer from "./CupViewer";
 
 // Definisci i tipi per le dimensioni e i prezzi
-type CupSize = "Grande" | "Media" | "Piccola";
-type CupPrices = Record<CupSize, string>;
+type CupSizeName = "Piccola" | "Media" | "Grande" | "Espresso" | "Cappuccino" | "Latte"; // Aggiunti nomi di dimensioni più specifici
+
+// Interfaccia per un singolo oggetto dimensione all'interno di una tazza
+interface CupSizeDetail {
+    name: CupSizeName;
+    height: string;
+    price: string;
+}
 
 // Interfaccia per gli oggetti delle tazze in cupTypes
 interface CupType {
     id: number;
     name: string;
     value: string;
-    prices: CupPrices; // Usa il tipo definito
+    sizes: CupSizeDetail[]; // Ora un array di oggetti dimensione
     supportsImage: boolean;
 }
 
 export default function HomePage({ addToCart, handleBuyClick, initialCupValue }: any) {
-    // Funzione helper per calcolare i prezzi basati sulla dimensione Media
-    const calculatePrices = (mediaPriceString: string): CupPrices => { // Specifica il tipo di ritorno
-        const mediaPrice = parseFloat(mediaPriceString.replace(',', '.'));
-        const grandePrice = (mediaPrice * 1.2).toFixed(2).replace('.', ',');
-        const piccolaPrice = (mediaPrice * 0.8).toFixed(2).replace('.', ',');
-        return {
-            Grande: `${grandePrice}€`,
-            Media: mediaPriceString,
-            Piccola: `${piccolaPrice}€`,
-        };
-    };
-
+    // Rimosso calculatePrices function
     const cupTypes: CupType[] = [
         {
             id: 0,
             name: "Classica",
             value: "tazza_2",
-            prices: calculatePrices("10,00€"), // Prezzo medio attuale
+            sizes: [
+                { name: "Piccola", height: "5cm", price: "9,00€" },
+                { name: "Media", height: "10cm", price: "10,00€" }, // Prezzo base originale per Media
+                { name: "Grande", height: "15cm", price: "11,50€" },
+            ],
             supportsImage: true,
         },
         {
             id: 1,
             name: "Moderna",
             value: "tazza_1",
-            prices: calculatePrices("12,00€"), // Prezzo medio attuale
+            sizes: [
+                { name: "Media", height: "16cm", price: "12,00€" }, // Prezzo base originale per Media
+                { name: "Grande", height: "20cm", price: "14,00€" },
+            ],
             supportsImage: true,
         },
         {
             id: 2,
             name: "Vintage",
             value: "tazza_3",
-            prices: calculatePrices("15,00€"), // Prezzo medio attuale
+            sizes: [
+                { name: "Piccola", height: "9cm", price: "14,50€" },
+                { name: "Grande", height: "13cm", price: "16,00€" },
+            ],
             supportsImage: false,
         },
         {
             id: 3,
             name: "Elegante",
             value: "tazzina",
-            prices: calculatePrices("9,50€"), // Prezzo medio attuale
+            sizes: [
+                { name: "Piccola", height: "5cm", price: "9,50€" }, // Prezzo base originale
+                { name: "Media", height: "8cm", price: "10,50€" },
+            ],
             supportsImage: false,
         },
         {
             id: 4,
             name: "Sportiva",
             value: "tazza_4",
-            prices: calculatePrices("11,00€"), // Prezzo medio attuale
+            sizes: [
+                { name: "Media", height: "10cm", price: "11,00€" }, // Prezzo base originale
+                { name: "Grande", height: "15cm", price: "13,00€" },
+            ],
             supportsImage: true,
         },
     ];
 
-    // Trova l'indice iniziale basato su initialCupValue, altrimenti usa 0
+    // Trova l'indice della tazza iniziale basato su initialCupValue, altrimenti usa 0
     const initialTypeIndex = initialCupValue
         ? cupTypes.findIndex(cup => cup.value === initialCupValue)
         : 0;
 
+    // Trova il nome della dimensione iniziale: la prima dimensione della tazza selezionata
+    const initialSizeName = cupTypes[initialTypeIndex].sizes[0].name;
+
     const [selectedType, setSelectedType] = useState(initialTypeIndex); // Usa l'indice trovato
-    const [selectedSize, setSelectedSize] = useState<CupSize>("Grande"); // Specifica il tipo CupSize
+    const [selectedSize, setSelectedSize] = useState<CupSizeName>(initialSizeName); // Usa il nome della dimensione iniziale
     const [selectedColor, setSelectedColor] = useState("Bianco");
     const [selectedMaterial, setSelectedMaterial] = useState("Lucido");
     const [quantity, setQuantity] = useState(1);
+    const [customText, setCustomText] = useState("");
+    const [savedCustomText, setSavedCustomText] = useState("");
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [customColor, setCustomColor] = useState("#FFFFFF");
     const [imageSize, setImageSize] = useState(1);
     const [selectedTexture, setSelectedTexture] = useState<string | null>(null);
-
-    const sizes: { name: CupSize; height: string }[] = [
-        { name: "Grande", height: "32cm" },
-        { name: "Media", height: "24cm" },
-        { name: "Piccola", height: "16cm" },
-    ];
 
     const colors = [
         { name: "Bianco", value: "bg-white", border: "border-gray-300" },
@@ -188,7 +198,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                     >
                         <div className="mb-6">
                             <h2 className="text-3xl font-bold text-gray-800">
-                                {cupTypes[selectedType].prices[selectedSize]} {/* Mostra il prezzo in base alla dimensione selezionata */}
+                                {cupTypes[selectedType].sizes.find(size => size.name === selectedSize)?.price} {/* Trova e mostra il prezzo in base alla dimensione selezionata */}
                             </h2>
                         </div>
 
@@ -237,8 +247,8 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     {selectedSize}
                                 </span>
                             </p>
-                            <div className="grid grid-cols-3 gap-2">
-                                {sizes.map((size) => (
+                            <div className={`grid grid-cols-${cupTypes[selectedType].sizes.length} gap-2`}> {/* Griglia dinamica per le dimensioni */}
+                                {cupTypes[selectedType].sizes.map((size) => (
                                     <button
                                         key={size.name}
                                         onClick={() => setSelectedSize(size.name)}
@@ -486,10 +496,13 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                 style={{ color: "#4B2E2B" }}
                                 onClick={() => {
                                     const selectedCup = cupTypes[selectedType];
+                                    // Trova l'oggetto dimensione selezionata
+                                    const selectedSizeDetail = selectedCup.sizes.find(size => size.name === selectedSize);
+
                                     const item = {
                                         id: `${selectedCup.value}-${selectedColor}-${selectedSize}-${selectedMaterial}`, // chiave unica
                                         name: `Tazza ${selectedCup.name} ${selectedColor} ${selectedSize} ${selectedMaterial}`,
-                                        price: parseFloat(selectedCup.prices[selectedSize].replace(',', '.')), // Usa il prezzo basato sulla dimensione
+                                        price: parseFloat(selectedSizeDetail?.price.replace(',', '.') || '0'), // Usa il prezzo della dimensione trovata
                                         quantity: quantity,
                                         image: `/images/${selectedCup.value}.png`,
                                     };

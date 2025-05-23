@@ -219,7 +219,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
             window.removeEventListener("resize", handleResize);
             engine.dispose();
         };
-    }, [selectedType]);
+    }, [selectedType, selectedSize]);
     const canvas = canvasRef.current;
 
     const handleMouseEnter = () => {
