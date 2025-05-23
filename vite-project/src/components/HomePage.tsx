@@ -14,7 +14,7 @@ export default function HomePage() {
   const [fontSize, setFontSize] = useState("18");
 
   const cupTypes = [
-    { id: 0, name: "Classica", value: "tazza_2"},
+    { id: 0, name: "Classica", value: "tazza_2" },
     { id: 1, name: "Moderna", value: "tazza_1" },
     { id: 2, name: "Vintage", value: "tazza_3" },
     { id: 3, name: "Elegante", value: "tazzina" },
@@ -80,7 +80,7 @@ export default function HomePage() {
               </p>
 
               {/* Product preview placeholder */}
-              <div style={{height: "500px"}}>
+              <div style={{ height: "500px" }}>
                 <CupViewer
                   selectedColor={selectedColor}
                   selectedMaterial={selectedMaterial}
@@ -99,7 +99,10 @@ export default function HomePage() {
           </div>
 
           {/* Right side - Configuration */}
-          <div className="rounded-lg p-6 mt-24">
+          <div
+            className="rounded-lg p-6 mt-24 border-2 overflow-y-scroll"
+            style={{ height: "600px" }}
+          >
             <div className="mb-6">
               <h2 className="text-3xl font-bold text-gray-800">59,04€</h2>
             </div>
