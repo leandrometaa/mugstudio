@@ -16,9 +16,11 @@ export interface MugType {
   name: string;
   model: string;
   price: number;
+  supportsImage: boolean;
+  description: string;
 }
 
-export interface MugDimension {
+export interface MugSize {
   id: number;
   name: string;
   scale: number;

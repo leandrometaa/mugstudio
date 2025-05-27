@@ -10,9 +10,9 @@ export const getTypes = async () => {
   return response.data;
 };
 
-export const getDimensions = async () => {
+export const getSized = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/dimensions`);
+  const response = await axios.get(`${ENDPOINT}/sizes`);
 
   return response.data;
 };

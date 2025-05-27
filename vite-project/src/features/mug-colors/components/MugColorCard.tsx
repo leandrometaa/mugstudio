@@ -1,4 +1,4 @@
-import { useSelectedStore } from '@/store/store.ts';
+import { useAppStore } from '@/stores/store';
 import type { MugColor } from '@/types/types.ts';
 import clsx from 'clsx';
 
@@ -8,11 +8,9 @@ interface MugColorCardProps {
 }
 
 export const MugColorCard = ({ state, color }: MugColorCardProps) => {
-  const selectedMugColor = useSelectedStore((state) => state.selectedMugColor);
-  const setSelectedMugColor = useSelectedStore(
-    (state) => state.setSelectedMugColor,
-  );
-  const setPrice = useSelectedStore((state) => state.setPrice);
+  const selectedMugColor = useAppStore((state) => state.selectedMugColor);
+  const setSelectedMugColor = useAppStore((state) => state.setSelectedMugColor);
+  const setPrice = useAppStore((state) => state.setPrice);
 
   if (state === 'data' && color) {
     //

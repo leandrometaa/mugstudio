@@ -1,54 +1,62 @@
-import type {
-  MugColor,
-  MugDimension,
-  MugMaterial,
-  MugType,
-} from '@/types/types.ts';
+import type { MugColor, MugSize, MugMaterial, MugType } from '@/types/types.ts';
 import { create } from 'zustand';
 
-interface SelectedState {
+interface AppState {
+  // Pagina
+  selectedPage: 'configurator' | 'mugs';
+  setSelectedPage: (page: 'configurator' | 'mugs') => void;
+  // Configurazione tazza
   selectedMugType: MugType | null;
   setSelectedMugType: (type: MugType) => void;
-  selectedMugDimension: MugDimension | null;
-  setSelectedMugDimension: (dimension: MugDimension) => void;
+  selectedMugSize: MugSize | null;
+  setSelectedMugSize: (dimension: MugSize) => void;
   selectedMugColor: MugColor | null;
   setSelectedMugColor: (color: MugColor) => void;
-  // Image
-  // Text
+  selectedImage: string | null;
+  setSelectedImage: (image: string | null) => void;
   selectedMugMaterial: MugMaterial | null;
   setSelectedMugMaterial: (material: MugMaterial) => void;
+  // Carrello
   price: number;
   setPrice: () => void;
   quantity: number;
   setQuantity: (quantity: number) => void;
 }
 
-export const useSelectedStore = create<SelectedState>()((set, get) => ({
+export const useAppStore = create<AppState>()((set, get) => ({
+  // Pagina
+  selectedPage: 'configurator',
+  setSelectedPage: (page) => set({ selectedPage: page }),
+
+  // Configurazione tazza
   selectedMugType: null,
   setSelectedMugType: (type) => set({ selectedMugType: type }),
+  selectedMugSize: null,
 
-  selectedMugDimension: null,
-  setSelectedMugDimension: (dimension) =>
-    set({ selectedMugDimension: dimension }),
+  setSelectedMugSize: (dimension) => set({ selectedMugSize: dimension }),
 
   selectedMugColor: null,
   setSelectedMugColor: (color) => set({ selectedMugColor: color }),
 
+  selectedImage: null,
+  setSelectedImage: (image) => set({ selectedImage: image }),
+
   selectedMugMaterial: null,
   setSelectedMugMaterial: (material) => set({ selectedMugMaterial: material }),
 
+  // Carrello
   price: 0.0,
   setPrice: () => {
     const {
       selectedMugType,
-      selectedMugDimension,
+      selectedMugSize,
       selectedMugColor,
       selectedMugMaterial,
       quantity,
     } = get();
 
     const typePrice = selectedMugType?.price ?? 0;
-    const dimensionPrice = selectedMugDimension?.price ?? 0;
+    const dimensionPrice = selectedMugSize?.price ?? 0;
     const colorPrice = selectedMugColor?.price ?? 0;
     const materialPrice = selectedMugMaterial?.price ?? 0;
 

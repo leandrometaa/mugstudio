@@ -1,45 +1,45 @@
 import { useGetColors } from '@/hooks/hooks.ts';
-import { useSelectedStore } from '@/store/store.ts';
+import { useAppStore } from '@/stores/store.ts';
 import { useEffect } from 'react';
 import { MugColorCard } from './MugColorCard.tsx';
 import type { MugColor } from '@/types/types.ts';
 
 export const MugColorSelection = () => {
   //
-  const { data, isPending } = useGetColors();
+  const { data: colors, isPending } = useGetColors();
 
   //
-  const selectedMugColor = useSelectedStore((state) => state.selectedMugColor);
-  const setSelectedMugColor = useSelectedStore(
-    (state) => state.setSelectedMugColor,
-  );
-  const setPrice = useSelectedStore((state) => state.setPrice);
+  const selectedMugColor = useAppStore((state) => state.selectedMugColor);
+  const setSelectedMugColor = useAppStore((state) => state.setSelectedMugColor);
+  const setPrice = useAppStore((state) => state.setPrice);
 
   useEffect(() => {
-    if (data) {
-      setSelectedMugColor(data[1]);
+    if (colors) {
+      setSelectedMugColor(colors[1]);
       setPrice();
     }
-  }, [data, setPrice, setSelectedMugColor]);
+  }, [colors, setPrice, setSelectedMugColor]);
 
   return (
-    <div className="flex flex-col gap-1">
-      <span className="text-lg font-semibold">Colore</span>
-      <div className="flex items-center gap-1">
-        <span className="opacity-80">Selezionato:</span>
-        <span className="font-medium">
-          {selectedMugColor ? `${selectedMugColor.name}` : 'Nessuno'}
-        </span>
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
+        <span className="font-semibold">Colore</span>
+        <div className="flex items-center gap-1 text-sm">
+          <span className="opacity-80">Selezionato:</span>
+          <span className="font-medium">
+            {selectedMugColor ? `${selectedMugColor.name}` : 'Nessuno'}
+          </span>
+        </div>
       </div>
-      {data && (
+      {colors && (
         <ul className="flex gap-2 w-full">
-          {data.map((data: MugColor) => (
+          {colors.map((color: MugColor) => (
             <li
-              key={data.id}
-              onClick={() => setSelectedMugColor(data)}
+              key={`color-${color.id}`}
+              onClick={() => setSelectedMugColor(color)}
             >
               <MugColorCard
-                color={data}
+                color={color}
                 state="data"
               />
             </li>
@@ -48,21 +48,11 @@ export const MugColorSelection = () => {
       )}
       {isPending && (
         <ul className="flex gap-2 w-full">
-          <li>
-            <MugColorCard state="pending" />
-          </li>
-          <li>
-            <MugColorCard state="pending" />
-          </li>
-          <li>
-            <MugColorCard state="pending" />
-          </li>
-          <li>
-            <MugColorCard state="pending" />
-          </li>
-          <li>
-            <MugColorCard state="pending" />
-          </li>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <li key={`color-pending-${index}`}>
+              <MugColorCard state="pending" />
+            </li>
+          ))}
         </ul>
       )}
     </div>

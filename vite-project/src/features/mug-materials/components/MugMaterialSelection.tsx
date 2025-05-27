@@ -1,4 +1,4 @@
-import { useSelectedStore } from '@/store/store.ts';
+import { useAppStore } from '@/stores/store.ts';
 import type { MugMaterial } from '@/types/types.ts';
 import { useEffect } from 'react';
 import { MugMaterialCard } from './MugMaterialCard.tsx';
@@ -6,42 +6,45 @@ import { useGetMaterials } from '@/hooks/hooks.ts';
 
 export const MugMaterialSelection = () => {
   //
-  const { data, isPending } = useGetMaterials();
+  const { data: materials, isPending } = useGetMaterials();
 
   //
-  const selectedMugMaterial = useSelectedStore(
-    (state) => state.selectedMugMaterial,
-  );
-  const setSelectedMugMaterial = useSelectedStore(
+  const selectedMugMaterial = useAppStore((state) => state.selectedMugMaterial);
+  const setSelectedMugMaterial = useAppStore(
     (state) => state.setSelectedMugMaterial,
   );
-  const setPrice = useSelectedStore((state) => state.setPrice);
+  const setPrice = useAppStore((state) => state.setPrice);
 
   useEffect(() => {
-    if (data) {
-      setSelectedMugMaterial(data[1]);
+    if (materials) {
+      setSelectedMugMaterial(materials[1]);
       setPrice();
     }
-  }, [data, setPrice, setSelectedMugMaterial]);
+  }, [materials, setPrice, setSelectedMugMaterial]);
 
   return (
-    <div className="flex flex-col gap-1">
-      <span className="text-lg font-semibold">Materiale</span>
-      <div className="flex items-center gap-1">
-        <span className="opacity-80">Selezionato:</span>
-        <span className="font-medium">
-          {selectedMugMaterial ? `${selectedMugMaterial.name}` : 'Nessuno'}
-        </span>
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
+        <span className="font-semibold">Materiale</span>
+        <div className="flex items-center gap-1 text-sm">
+          <span className="opacity-80">Selezionato:</span>
+          <span className="font-medium">
+            {selectedMugMaterial ? `${selectedMugMaterial.name}` : 'Nessuno'}
+          </span>
+        </div>
       </div>
-      {data && (
-        <ul className="grid grid-flow-col gap-2 w-full">
-          {data.map((data: MugMaterial) => (
+      {materials && (
+        <ul className="flex gap-2 w-full">
+          {materials.map((material: MugMaterial) => (
             <li
-              key={data.id}
-              onClick={() => setSelectedMugMaterial(data)}
+              key={`material-${material.id}`}
+              onClick={() => {
+                setSelectedMugMaterial(material);
+                setPrice();
+              }}
             >
               <MugMaterialCard
-                material={data}
+                material={material}
                 state="data"
               />
             </li>
@@ -49,13 +52,12 @@ export const MugMaterialSelection = () => {
         </ul>
       )}
       {isPending && (
-        <ul className="grid grid-flow-col gap-2">
-          <li>
-            <MugMaterialCard state="pending" />
-          </li>
-          <li>
-            <MugMaterialCard state="pending" />
-          </li>
+        <ul className="flex gap-2 w-full">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <li key={`material-pending-${index}`}>
+              <MugMaterialCard state="pending" />
+            </li>
+          ))}
         </ul>
       )}
     </div>

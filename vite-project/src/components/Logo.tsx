@@ -3,7 +3,7 @@ import { faMugHot } from '@fortawesome/free-solid-svg-icons';
 
 export const Logo = () => {
   return (
-    <div className="flex items-center gap-2">
+    <a className="flex items-center gap-2 cursor-pointer">
       <FontAwesomeIcon
         icon={faMugHot}
         className="text-3xl text-[#B29B86]"
@@ -22,6 +22,6 @@ export const Logo = () => {
           Studio
         </span>
       </h1>
-    </div>
+    </a>
   );
 };

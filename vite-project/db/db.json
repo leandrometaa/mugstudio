@@ -1,54 +1,96 @@
 {
   "types": [
-    { "id": 1, "name": "Classica", "model": "tazza_2", "price": 1 },
-    { "id": 2, "name": "Moderna", "model": "tazza_1", "price": 2 },
-    { "id": 3, "name": "Vintage", "model": "tazza_3", "price": 3 },
-    { "id": 4, "name": "Elegante", "model": "tazzina", "price": 4 },
-    { "id": 5, "name": "Sportiva", "model": "tazza_4", "price": 5 }
+    {
+      "id": 1,
+      "name": "Moderna",
+      "model": "tazza_1",
+      "price": 1,
+      "supportsImage": true,
+      "description": "Linee decise e stile contemporaneo per chi ama distinguersi."
+    },
+    {
+      "id": 2,
+      "name": "Classica",
+      "model": "tazza_2",
+      "price": 2,
+      "supportsImage": true,
+      "description": "Una tazza dal design semplice e pulito, ideale per ogni momento della giornata."
+    },
+    {
+      "id": 3,
+      "name": "Vintage",
+      "model": "tazza_3",
+      "price": 3,
+      "supportsImage": false,
+      "description": "Un tocco retrò con un fascino intramontabile."
+    },
+    {
+      "id": 4,
+      "name": "Sportiva",
+      "model": "tazza_4",
+      "price": 4,
+      "supportsImage": true,
+      "description": "Piccola e raffinata, perfetta per un espresso di classe."
+    },
+    {
+      "id": 5,
+      "name": "Elegante",
+      "model": "tazzina",
+      "price": 5,
+      "supportsImage": false,
+      "description": "Design ergonomico e presa sicura per uno stile di vita attivo."
+    }
   ],
 
-  "dimensions": [
+  "sizes": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Piccola",
-      "scale": 0,
+      "scale": 0.5,
       "height": "16 cm",
       "price": 1
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Media",
-      "scale": 0.5,
+      "scale": 0.7,
       "height": "24 cm",
       "price": 2
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Grande",
-      "scale": 1.5,
+      "scale": 0.9,
       "height": "32 cm",
       "price": 3
     }
   ],
 
   "colors": [
-    { "id": "1", "name": "Rosso", "code": "#ff0000", "price": 0 },
-    { "id": "2", "name": "Verde", "code": "#00ff00", "price": 0 },
-    { "id": "3", "name": "Blu", "code": "#0000ff", "price": 0 },
-    { "id": "4", "name": "Blu", "code": "#ffffff", "price": 0 },
-    { "id": "5", "name": "Nero", "code": "#000000", "price": 0 }
+    { "id": 1, "name": "Bianco", "code": "#FFFFFF", "price": 2 },
+    { "id": 2, "name": "Grigio", "code": "#697282", "price": 2 },
+    { "id": 3, "name": "Nero", "code": "#000000", "price": 2 },
+    { "id": 4, "name": "Beige", "code": "#FEF9C2", "price": 2 },
+    { "id": 5, "name": "Rosso", "code": "#FA2C37", "price": 3 },
+    { "id": 6, "name": "Blu", "code": "#165DFB", "price": 3 },
+    { "id": 7, "name": "Verde", "code": "#00A63E", "price": 3 },
+    { "id": 8, "name": "Rosa", "code": "#FEA5D5", "price": 3 },
+    { "id": 9, "name": "Azzurro", "code": "#52EAFD", "price": 3 },
+    { "id": 10, "name": "Menta", "code": "#7AF2A8", "price": 3 }
   ],
 
   "materials": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Lucido",
-      "code": "glossy"
+      "code": "glossy",
+      "price": 1.5
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Opaco",
-      "code": "matte"
+      "code": "matte",
+      "price": 3
     }
   ],
 

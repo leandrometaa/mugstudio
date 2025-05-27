@@ -121,6 +121,12 @@
   }
 }
 
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 * {
   font-family: 'Work Sans', Arial, Helvetica, sans-serif;
 }

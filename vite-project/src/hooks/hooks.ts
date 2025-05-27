@@ -1,11 +1,5 @@
-import {
-  getColors,
-  getDimensions,
-  getMaterials,
-  getSizes,
-  getTypes,
-} from '@/api/api.ts';
-import type { MugDimension, MugType } from '@/types/types.ts';
+import { getColors, getSized, getMaterials, getTypes } from '@/api/api.ts';
+import type { MugSize, MugType } from '@/types/types.ts';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useGetTypes = () => {
@@ -18,12 +12,12 @@ export const useGetTypes = () => {
   });
 };
 
-export const useGetDimensions = () => {
+export const useGetSizes = () => {
   return useQuery({
     queryKey: ['dimensions'],
     queryFn: async () => {
-      const apiResponse = await getDimensions();
-      return apiResponse as MugDimension[];
+      const apiResponse = await getSized();
+      return apiResponse as MugSize[];
     },
   });
 };
@@ -39,13 +33,6 @@ export const useGetMaterials = () => {
   return useQuery({
     queryKey: ['materials'],
     queryFn: async () => getMaterials(),
-  });
-};
-
-export const useGetSizes = () => {
-  return useQuery({
-    queryKey: ['sizes'],
-    queryFn: async () => getSizes(),
   });
 };
 

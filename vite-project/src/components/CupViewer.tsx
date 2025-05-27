@@ -1,9 +1,4 @@
-import type {
-  MugColor,
-  MugDimension,
-  MugMaterial,
-  MugType,
-} from '@/types/types.ts';
+import type { MugColor, MugSize, MugMaterial, MugType } from '@/types/types.ts';
 import { ArcRotateCamera } from '@babylonjs/core/Cameras/arcRotateCamera';
 import { Engine } from '@babylonjs/core/Engines/engine';
 import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
@@ -19,14 +14,14 @@ import React, { useEffect, useRef } from 'react';
 interface CupViewerProps {
   selectedMugColor: MugColor | null;
   selectedMugMaterial: MugMaterial | null;
-  selectedMugDimension: MugDimension | null;
+  selectedMugSize: MugSize | null;
   selectedMugType: MugType | null;
 }
 
 const CupViewer: React.FC<CupViewerProps> = ({
   selectedMugColor,
   selectedMugMaterial,
-  selectedMugDimension,
+  selectedMugSize,
   selectedMugType,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -166,7 +161,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
           }
 
           // Applica la scala iniziale
-          const scale = selectedMugDimension?.scale || 1.0;
+          const scale = selectedMugSize?.scale || 1.0;
           meshes.forEach((mesh) => {
             if (mesh.parent === null) {
               mesh.scaling = new Vector3(scale, scale, scale);
@@ -208,7 +203,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
     };
   }, [
     selectedMugColor?.code,
-    selectedMugDimension?.scale,
+    selectedMugSize?.scale,
     selectedMugMaterial?.code,
     selectedMugType,
   ]);
@@ -256,15 +251,15 @@ const CupViewer: React.FC<CupViewerProps> = ({
 
     if (meshes.length === 0) return;
 
-    console.log('Aggiornamento dimensione:', selectedMugDimension);
+    console.log('Aggiornamento dimensione:', selectedMugSize);
 
-    const scale = selectedMugDimension?.scale || 1.0;
+    const scale = selectedMugSize?.scale || 1.0;
     meshes.forEach((mesh) => {
       if (mesh.parent === null) {
         mesh.scaling = new Vector3(scale, scale, scale);
       }
     });
-  }, [selectedMugDimension]);
+  }, [selectedMugSize]);
 
   // Effetto per il tipo di tazza (placeholder per futuro sviluppo)
   useEffect(() => {
@@ -274,7 +269,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
   }, [selectedMugType]);
 
   return (
-    <div className="aspect-square ">
+    <div className="aspect-square">
       <canvas
         ref={canvasRef}
         className="w-full h-full rounded-lg shadow-sm"

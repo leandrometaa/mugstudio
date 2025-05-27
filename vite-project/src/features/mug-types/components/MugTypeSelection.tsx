@@ -1,45 +1,45 @@
 import { useGetTypes } from '@/hooks/hooks.ts';
-import { useSelectedStore } from '@/store/store.ts';
+import { useAppStore } from '@/stores/store.ts';
 import type { MugType } from '@/types/types.ts';
 import { useEffect } from 'react';
 import { MugTypeCard } from './MugTypeCard.tsx';
 
 export const MugTypeSelection = () => {
   //
-  const { data, isPending } = useGetTypes();
+  const { data: types, isPending } = useGetTypes();
 
   //
-  const selectedMugType = useSelectedStore((state) => state.selectedMugType);
-  const setSelectedMugType = useSelectedStore(
-    (state) => state.setSelectedMugType,
-  );
-  const setPrice = useSelectedStore((state) => state.setPrice);
+  const selectedMugType = useAppStore((state) => state.selectedMugType);
+  const setSelectedMugType = useAppStore((state) => state.setSelectedMugType);
+  const setPrice = useAppStore((state) => state.setPrice);
 
   useEffect(() => {
-    if (data) {
-      setSelectedMugType(data[0]);
+    if (types) {
+      setSelectedMugType(types[0]);
       setPrice();
     }
-  }, [data, setPrice, setSelectedMugType]);
+  }, [types, setPrice, setSelectedMugType]);
 
   return (
-    <div className="flex flex-col gap-1">
-      <span className="text-lg font-semibold">Tipo</span>
-      <div className="flex items-center gap-1">
-        <span className="opacity-80">Selezionato:</span>
-        <span className="font-medium">
-          {selectedMugType ? `${selectedMugType.name}` : 'Nessuno'}
-        </span>
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
+        <span className="font-semibold">Tipo</span>
+        <div className="flex items-center gap-1 text-sm">
+          <span className="opacity-80">Selezionato:</span>
+          <span className="font-medium">
+            {selectedMugType ? `${selectedMugType.name}` : 'Nessuno'}
+          </span>
+        </div>
       </div>
-      {data && (
-        <ul className="grid grid-flow-col gap-2 w-full">
-          {data.map((data: MugType) => (
+      {types && (
+        <ul className="flex gap-2 w-full">
+          {types.map((type: MugType) => (
             <li
-              key={data.id}
-              onClick={() => setSelectedMugType(data)}
+              key={`type-${type.id}`}
+              onClick={() => setSelectedMugType(type)}
             >
               <MugTypeCard
-                type={data}
+                type={type}
                 state="data"
               />
             </li>
@@ -47,22 +47,12 @@ export const MugTypeSelection = () => {
         </ul>
       )}
       {isPending && (
-        <ul className="grid grid-flow-col gap-2">
-          <li>
-            <MugTypeCard state="pending" />
-          </li>
-          <li>
-            <MugTypeCard state="pending" />
-          </li>
-          <li>
-            <MugTypeCard state="pending" />
-          </li>
-          <li>
-            <MugTypeCard state="pending" />
-          </li>
-          <li>
-            <MugTypeCard state="pending" />
-          </li>
+        <ul className="flex gap-2 w-full">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <li key={`type-pending-${index}`}>
+              <MugTypeCard state="pending" />
+            </li>
+          ))}
         </ul>
       )}
     </div>
