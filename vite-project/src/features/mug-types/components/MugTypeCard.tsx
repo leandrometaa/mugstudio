@@ -1,9 +1,9 @@
-import { useAppStore } from '@/stores/store';
-import type { MugType } from '@/types/types.ts';
-import clsx from 'clsx';
+import { useAppStore } from "@/stores/appStore";
+import type { MugType } from "@/types/types.ts";
+import clsx from "clsx";
 
 interface MugTypeCardProps {
-  state: 'data' | 'pending';
+  state: "data" | "pending";
   type?: MugType;
 }
 
@@ -12,17 +12,17 @@ export const MugTypeCard = ({ state, type }: MugTypeCardProps) => {
   const setSelectedMugType = useAppStore((state) => state.setSelectedMugType);
   const setPrice = useAppStore((state) => state.setPrice);
 
-  if (state === 'data' && type) {
+  if (state === "data" && type) {
     //
     const isSelected = selectedMugType === type;
 
     return (
       <div
         className={clsx(
-          'aspect-square bg-[#F2F2F2] rounded-lg shadow-sm border cursor-pointer h-20 p-2',
+          "aspect-square h-20 cursor-pointer rounded-lg border bg-[#F2F2F2] p-2 shadow-sm",
           {
-            'border-[#C8B6A6]': !isSelected,
-            'border-[#4B2E2B]': isSelected,
+            "border-[#C8B6A6]": !isSelected,
+            "scale-95 border-[#4B2E2B]": isSelected,
           },
         )}
         onClick={() => {
@@ -31,17 +31,17 @@ export const MugTypeCard = ({ state, type }: MugTypeCardProps) => {
         }}
       >
         <img
-          src={`/images/${type.model}.png`}
+          src={`/images/mugs/${type.fileName}.png`}
           alt={type.name}
-          className="w-full h-full object-cover rounded-lg"
+          className="h-full w-full rounded-lg object-cover"
         />
       </div>
     );
   }
 
-  if (state === 'pending') {
+  if (state === "pending") {
     return (
-      <div className="aspect-square bg-[#C8B6A6] rounded-lg animate-pulse h-20 w-auto shadow-sm"></div>
+      <div className="aspect-square h-20 w-auto animate-pulse rounded-lg bg-[#C8B6A6] shadow-sm"></div>
     );
   }
 };

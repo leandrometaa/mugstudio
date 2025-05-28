@@ -1,10 +1,16 @@
-import { getColors, getSized, getMaterials, getTypes } from '@/api/api.ts';
-import type { MugSize, MugType } from '@/types/types.ts';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  getColors,
+  getSized,
+  getMaterials,
+  getTypes,
+  getTextures,
+} from "@/api/api.ts";
+import type { MugSize, MugType } from "@/types/types.ts";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetTypes = () => {
   return useQuery({
-    queryKey: ['types'],
+    queryKey: ["types"],
     queryFn: async () => {
       const apiResponse = await getTypes();
       return apiResponse as MugType[];
@@ -14,7 +20,7 @@ export const useGetTypes = () => {
 
 export const useGetSizes = () => {
   return useQuery({
-    queryKey: ['dimensions'],
+    queryKey: ["dimensions"],
     queryFn: async () => {
       const apiResponse = await getSized();
       return apiResponse as MugSize[];
@@ -24,15 +30,22 @@ export const useGetSizes = () => {
 
 export const useGetColors = () => {
   return useQuery({
-    queryKey: ['colors'],
+    queryKey: ["colors"],
     queryFn: async () => getColors(),
   });
 };
 
 export const useGetMaterials = () => {
   return useQuery({
-    queryKey: ['materials'],
+    queryKey: ["materials"],
     queryFn: async () => getMaterials(),
+  });
+};
+
+export const useGetTextures = () => {
+  return useQuery({
+    queryKey: ["textures"],
+    queryFn: async () => getTextures(),
   });
 };
 

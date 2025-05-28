@@ -1,8 +1,8 @@
-import { useGetSizes } from '@/hooks/hooks.ts';
-import { useAppStore } from '@/stores/store.ts';
-import type { MugSize } from '@/types/types.ts';
-import { useEffect } from 'react';
-import { MugSizeCard } from './MugSizeCard.tsx';
+import { useGetSizes } from "@/hooks/hooks.ts";
+import { useAppStore } from "@/stores/appStore.ts";
+import type { MugSize } from "@/types/types.ts";
+import { useEffect } from "react";
+import { MugSizeCard } from "./MugSizeCard.tsx";
 
 export const MugSizeSelection = () => {
   //
@@ -27,21 +27,18 @@ export const MugSizeSelection = () => {
         <div className="flex items-center gap-1 text-sm">
           <span className="opacity-80">Selezionata:</span>
           <span className="font-medium">
-            {selectedMugSize ? `${selectedMugSize.name}` : 'Nessuno'}
+            {selectedMugSize ? `${selectedMugSize.name}` : "Nessuno"}
           </span>
         </div>
       </div>
       {sizes && (
-        <ul className="flex gap-2 w-full">
+        <ul className="flex w-full gap-2">
           {sizes.map((size: MugSize) => (
             <li
               key={`size-pending-${size.id}`}
               onClick={() => setSelectedMugSize(size)}
             >
-              <MugSizeCard
-                dimension={size}
-                state="data"
-              />
+              <MugSizeCard dimension={size} state="data" />
             </li>
           ))}
         </ul>

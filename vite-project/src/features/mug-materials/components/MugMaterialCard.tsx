@@ -1,9 +1,9 @@
-import { useAppStore } from '@/stores/store';
-import type { MugMaterial } from '@/types/types.ts';
-import clsx from 'clsx';
+import { useAppStore } from "@/stores/appStore";
+import type { MugMaterial } from "@/types/types.ts";
+import clsx from "clsx";
 
 interface MugMaterialCardProps {
-  state: 'data' | 'pending';
+  state: "data" | "pending";
   material?: MugMaterial;
 }
 
@@ -14,17 +14,17 @@ export const MugMaterialCard = ({ state, material }: MugMaterialCardProps) => {
   );
   const setPrice = useAppStore((state) => state.setPrice);
 
-  if (state === 'data' && material) {
+  if (state === "data" && material) {
     //
     const isSelected = selectedMugMaterial === material;
 
     return (
       <div
         className={clsx(
-          'aspect-5/1 h-8 w-20 bg-white rounded-lg items-center justify-center shadow-sm border flex flex-col cursor-pointer hover:bg-neutral-50',
+          "flex h-12 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border bg-white shadow-sm hover:bg-neutral-50",
           {
-            'border-[#C8B6A6]': !isSelected,
-            'border-[#4B2E2B]': isSelected,
+            "border-[#C8B6A6]": !isSelected,
+            "scale-95 border-[#4B2E2B]": isSelected,
           },
         )}
         onClick={() => {
@@ -32,14 +32,16 @@ export const MugMaterialCard = ({ state, material }: MugMaterialCardProps) => {
           setPrice();
         }}
       >
-        <span className="font-semibold">{material.name}</span>
+        <span className="text-center text-sm leading-none font-semibold">
+          {material.name}
+        </span>
       </div>
     );
   }
 
-  if (state === 'pending') {
+  if (state === "pending") {
     return (
-      <div className="bg-[#C8B6A6] aspect-5/1 h-8 w-20 rounded-lg animate-pulse justify-center shadow-sm flex-col flex gap-2"></div>
+      <div className="flex h-12 w-24 animate-pulse flex-col justify-center gap-2 rounded-lg bg-[#C8B6A6] shadow-sm"></div>
     );
   }
 };

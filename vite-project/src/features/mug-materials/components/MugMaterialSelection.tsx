@@ -1,8 +1,8 @@
-import { useAppStore } from '@/stores/store.ts';
-import type { MugMaterial } from '@/types/types.ts';
-import { useEffect } from 'react';
-import { MugMaterialCard } from './MugMaterialCard.tsx';
-import { useGetMaterials } from '@/hooks/hooks.ts';
+import { useAppStore } from "@/stores/appStore.ts";
+import type { MugMaterial } from "@/types/types.ts";
+import { useEffect } from "react";
+import { MugMaterialCard } from "./MugMaterialCard.tsx";
+import { useGetMaterials } from "@/hooks/hooks.ts";
 
 export const MugMaterialSelection = () => {
   //
@@ -17,7 +17,7 @@ export const MugMaterialSelection = () => {
 
   useEffect(() => {
     if (materials) {
-      setSelectedMugMaterial(materials[1]);
+      setSelectedMugMaterial(materials[0]);
       setPrice();
     }
   }, [materials, setPrice, setSelectedMugMaterial]);
@@ -29,12 +29,12 @@ export const MugMaterialSelection = () => {
         <div className="flex items-center gap-1 text-sm">
           <span className="opacity-80">Selezionato:</span>
           <span className="font-medium">
-            {selectedMugMaterial ? `${selectedMugMaterial.name}` : 'Nessuno'}
+            {selectedMugMaterial ? `${selectedMugMaterial.name}` : "Nessuno"}
           </span>
         </div>
       </div>
       {materials && (
-        <ul className="flex gap-2 w-full">
+        <ul className="flex w-full gap-2">
           {materials.map((material: MugMaterial) => (
             <li
               key={`material-${material.id}`}
@@ -43,17 +43,14 @@ export const MugMaterialSelection = () => {
                 setPrice();
               }}
             >
-              <MugMaterialCard
-                material={material}
-                state="data"
-              />
+              <MugMaterialCard material={material} state="data" />
             </li>
           ))}
         </ul>
       )}
       {isPending && (
-        <ul className="flex gap-2 w-full">
-          {Array.from({ length: 2 }).map((_, index) => (
+        <ul className="flex w-full gap-2">
+          {Array.from({ length: 5 }).map((_, index) => (
             <li key={`material-pending-${index}`}>
               <MugMaterialCard state="pending" />
             </li>

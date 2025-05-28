@@ -1,4 +1,11 @@
-import type { MugColor, MugMaterial, MugSize, MugType } from '@/types/types.ts';
+import { babylonStore } from "@/stores/babylonStore.ts";
+import type {
+  MugColor,
+  MugMaterial,
+  MugSize,
+  MugTexture,
+  MugType,
+} from "@/types/types.ts";
 import {
   AbstractMesh,
   ArcRotateCamera,
@@ -7,20 +14,21 @@ import {
   Engine,
   HemisphericLight,
   ImportMeshAsync,
-  MeshBuilder,
   Scene,
-  StandardMaterial,
+  Texture,
   Vector3,
-} from '@babylonjs/core';
-import { PBRMaterial } from '@babylonjs/core/Materials/PBR/pbrMaterial';
-import '@babylonjs/loaders/glTF';
-import { useEffect, useRef } from 'react';
+} from "@babylonjs/core";
+import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
+import "@babylonjs/loaders/glTF";
+import { useEffect, useRef } from "react";
 
 interface BabylonPreviewProps {
   selectedMugType: MugType | null;
   selectedMugSize: MugSize | null;
   selectedMugColor: MugColor | null;
   selectedMugMaterial: MugMaterial | null;
+  selectedMugTexture: MugTexture | null;
+  selectedMugImage: string | null;
 }
 
 export const BabylonPreview = ({
@@ -28,34 +36,52 @@ export const BabylonPreview = ({
   selectedMugSize,
   selectedMugColor,
   selectedMugMaterial,
+  selectedMugTexture,
+  selectedMugImage,
 }: BabylonPreviewProps) => {
   //
+  const setCamera = babylonStore((state) => state.setCamera);
+  const setScene = babylonStore((state) => state.setScene);
+  const setEngine = babylonStore((state) => state.setEngine);
+
+  //
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvas = canvasRef.current;
   //
   const engineRef = useRef<Engine | null>(null);
   const sceneRef = useRef<Scene | null>(null);
+  const scene = sceneRef.current;
   //
-  const meshRef = useRef<AbstractMesh | null>(null);
+  const meshesRef = useRef<AbstractMesh[] | null>(null);
+  const meshes = meshesRef.current;
   const materialRef = useRef<PBRMaterial | null>(null);
+  const material = materialRef.current;
+  //
+  const normalizationScaleRef = useRef(1);
 
+  // Inizializzazione scena
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvas) return;
 
     const engine = new Engine(canvasRef.current, true, {
       antialias: true,
       stencil: true,
       preserveDrawingBuffer: false,
-      powerPreference: 'high-performance',
+      powerPreference: "high-performance",
     });
 
     engineRef.current = engine;
+    // Zustand
+    setEngine(engine);
 
     const scene = new Scene(engine);
     sceneRef.current = scene;
+    // Zustand
+    setScene(scene);
     scene.clearColor = new Color4(0.95, 0.95, 0.95, 1);
 
     const camera = new ArcRotateCamera(
-      'camera',
+      "camera",
       0,
       Math.PI / 3,
       10,
@@ -63,19 +89,21 @@ export const BabylonPreview = ({
       scene,
     );
 
+    // Zustand
+    setCamera(camera);
+
     camera.attachControl(canvasRef.current, true);
     camera.lowerBetaLimit = 0;
     camera.upperBetaLimit = Math.PI / 2;
     camera.lowerRadiusLimit = 2;
     camera.upperRadiusLimit = 30;
 
-    // Illuminazione identica a BabylonScene3
-    const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
-    light.intensity = 0.7; // Stesso valore di BabylonScene3
-    const light2 = new HemisphericLight('light2', new Vector3(0, -1, 0), scene);
-    const light3 = new HemisphericLight('light3', new Vector3(10, 0, 0), scene);
+    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
+    const light2 = new HemisphericLight("light2", new Vector3(0, -1, 0), scene);
+    const light3 = new HemisphericLight("light3", new Vector3(10, 0, 0), scene);
     const light4 = new HemisphericLight(
-      'light4',
+      "light4",
       new Vector3(-10, 0, 0),
       scene,
     );
@@ -83,156 +111,167 @@ export const BabylonPreview = ({
     light3.intensity = 0.3;
     light2.intensity = 0.5;
 
-    const mat = new PBRMaterial('mugPBRMat', sceneRef.current);
-
-    // Impostazioni in base al materiale selezionato
-    mat.metallic = 0;
-    mat.roughness = 1;
+    const mat = new PBRMaterial("mugPBRMat", sceneRef.current);
     materialRef.current = mat;
-
-    // Create a circular table (a flat cylinder)
-    const table = MeshBuilder.CreateCylinder(
-      'table',
-      {
-        diameter: 10, // Width of the table
-        height: 0.2, // Thin like a real table top
-      },
-      scene,
-    );
-    table.position.y = 0; // Push it below the mug (adjust as needed)
-
-    // Give it a wooden-looking material
-    const tableMaterial = new StandardMaterial('tableMaterial', scene);
-    tableMaterial.diffuseColor = new Color3(0.4, 0.2, 0.1); // Brown color
-    table.material = tableMaterial;
 
     engine.runRenderLoop(() => {
       scene.render();
     });
 
     const handleResize = () => engine.resize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       engine.dispose();
     };
-  }, []);
+  }, [canvas, setCamera, setEngine, setScene]);
 
   // Cambio tipo di tazza
   useEffect(() => {
-    const scene = sceneRef.current;
-
     if (!scene || !selectedMugType) return;
 
-    // Remove previous mug mesh
-    if (meshRef.current) {
-      meshRef.current.dispose();
-      meshRef.current = null;
+    if (meshesRef.current && meshesRef.current.length > 0) {
+      const rootMesh = meshesRef.current[0].parent ?? meshesRef.current[0];
+      rootMesh.dispose(false, true); // dispose all descendants
+      meshesRef.current = null;
     }
 
     const loadModel = async () => {
       try {
-        if (!sceneRef.current) return;
-
         const result = await ImportMeshAsync(
-          `models/${selectedMugType.model}.glb`,
-          sceneRef.current!,
+          `models/${selectedMugType.fileName}.glb`,
+          scene,
         );
 
-        result.meshes.forEach((mesh) => {
-          if (mesh) {
-            mesh.material = materialRef.current;
-          }
+        const meshes = result.meshes.filter((m) => m != null);
+        if (meshes.length === 0) return;
+
+        // Imposta lo stesso materiale a tutte le mesh
+        meshes.forEach((mesh) => {
+          mesh.material = materialRef.current;
         });
 
-        const rootMesh = result.meshes[0];
-        rootMesh.position = Vector3.Zero();
-        meshRef.current = rootMesh;
+        if (meshes.length > 0) {
+          const boundingInfo = meshes[0].getHierarchyBoundingVectors();
+          const center = boundingInfo.min.add(boundingInfo.max).scale(0.5);
 
-        console.log(
-          `Tipo selezionato: ${selectedMugType.model}`,
-          selectedMugType,
-        ); // Debug
+          const mainMesh = meshes[0];
+          if (mainMesh) {
+            mainMesh.position.subtractInPlace(center);
+            mainMesh.rotation.y = Math.PI;
+          }
+
+          const scale = selectedMugSize ? selectedMugSize.scale : 1.0;
+
+          const rootMesh = result.meshes.find((m) => !m.parent);
+          if (rootMesh) {
+            rootMesh.scaling = new Vector3(scale, scale, scale);
+          }
+
+          const radius =
+            boundingInfo.max.subtract(boundingInfo.min).length() / 2;
+          const camera = scene.activeCamera as ArcRotateCamera;
+          camera.radius = radius * 3;
+          camera.target = Vector3.Zero();
+        }
+
+        meshesRef.current = meshes;
+
+        console.log(`Tipo selezionato: ${selectedMugType.fileName}`);
       } catch (error) {
-        console.error('Errore durante il caricamento del modello:', error);
+        console.error("Errore durante il caricamento del modello:", error);
       }
     };
 
+    console.log(
+      "Before loading:",
+      scene.meshes.map((m) => m.name),
+    );
     loadModel();
-  }, [selectedMugType]);
+    console.log(
+      "After loading:",
+      scene.meshes.map((m) => m.name),
+    );
+  }, [meshes, scene, selectedMugSize, selectedMugType]);
 
   // Cambio colore della tazza
   useEffect(() => {
-    if (!materialRef.current || !selectedMugColor) return;
+    if (!material || !selectedMugColor) return;
 
     try {
-      materialRef.current.albedoColor = Color3.FromHexString(
-        selectedMugColor.code,
-      );
+      material.albedoColor = Color3.FromHexString(selectedMugColor.code);
 
       console.log(
         `Colore selezionato: ${selectedMugColor.name}`,
         selectedMugColor,
       ); // Debug
     } catch (error) {
-      console.error('Errore durante il cambiamento del colore:', error);
+      console.error("Errore durante il cambiamento del colore:", error);
     }
-  }, [selectedMugColor]);
+  }, [material, selectedMugColor]);
 
   // Cambio dimensione della tazza
   useEffect(() => {
-    if (!meshRef.current || !selectedMugSize) return;
+    if (!meshes || !selectedMugSize) return;
+
+    const base = normalizationScaleRef.current;
+    const userScale = selectedMugSize.scale;
+    const finalScale = base * userScale;
 
     try {
-      meshRef.current.scaling = new Vector3(
-        selectedMugSize.scale,
-        selectedMugSize.scale,
-        selectedMugSize.scale,
-      );
+      meshes.forEach((mesh) => {
+        mesh.scaling = new Vector3(finalScale, finalScale, finalScale);
+      });
 
-      console.log(
-        `Dimensione selezionata: ${selectedMugSize.name}`,
-        selectedMugSize,
-      ); // Debug
+      console.log("Applico scala finale:", finalScale);
     } catch (error) {
-      console.error('Errore durante il cambiamento della dimensione:', error);
+      console.error("Errore durante la scala utente:", error);
     }
-  }, [selectedMugSize]);
+  }, [meshes, selectedMugSize]);
 
   useEffect(() => {
-    if (!selectedMugMaterial || !sceneRef.current || !materialRef.current)
-      return;
+    if (!selectedMugMaterial || !scene || !material) return;
 
-    const mat = materialRef.current;
+    material.alpha = 1;
+    material.transparencyMode = PBRMaterial.PBRMATERIAL_OPAQUE;
+    material.metallic = 0;
+    material.roughness = 1;
+    material.indexOfRefraction = 1.52;
 
     try {
       switch (selectedMugMaterial.code) {
-        case 'glossy':
-          mat.roughness = 0.2;
+        case "glossyCeramic":
+          material.roughness = 0.15;
+          material.metallic = 0.1;
           break;
-        case 'matte':
-          mat.roughness = 0.8;
+
+        case "matteCeramic":
+          material.roughness = 0.85;
+          material.metallic = 0.05;
           break;
-        case 'glass':
-          mat.transparencyMode = PBRMaterial.PBRMATERIAL_ALPHABLEND;
-          mat.alpha = 0.2;
-          mat.roughness = 0;
-          mat.indexOfRefraction = 1.5;
+
+        case "glass":
+          material.roughness = 0.05;
+          material.alpha = 0.15;
+          material.transparencyMode = PBRMaterial.PBRMATERIAL_ALPHABLEND;
+          material.indexOfRefraction = 1.52;
           break;
-        case 'steel':
-          mat.metallic = 1;
-          mat.roughness = 0.3;
-          mat.albedoColor = new Color3(0.7, 0.7, 0.75);
+
+        case "steel":
+          material.metallic = 1;
+          material.roughness = 0.35;
           break;
-        case 'plastic':
-          mat.roughness = 0.6;
+
+        case "plastic":
+          material.roughness = 0.4;
+          material.metallic = 0;
           break;
       }
 
-      if (meshRef.current) {
-        meshRef.current.getChildMeshes().forEach((child) => {
-          child.material = mat;
+      if (meshes) {
+        meshes.forEach((child) => {
+          child.material = material;
         });
       }
 
@@ -241,14 +280,78 @@ export const BabylonPreview = ({
         selectedMugMaterial,
       );
     } catch (error) {
-      console.error('Errore durante il cambio del materiale:', error);
+      console.error("Errore durante il cambio del materiale:", error);
     }
-  }, [selectedMugMaterial]);
+  }, [material, meshes, scene, selectedMugMaterial]);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="h-full w-full rounded-lg"
-    ></canvas>
-  );
+  // Cambio texture della tazza
+  useEffect(() => {
+    if (!scene || !material || !meshes) return;
+
+    if (!selectedMugTexture) {
+      material.albedoTexture = null;
+
+      meshes.forEach((mesh) => {
+        mesh.material = material;
+      });
+
+      console.log("Nessuna texture selezionata");
+      return;
+    }
+
+    try {
+      const texture = new Texture(
+        `images/textures/${selectedMugTexture.fileName}.jpg`,
+        scene,
+      );
+      texture.uScale = 1;
+      texture.vScale = 1;
+      texture.hasAlpha = false;
+
+      material.albedoTexture = texture;
+
+      meshes.forEach((mesh) => {
+        mesh.material = material;
+      });
+
+      console.log(
+        `Texture selezionata: ${selectedMugTexture.name}`,
+        selectedMugTexture,
+      );
+    } catch (error) {
+      console.error("Errore durante il caricamento della texture:", error);
+    }
+  }, [material, meshes, scene, selectedMugTexture]);
+
+  // Inserimento immagine
+  useEffect(() => {
+    if (!scene || !material) return;
+
+    if (!selectedMugImage) {
+      material.albedoTexture = null;
+      console.log("Nessuna immagine selezionata");
+      return;
+    }
+
+    try {
+      const texture = new Texture(
+        selectedMugImage,
+        scene,
+        false,
+        false,
+        Texture.TRILINEAR_SAMPLINGMODE,
+      );
+      texture.uScale = 1;
+      texture.vScale = 1;
+      texture.hasAlpha = true;
+
+      material.albedoTexture = texture;
+
+      console.log("Immagine personalizzata applicata", selectedMugImage);
+    } catch (error) {
+      console.error("Errore durante il caricamento dell'immagine:", error);
+    }
+  }, [material, scene, selectedMugImage]);
+
+  return <canvas ref={canvasRef} className="h-full w-full rounded-lg"></canvas>;
 };

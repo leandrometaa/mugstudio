@@ -1,4 +1,4 @@
-import { useAppStore } from '@/stores/store';
+import { useAppStore } from "@/stores/appStore";
 
 export const ProductInfo = () => {
   //
@@ -6,15 +6,15 @@ export const ProductInfo = () => {
 
   //
   const formattedPrice = price.toFixed(2);
-  const [integerPart, decimalPart] = formattedPrice.split('.');
+  const [integerPart, decimalPart] = formattedPrice.split(".");
 
   return (
-    <div className="flex flex-col sticky top-0 p-4 pb-2 bg-[#FFFDF9] z-1">
+    <div className="sticky top-0 z-1 flex flex-col bg-[#FFFDF9] p-4 pb-2">
       <span className="text-xl font-semibold">Tazza personalizzata</span>
       <div className="flex items-start gap-1 font-medium">
-        <div className="items-start flex">
-          <span className="text-3xl font-semi">{integerPart}</span>
-          <span className="opacity-70 text-xl">{decimalPart}</span>
+        <div className="flex items-start">
+          <span className="font-semi text-3xl">{integerPart}</span>
+          <span className="text-xl opacity-70">{decimalPart}</span>
         </div>
         <span>€</span>
       </div>

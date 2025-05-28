@@ -1,7 +1,7 @@
-import type { PostRequest } from '@/types/types.ts';
-import axios from 'axios';
+import type { PostRequest } from "@/types/types.ts";
+import axios from "axios";
 
-const ENDPOINT = 'http://localhost:3000';
+const ENDPOINT = "http://localhost:3000";
 
 export const getTypes = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -34,6 +34,13 @@ export const getMaterials = async () => {
 export const getSizes = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const response = await axios.get(`${ENDPOINT}/sizes`);
+
+  return response.data;
+};
+
+export const getTextures = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const response = await axios.get(`${ENDPOINT}/textures`);
 
   return response.data;
 };

@@ -3,41 +3,46 @@
     {
       "id": 1,
       "name": "Moderna",
-      "model": "tazza_1",
+      "fileName": "tazza_1",
       "price": 1,
       "supportsImage": true,
+      "supportsTexture": true,
       "description": "Linee decise e stile contemporaneo per chi ama distinguersi."
     },
     {
       "id": 2,
       "name": "Classica",
-      "model": "tazza_2",
+      "fileName": "tazza_2",
       "price": 2,
       "supportsImage": true,
+      "supportsTexture": true,
       "description": "Una tazza dal design semplice e pulito, ideale per ogni momento della giornata."
     },
     {
       "id": 3,
       "name": "Vintage",
-      "model": "tazza_3",
+      "fileName": "tazza_3",
       "price": 3,
       "supportsImage": false,
+      "supportsTexture": false,
       "description": "Un tocco retrò con un fascino intramontabile."
     },
     {
       "id": 4,
       "name": "Sportiva",
-      "model": "tazza_4",
+      "fileName": "tazza_4",
       "price": 4,
       "supportsImage": true,
+      "supportsTexture": true,
       "description": "Piccola e raffinata, perfetta per un espresso di classe."
     },
     {
       "id": 5,
       "name": "Elegante",
-      "model": "tazzina",
+      "fileName": "tazzina",
       "price": 5,
       "supportsImage": false,
+      "supportsTexture": false,
       "description": "Design ergonomico e presa sicura per uno stile di vita attivo."
     }
   ],
@@ -46,21 +51,21 @@
     {
       "id": 1,
       "name": "Piccola",
-      "scale": 0.5,
+      "scale": 0.85,
       "height": "16 cm",
       "price": 1
     },
     {
       "id": 2,
       "name": "Media",
-      "scale": 0.7,
+      "scale": 1,
       "height": "24 cm",
       "price": 2
     },
     {
       "id": 3,
       "name": "Grande",
-      "scale": 0.9,
+      "scale": 1.25,
       "height": "32 cm",
       "price": 3
     }
@@ -69,7 +74,7 @@
   "colors": [
     { "id": 1, "name": "Bianco", "code": "#FFFFFF", "price": 2 },
     { "id": 2, "name": "Grigio", "code": "#697282", "price": 2 },
-    { "id": 3, "name": "Nero", "code": "#000000", "price": 2 },
+    { "id": 3, "name": "Nero", "code": "#0F0F0F", "price": 2 },
     { "id": 4, "name": "Beige", "code": "#FEF9C2", "price": 2 },
     { "id": 5, "name": "Rosso", "code": "#FA2C37", "price": 3 },
     { "id": 6, "name": "Blu", "code": "#165DFB", "price": 3 },
@@ -82,15 +87,33 @@
   "materials": [
     {
       "id": 1,
-      "name": "Lucido",
-      "code": "glossy",
+      "name": "Ceramica lucida",
+      "code": "glossyCeramic",
       "price": 1.5
     },
     {
       "id": 2,
-      "name": "Opaco",
-      "code": "matte",
+      "name": "Ceramica opaca",
+      "code": "matteCeramic",
       "price": 3
+    },
+    {
+      "id": 3,
+      "name": "Vetro",
+      "code": "glass",
+      "price": 4
+    },
+    {
+      "id": 4,
+      "name": "Acciacio",
+      "code": "steel",
+      "price": 4
+    },
+    {
+      "id": 5,
+      "name": "Plastica",
+      "code": "plastic",
+      "price": 4
     }
   ],
 
@@ -107,5 +130,13 @@
         "material": 1
       }
     }
+  ],
+
+  "textures": [
+    { "id": 1, "name": "Texture1", "fileName": "texture_1" },
+    { "id": 2, "name": "Texture2", "fileName": "texture_2" },
+    { "id": 3, "name": "Texture3", "fileName": "texture_3" },
+    { "id": 4, "name": "Texture4", "fileName": "texture_4" },
+    { "id": 5, "name": "Texture5", "fileName": "texture_5" }
   ]
 }

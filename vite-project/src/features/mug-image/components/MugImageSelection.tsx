@@ -1,10 +1,17 @@
-import { useAppStore } from '@/stores/store';
+import { Button } from "@/components/ui/button.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { useAppStore } from "@/stores/appStore";
+import { faUpload, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const MugImageSelection = () => {
   //
   const selectedMugType = useAppStore((state) => state.selectedMugType);
-  const selectedImage = useAppStore((state) => state.selectedImage);
-  const setSelectedImage = useAppStore((state) => state.setSelectedImage);
+  const selectedMugImage = useAppStore((state) => state.selectedMugImage);
+  const setSelectedMugImage = useAppStore((state) => state.setSelectedMugImage);
+  const setSelectedMugTexture = useAppStore(
+    (state) => state.setSelectedMugTexture,
+  );
 
   //
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,58 +19,52 @@ export const MugImageSelection = () => {
     if (file && selectedMugType?.supportsImage) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
+        setSelectedMugTexture(null);
+        setSelectedMugImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   return (
-    <div className="mb-6">
-      <h3 className="font-semibold text-gray-800 mb-2">
-        Immagine personalizzata
-      </h3>
-      <p className="text-sm text-gray-600 mb-3">
-        {selectedMugType?.supportsImage
-          ? "Allega un'immagine da visualizzare sulla tazza."
-          : "L'immagine personalizzata non è disponibile per questo tipo di tazza."}
-      </p>
-      {selectedMugType?.supportsImage ? (
-        <>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            id="imageUploadInput"
-            className="hidden"
-          />
-          <div className="flex items-center gap-2">
-            <label
-              htmlFor="imageUploadInput"
-              className="inline-block bg-white border border-gray-300 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
-            >
-              Carica Immagine
-            </label>
-            {selectedImage && (
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition-colors"
-                title="Rimuovi immagine"
-              >
-                X
-              </button>
-            )}
-          </div>
-          {selectedImage && (
-            <p className="mt-2 text-sm text-gray-600">
-              Immagine caricata pronta per l'anteprima.
-            </p>
-          )}
-        </>
-      ) : (
-        <p className="text-sm text-gray-500 italic">
-          Questa tazza supporta solo colori e testo personalizzato.
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
+        <span className="font-semibold">Immagine personalizzata</span>
+        <p className="text-sm opacity-80">
+          Allega un'immagine da stampare sulla tazza.
         </p>
+      </div>
+      <Input
+        type="file"
+        accept="image/*"
+        onChange={handleImageUpload}
+        id="imageUploadInput"
+        className="hidden"
+      />
+      {!selectedMugImage && (
+        <label
+          htmlFor="imageUploadInput"
+          className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border bg-black px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-black/85"
+        >
+          <FontAwesomeIcon icon={faUpload} />
+          Carica Immagine
+        </label>
+      )}
+      {selectedMugImage && (
+        <div className="flex items-center gap-2">
+          <img
+            src={selectedMugImage}
+            alt="Immagine caricata dall'utente"
+            className="max-h-24 rounded-lg shadow-sm"
+          />
+          <Button
+            onClick={() => setSelectedMugImage(null)}
+            className="flex aspect-square h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
+            size={"sm"}
+          >
+            <FontAwesomeIcon icon={faXmark} size="sm" />
+          </Button>
+        </div>
       )}
     </div>
   );
