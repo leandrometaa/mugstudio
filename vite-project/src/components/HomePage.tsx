@@ -55,7 +55,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                 { name: "Piccola", height: "9cm", price: "14,50€" },
                 { name: "Grande", height: "13cm", price: "16,00€" },
             ],
-            supportsImage: false,
+            supportsImage: true,
         },
         {
             id: 3,
