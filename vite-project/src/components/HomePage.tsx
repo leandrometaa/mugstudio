@@ -50,7 +50,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
         {
             id: 2,
             name: "Vintage",
-            value: "tazza_3",
+            value: "cup2",
             sizes: [
                 { name: "Piccola", height: "9cm", price: "14,50€" },
                 { name: "Grande", height: "13cm", price: "16,00€" },
@@ -77,6 +77,8 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
             ],
             supportsImage: true,
         },
+
+
     ];
 
     // Trova l'indice della tazza iniziale basato su initialCupValue, altrimenti usa 0
