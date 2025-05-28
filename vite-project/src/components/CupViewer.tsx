@@ -94,15 +94,15 @@ const CupViewer: React.FC<CupViewerProps> = ({
             "camera",
             0,
             Math.PI / 3,
-            10,
+            15,
             Vector3.Zero(),
             scene
         );
         camera.attachControl(canvasRef.current, true);
         camera.lowerBetaLimit = 0;
         camera.upperBetaLimit = Math.PI / 2;
-        camera.lowerRadiusLimit = 2;
-        camera.upperRadiusLimit = 30;
+        camera.lowerRadiusLimit = 8;
+        camera.upperRadiusLimit = 8;
 
         // Illuminazione identica a BabylonScene3
         const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
