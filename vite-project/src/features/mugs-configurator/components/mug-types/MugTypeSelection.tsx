@@ -15,10 +15,13 @@ export const MugTypeSelection = () => {
 
   useEffect(() => {
     if (types) {
-      setSelectedMugType(types[0]);
+      if (!selectedMugType) {
+        setSelectedMugType(types[0]);
+      }
+
       setPrice();
     }
-  }, [types, setPrice, setSelectedMugType]);
+  }, [types, setPrice, setSelectedMugType, selectedMugType]);
 
   return (
     <div className="flex flex-col gap-2">

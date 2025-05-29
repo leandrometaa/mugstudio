@@ -1,8 +1,9 @@
 import { useAppStore } from "@/stores/appStore.ts";
 import { AppBreadcrumb } from "./AppBreadcrumb.tsx";
 import { MugsList } from "../features/mugs-list/components/MugsList.tsx";
-import { MugsConfigurator } from "./MugsConfigurator.tsx";
+
 import { PageHeading } from "./PageHeading.tsx";
+import { MugsConfigurator } from "@/features/mugs-configurator/components/MugsConfigurator.tsx";
 
 export const Main = () => {
   //
@@ -13,8 +14,11 @@ export const Main = () => {
       {selectedPage === "mugs" && (
         <>
           <AppBreadcrumb pageName="Tazze" />
-          <div className="h-[calc(100dvh-17.25rem)]">
-            <h2></h2>
+          <div className="flex h-[calc(100dvh-14.25rem)] flex-col gap-4">
+            <PageHeading
+              title="Tazze"
+              paragraph="Dai un'occhiata alla nostra grandiosissima offerta di tazze."
+            />
             <MugsList />
           </div>
         </>

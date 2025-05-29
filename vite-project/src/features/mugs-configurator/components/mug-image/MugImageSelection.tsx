@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { useAppStore } from "@/stores/appStore";
-import { faUpload, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const MugImageSelection = () => {
@@ -26,6 +26,12 @@ export const MugImageSelection = () => {
     }
   };
 
+  //
+  const handleDeleteImageButton = () => {
+    setSelectedMugTexture(null);
+    setSelectedMugImage(null);
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col">
@@ -46,8 +52,7 @@ export const MugImageSelection = () => {
           htmlFor="imageUploadInput"
           className="flex w-fit cursor-pointer items-center gap-2 rounded-lg border bg-black px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-black/85"
         >
-          <FontAwesomeIcon icon={faUpload} />
-          Carica Immagine
+          Seleziona immagine
         </label>
       )}
       {selectedMugImage && (
@@ -58,11 +63,11 @@ export const MugImageSelection = () => {
             className="max-h-24 rounded-lg shadow-sm"
           />
           <Button
-            onClick={() => setSelectedMugImage(null)}
+            onClick={handleDeleteImageButton}
             className="flex aspect-square h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
             size={"sm"}
           >
-            <FontAwesomeIcon icon={faXmark} size="sm" />
+            <FontAwesomeIcon icon={faTrash} size="sm" />
           </Button>
         </div>
       )}

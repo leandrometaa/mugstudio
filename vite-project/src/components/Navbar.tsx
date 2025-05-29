@@ -3,7 +3,7 @@ import { Logo } from "./Logo.tsx";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useAppStore } from "@/stores/appStore.ts";
 import clsx from "clsx";
-import { AppSheet } from "./AppSheet.tsx";
+import { CartSheet } from "../features/cart/components/CartSheet.tsx";
 
 const Navbar = () => {
   //
@@ -67,7 +67,7 @@ const Navbar = () => {
             />
           </a>
           <a>
-            <AppSheet />
+            <CartSheet />
           </a>
         </div>
       </nav>

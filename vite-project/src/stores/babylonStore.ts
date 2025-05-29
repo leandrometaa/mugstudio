@@ -10,7 +10,7 @@ type BabylonStore = {
   setEngine: (engine: Engine) => void;
 };
 
-export const babylonStore = create<BabylonStore>((set) => ({
+export const useBabylonStore = create<BabylonStore>((set) => ({
   scene: null,
   camera: null,
   engine: null,

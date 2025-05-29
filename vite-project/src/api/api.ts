@@ -1,4 +1,4 @@
-import type { PostRequest } from "@/types/types.ts";
+import type { PostOrder } from "@/types/types.ts";
 import axios from "axios";
 
 const ENDPOINT = "http://localhost:3000";
@@ -45,7 +45,7 @@ export const getTextures = async () => {
   return response.data;
 };
 
-export const createPurchase = async (data: PostRequest) => {
+export const createOrder = async (data: PostOrder) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const request = await axios.post(`${ENDPOINT}/orders`, data);
 

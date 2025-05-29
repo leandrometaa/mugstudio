@@ -1,16 +1,19 @@
-export interface PostRequest {
+export interface PostOrder {
   id: string;
-  date: Date;
-  price: number;
+  date: string;
+  totalPrice: number;
+  products: OrderItem | OrderItem[];
+}
+
+export interface OrderItem {
+  type: number;
+  dimension: number;
+  color: number;
+  material: number;
+  image: string | false;
+  texture: number | false;
   quantity: number;
-  product: {
-    type: number;
-    dimension: string;
-    color: string;
-    material: string;
-    image: string | false;
-    texture: string | false;
-  };
+  price: number;
 }
 
 export interface CartItem {
@@ -59,6 +62,11 @@ export interface MugMaterial {
   name: string;
   code: string;
   price: number;
+  alpha: number;
+  transparencyMode: string;
+  metallic: number;
+  roughness: number;
+  indexOfRefraction: number;
 }
 
 export interface MugTexture {

@@ -38,7 +38,7 @@ interface AppState {
 
 export const useAppStore = create<AppState>()((set, get) => ({
   // Pagina
-  selectedPage: "configurator",
+  selectedPage: "mugs",
   setSelectedPage: (page) => set({ selectedPage: page }),
 
   // Configurazione tazza
@@ -67,6 +67,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
       selectedMugSize,
       selectedMugColor,
       selectedMugMaterial,
+      selectedMugImage,
       quantity,
     } = get();
 
@@ -74,9 +75,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const dimensionPrice = selectedMugSize?.price ?? 0;
     const colorPrice = selectedMugColor?.price ?? 0;
     const materialPrice = selectedMugMaterial?.price ?? 0;
+    const imagePrice = selectedMugImage ? 1 : 0;
 
     const total =
-      (typePrice + dimensionPrice + colorPrice + materialPrice) * quantity;
+      (typePrice + dimensionPrice + colorPrice + materialPrice + imagePrice) *
+      quantity;
 
     set({ price: total });
   },

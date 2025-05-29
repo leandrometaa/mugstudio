@@ -31,38 +31,44 @@ export const CartItemTile = ({ cartItem }: CartItemTileProps) => {
   };
 
   return (
-    <div className="flex gap-4 rounded-lg p-2 shadow-sm">
+    <div className="flex gap-4 rounded-lg bg-white p-2 shadow-sm">
       <img
         src={cartItem.image}
         alt={cartItem.name}
-        className="h-20 w-20 rounded object-cover"
+        className="h-24 w-24 rounded object-cover"
       />
-      <div className="flex w-full flex-col gap-1">
-        <h3 className="text-sm font-semibold">{cartItem.name}</h3>
-        <div className="flex flex-col text-sm opacity-80">
-          <span>{cartItem.product.type}</span>
-          <span>{cartItem.product.color}</span>
-          <span>{cartItem.product.dimension}</span>
-          <span>{cartItem.product.material}</span>
-          {cartItem.product.texture && <span>{cartItem.product.texture}</span>}
-          {cartItem.product.image && <span>Immagine personalizzata</span>}
+      <div className="flex w-full flex-col gap-4">
+        <div className="flex flex-col">
+          <h3 className="text-sm font-semibold">{cartItem.name}</h3>
+          <div className="flex flex-col text-xs opacity-80">
+            <span>Tipo: {cartItem.product.type}</span>
+            <span>Colore: {cartItem.product.color}</span>
+            <span>Dimensione: {cartItem.product.dimension}</span>
+            <span>Materiale: {cartItem.product.material}</span>
+            {cartItem.product.texture && (
+              <span>Texture: {cartItem.product.texture}</span>
+            )}
+            {cartItem.product.image && <span>Immagine personalizzata</span>}
+          </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <span>{`${(cartItem.quantity * cartItem.quantity).toFixed(2)} €`}</span>
+          <span>{`${(cartItem.quantity * cartItem.price).toFixed(2)} €`}</span>
           <Button
             variant="outline"
             size="sm"
             onClick={() => updateQuantity(cartItem.id, cartItem.quantity - 1)}
-            className="h-8 w-8 p-0"
+            className="h-6 w-6 p-0"
           >
             <FontAwesomeIcon icon={faMinus} />
           </Button>
-          <span className="w-8 text-center text-sm">{cartItem.quantity}</span>
+          <span className="w-12 rounded-md border border-gray-300 px-2 py-0.5 text-center text-sm">
+            {cartItem.quantity}
+          </span>
           <Button
             variant="outline"
             size="sm"
             onClick={() => updateQuantity(cartItem.id, cartItem.quantity + 1)}
-            className="h-8 w-8 p-0"
+            className="h-6 w-6 p-0"
           >
             <FontAwesomeIcon icon={faPlus} />
           </Button>
@@ -70,8 +76,9 @@ export const CartItemTile = ({ cartItem }: CartItemTileProps) => {
             variant="destructive"
             size="icon"
             onClick={() => removeFromCart(cartItem.id)}
+            className="h-6 w-6 p-0"
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTrash} size="xs" />
           </Button>
         </div>
       </div>

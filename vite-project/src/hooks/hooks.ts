@@ -4,8 +4,9 @@ import {
   getMaterials,
   getTypes,
   getTextures,
+  createOrder,
 } from "@/api/api.ts";
-import type { MugSize, MugType } from "@/types/types.ts";
+import type { MugSize, MugType, PostOrder } from "@/types/types.ts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetTypes = () => {
@@ -49,6 +50,8 @@ export const useGetTextures = () => {
   });
 };
 
-export const useCreatePurchase = () => {
-  return useMutation({});
+export const useCreateOrder = () => {
+  return useMutation({
+    mutationFn: async (data: PostOrder) => await createOrder(data),
+  });
 };

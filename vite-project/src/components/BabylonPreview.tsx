@@ -1,4 +1,4 @@
-import { babylonStore } from "@/stores/babylonStore.ts";
+import { useBabylonStore } from "@/stores/babylonStore.ts";
 import type {
   MugColor,
   MugMaterial,
@@ -40,13 +40,14 @@ export const BabylonPreview = ({
   selectedMugImage,
 }: BabylonPreviewProps) => {
   //
-  const setCamera = babylonStore((state) => state.setCamera);
-  const setScene = babylonStore((state) => state.setScene);
-  const setEngine = babylonStore((state) => state.setEngine);
+  const setCamera = useBabylonStore((state) => state.setCamera);
+  const setScene = useBabylonStore((state) => state.setScene);
+  const setEngine = useBabylonStore((state) => state.setEngine);
 
   //
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
+  const isMouseOverCanvasRef = useRef<boolean>(false);
   //
   const engineRef = useRef<Engine | null>(null);
   const sceneRef = useRef<Scene | null>(null);
@@ -93,10 +94,8 @@ export const BabylonPreview = ({
     setCamera(camera);
 
     camera.attachControl(canvasRef.current, true);
-    camera.lowerBetaLimit = 0;
-    camera.upperBetaLimit = Math.PI / 2;
-    camera.lowerRadiusLimit = 2;
-    camera.upperRadiusLimit = 30;
+    camera.lowerRadiusLimit = 8;
+    camera.upperRadiusLimit = 8;
 
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
@@ -230,43 +229,20 @@ export const BabylonPreview = ({
     }
   }, [meshes, selectedMugSize]);
 
+  // Cambio materiale della tazza
   useEffect(() => {
     if (!selectedMugMaterial || !scene || !material) return;
 
-    material.alpha = 1;
-    material.transparencyMode = PBRMaterial.PBRMATERIAL_OPAQUE;
-    material.metallic = 0;
-    material.roughness = 1;
-    material.indexOfRefraction = 1.52;
-
     try {
-      switch (selectedMugMaterial.code) {
-        case "glossyCeramic":
-          material.roughness = 0.15;
-          material.metallic = 0.1;
-          break;
+      material.alpha = selectedMugMaterial.alpha;
+      material.metallic = selectedMugMaterial.metallic;
+      material.roughness = selectedMugMaterial.roughness;
+      material.indexOfRefraction = selectedMugMaterial.indexOfRefraction;
 
-        case "matteCeramic":
-          material.roughness = 0.85;
-          material.metallic = 0.05;
-          break;
-
-        case "glass":
-          material.roughness = 0.05;
-          material.alpha = 0.15;
-          material.transparencyMode = PBRMaterial.PBRMATERIAL_ALPHABLEND;
-          material.indexOfRefraction = 1.52;
-          break;
-
-        case "steel":
-          material.metallic = 1;
-          material.roughness = 0.35;
-          break;
-
-        case "plastic":
-          material.roughness = 0.4;
-          material.metallic = 0;
-          break;
+      if (selectedMugMaterial.transparencyMode === "opaque") {
+        material.transparencyMode = PBRMaterial.PBRMATERIAL_OPAQUE;
+      } else if (selectedMugMaterial.transparencyMode === "alphablend") {
+        material.transparencyMode = PBRMaterial.PBRMATERIAL_ALPHABLEND;
       }
 
       if (meshes) {
@@ -353,5 +329,31 @@ export const BabylonPreview = ({
     }
   }, [material, scene, selectedMugImage]);
 
-  return <canvas ref={canvasRef} className="h-full w-full rounded-lg"></canvas>;
+  const handleMouseEnter = () => {
+    isMouseOverCanvasRef.current = true;
+  };
+
+  const handleMouseLeave = () => {
+    isMouseOverCanvasRef.current = false;
+  };
+
+  const handleWheel = (event: WheelEvent) => {
+    if (isMouseOverCanvasRef.current) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
+  if (canvas) {
+    canvas.addEventListener("mouseenter", handleMouseEnter);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+    canvas.addEventListener("wheel", handleWheel, { passive: false });
+  }
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="h-full w-full rounded-lg focus:outline focus:outline-[#C8B6A6]"
+    ></canvas>
+  );
 };

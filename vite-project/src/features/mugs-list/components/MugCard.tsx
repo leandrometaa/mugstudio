@@ -1,32 +1,45 @@
-import type { MugType } from '@/types/types.ts';
+import { useAppStore } from "@/stores/appStore.ts";
+import type { MugType } from "@/types/types.ts";
 
 interface MugCardProps {
-  mugType: MugType;
+  state: "data" | "pending";
+  mugType?: MugType;
 }
 
-export const MugCard = ({ mugType }: MugCardProps) => {
-  return (
-    <div className="flex flex-col bg-[#EADBC8] rounded-lg shadow-sm">Ciao</div>
-  );
+export const MugCard = ({ state, mugType }: MugCardProps) => {
+  //
+  const setSelectedPage = useAppStore((state) => state.setSelectedPage);
+  const setSelectedMugType = useAppStore((state) => state.setSelectedMugType);
+
+  //
+  const handleCardClick = (mugType: MugType) => {
+    setSelectedPage("configurator");
+    setSelectedMugType(mugType);
+  };
+
+  if (state === "data" && mugType) {
+    return (
+      <div
+        className="flex h-full cursor-pointer flex-col rounded-lg shadow-sm"
+        onClick={() => handleCardClick(mugType)}
+      >
+        <div className="flex aspect-video h-32 justify-center rounded-t-lg bg-[#F2F2F2]">
+          <img
+            src={`/images/mugs/${mugType.fileName}.png`}
+            className="h-full w-auto object-cover"
+          />
+        </div>
+        <div className="flex h-full flex-col rounded-b-lg bg-[#EADBC8] px-4 py-2 text-sm hover:bg-[#EADBC8]/90">
+          <h3 style={{ fontFamily: "DynaPuff" }}>{mugType.name}</h3>
+          <p className="opacity-80">{mugType.description}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (state === "pending") {
+    return (
+      <div className="h-full w-full animate-pulse rounded-lg bg-[#C8B6A6] shadow-sm"></div>
+    );
+  }
 };
-
-{
-  /* <div className="flex flex-1 flex-col bg-[#EADBC8] rounded-lg shadow-sm h-full">
-  <div className="aspect-video bg-[#F2F2F2] flex h-36 justify-center rounded-t-lg">
-    <img
-      src={`/images/${mugType.model}.png`}
-      alt=""
-      className="object-cover p-2 h-full w-auto"
-    />
-  </div>
-  <div className="flex flex-col flex-1 h-full">
-    <h3
-      className="font-medium"
-      style={{ fontFamily: 'DynaPuff' }}
-    >
-      {mugType.name}
-    </h3>
-    <p className="text-sm">{mugType.description}</p>
-  </div>
-</div> */
-}

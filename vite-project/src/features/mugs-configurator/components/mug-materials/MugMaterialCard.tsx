@@ -12,7 +12,14 @@ export const MugMaterialCard = ({ state, material }: MugMaterialCardProps) => {
   const setSelectedMugMaterial = useAppStore(
     (state) => state.setSelectedMugMaterial,
   );
+  const setSelectedMugImage = useAppStore((state) => state.setSelectedMugImage);
   const setPrice = useAppStore((state) => state.setPrice);
+
+  const handleCardClick = (material: MugMaterial) => {
+    setSelectedMugMaterial(material);
+    setSelectedMugImage(null);
+    setPrice();
+  };
 
   if (state === "data" && material) {
     //
@@ -28,8 +35,7 @@ export const MugMaterialCard = ({ state, material }: MugMaterialCardProps) => {
           },
         )}
         onClick={() => {
-          setSelectedMugMaterial(material);
-          setPrice();
+          handleCardClick(material);
         }}
       >
         <span className="text-center text-sm leading-none font-semibold">

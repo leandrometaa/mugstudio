@@ -1,13 +1,13 @@
-import { MugTypeSelection } from "@/features/mug-types/components/MugTypeSelection.tsx";
+import { MugTypeSelection } from "@/features/mugs-configurator/components/mug-types/MugTypeSelection.tsx";
 import { ProductInfo } from "./ProductInfo.tsx";
-import { MugColorSelection } from "@/features/mug-colors/components/MugColorSelection.tsx";
-import { MugMaterialSelection } from "@/features/mug-materials/components/MugMaterialSelection.tsx";
+import { MugColorSelection } from "@/features/mugs-configurator/components/mug-colors/MugColorSelection.tsx";
+import { MugMaterialSelection } from "@/features/mugs-configurator/components/mug-materials/MugMaterialSelection.tsx";
 import { BuySection } from "./BuySection.tsx";
 import { useAppStore } from "@/stores/appStore.ts";
-import { MugSizeSelection } from "@/features/mug-size/components/MugSizeSelection.tsx";
-import { BabylonPreview } from "./BabylonPreview.tsx";
-import { MugTextureSelection } from "@/features/mug-texture/components/MugTextureSelection.tsx";
-import { MugImageSelection } from "@/features/mug-image/components/MugImageSelection.tsx";
+import { MugSizeSelection } from "@/features/mugs-configurator/components/mug-size/MugSizeSelection.tsx";
+import { BabylonPreview } from "../../../components/BabylonPreview.tsx";
+import { MugTextureSelection } from "@/features/mugs-configurator/components/mug-textures/MugTextureSelection.tsx";
+import { MugImageSelection } from "@/features/mugs-configurator/components/mug-image/MugImageSelection.tsx";
 
 export const MugsConfigurator = () => {
   //
