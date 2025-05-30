@@ -437,7 +437,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                 </>
                             ) : (
                                 <p className="text-sm text-gray-500 italic">
-                                    Questa tazza supporta solo colori e testo personalizzato.
+                                    Questa tazza supporta solo colori personalizzati.
                                 </p>
                             )}
                         </div>
