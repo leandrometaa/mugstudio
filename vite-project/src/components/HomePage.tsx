@@ -339,6 +339,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                         </div>
 
                         {/* Texture */}
+                        {selectedType !== 3 && (
                         <div className="mb-6">
                             <h3 className="font-semibold text-gray-800 mb-2">Texture</h3>
                             <p className="text-sm text-gray-600 mb-3">
@@ -373,6 +374,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                 ))}
                             </div>
                         </div>
+                        )}
 
                         {/* Immagine personalizzata */}
                         <div className="mb-6">
