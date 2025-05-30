@@ -65,178 +65,124 @@ const CupViewer: React.FC<CupViewerProps> = ({
     Media: 1,
     Grande: 1.25,
   };
+useEffect(() => {
+  if (!canvasRef.current) return;
+
+  const engine = new Engine(canvasRef.current, true, {
+    antialias: true,
+    stencil: true,
+    preserveDrawingBuffer: false,
+    powerPreference: "high-performance",
+  });
+
+  const scene = new Scene(engine);
+  engineRef.current = engine;
+  sceneRef.current = scene;
+
+  // Imposta colore di sfondo
+  scene.clearColor = new Color4(0.95, 0.95, 0.95, 1);
+
+  // ✅ Aggiungi solo una volta il background
+  const background = new Layer("bg", "images/sfondoBlur.jpg", scene, true);
+  background.isBackground = true;
+  background.texture!.level = 0;
+
+  // Aggiungi camera e luci
+  const camera = new ArcRotateCamera("camera", 0, Math.PI / 3, 15, Vector3.Zero(), scene);
+  camera.attachControl(canvasRef.current, true);
+  camera.lowerRadiusLimit = 8;
+  camera.upperRadiusLimit = 8;
+
+  const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+  light.intensity = 0.7;
+
+  new HemisphericLight("light2", new Vector3(0, -1, 0), scene).intensity = 0.5;
+  new HemisphericLight("light3", new Vector3(10, 0, 0), scene).intensity = 0.3;
+  new HemisphericLight("light4", new Vector3(-10, 0, 0), scene).intensity = 0.3;
+
+  engine.runRenderLoop(() => scene.render());
+
+  const handleResize = () => engine.resize();
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+    engine.dispose();
+  };
+}, []);
 
   // Inizializzazione della scena e caricamento del modello
-  useEffect(() => {
-    if (!canvasRef.current) return;
+useEffect(() => {
+  const scene = sceneRef.current;
+  if (!scene) return;
 
-    // Configurazione engine con antialiasing migliorato
-    const engine = new Engine(canvasRef.current, true, {
-      antialias: true,
-      stencil: true,
-      preserveDrawingBuffer: false,
-      powerPreference: "high-performance",
-    });
+  // Rimuovi eventuali mesh precedenti
+  meshesRef.current.forEach(mesh => mesh.dispose());
+  meshesRef.current = [];
 
-    const scene = new Scene(engine);
-    engineRef.current = engine;
-    sceneRef.current = scene;
+  // Crea il nuovo materiale e carica il modello
+  const hexColor = colorMap[selectedColor] || "#808080";
+  const babylonColor = Color3.FromHexString(hexColor);
+  const isShiny = selectedMaterial === "Lucido";
 
-    // AGGIUNTA SFONDO CHIARO - Opzione 1: Colore di clear semplice
-    // scene.clearColor = new Color4(0.95, 0.95, 0.95, 1); // Grigio molto chiaro
-    const background = new Layer("bg", "images/sfondoBlur.jpg", scene, true);
-    background.isBackground = true; // Fai in modo che stia dietro tutto
-    background.texture!.level = 0; // Non influisce sulla luminosità globale
+  const cupMaterial = new StandardMaterial("cup_material", scene);
+  cupMaterial.diffuseColor = babylonColor;
+  cupMaterial.specularColor = isShiny ? Color3.White() : Color3.Black();
+  cupMaterial.specularPower = isShiny ? 64 : 1;
+  cupMaterial.alphaMode = Material.MATERIAL_OPAQUE;
+  cupMaterialRef.current = cupMaterial;
 
-    // OPZIONE ALTERNATIVA 2: Sfondo bianco puro
-    // scene.clearColor = new Color3(1, 1, 1); // Bianco puro
+  SceneLoader.ImportMesh(
+    "",
+    "/models/",
+    `${selectedType}.glb`,
+    scene,
+    (meshes) => {
+      meshesRef.current = meshes;
 
-    // OPZIONE ALTERNATIVA 3: Sfondo con leggera sfumatura azzurra (sky-like)
-    // scene.clearColor = new Color3(0.9, 0.95, 1.0); // Azzurro molto tenue
+      const cupMesh = meshes.find(mesh => mesh.name === "coffee_cup");
+      if (cupMesh) {
+        cupMesh.material = cupMaterial;
+      } else {
+        meshes.forEach(mesh => mesh.material = cupMaterial);
+      }
 
-    // Camera con impostazioni simili a BabylonScene3
-    const camera = new ArcRotateCamera(
-      "camera",
-      0,
-      Math.PI / 3,
-      15,
-      Vector3.Zero(),
-      scene
-    );
-    camera.attachControl(canvasRef.current, true);
-    // camera.lowerBetaLimit = 0;
-    // camera.upperBetaLimit = Math.PI / 2;
-    camera.lowerRadiusLimit = 8;
-    camera.upperRadiusLimit = 8;
-
-    // Illuminazione identica a BabylonScene3
-    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-    light.intensity = 0.7; // Stesso valore di BabylonScene3
-    const light2 = new HemisphericLight("light2", new Vector3(0, -1, 0), scene);
-    const light3 = new HemisphericLight("light3", new Vector3(10, 0, 0), scene);
-    const light4 = new HemisphericLight(
-      "light4",
-      new Vector3(-10, 0, 0),
-      scene
-    );
-    light4.intensity = 0.3;
-    light3.intensity = 0.3;
-    light2.intensity = 0.5;
-
-    // Creazione del materiale StandardMaterial (come BabylonScene3)
-    const cupMaterial = new StandardMaterial("cup_material", scene);
-
-    // Configurazione iniziale del materiale
-    const hexColor = colorMap[selectedColor] || "#808080";
-    const babylonColor = Color3.FromHexString(hexColor);
-    const isShiny = selectedMaterial === "Lucido";
-
-    cupMaterial.diffuseColor = babylonColor;
-    cupMaterial.specularColor = Color3.White();
-    cupMaterial.alphaMode = Material.MATERIAL_OPAQUE;
-
-    // Configurazione lucido/opaco come in BabylonScene3
-    if (isShiny) {
-      cupMaterial.specularPower = 64; // High specular
-      cupMaterial.specularColor = Color3.White();
-    } else {
-      cupMaterial.specularPower = 1; // Low specular
-      cupMaterial.specularColor = Color3.Black();
-    }
-
-    cupMaterialRef.current = cupMaterial;
-
-    console.log("Materiale Standard creato:", {
-      diffuseColor: babylonColor,
-      specularPower: cupMaterial.specularPower,
-      isShiny,
-    });
-
-    // Carica il modello GLB
-    SceneLoader.ImportMesh(
-      "",
-      "/models/",
-      `${selectedType}.glb`,
-      scene,
-      (meshes) => {
-        console.log(
-          "Modello caricato, meshes:",
-          meshes.map((m) => m.name)
-        );
-        meshesRef.current = meshes;
-
-        // Applica il materiale come in BabylonScene3
-        const cupMesh = meshes.find((mesh) => mesh.name === "coffee_cup");
-        if (cupMesh) {
-          cupMesh.material = cupMaterial;
-          console.log("Materiale applicato al mesh principale");
-        } else {
-          // Fallback: applica a tutti i mesh
-          meshes.forEach((mesh) => {
-            if (mesh.material) {
-              mesh.material = cupMaterial;
-            }
-          });
+      if (meshes.length > 0) {
+        const boundingInfo = meshes[0].getHierarchyBoundingVectors();
+        const center = boundingInfo.min.add(boundingInfo.max).scale(0.5);
+        const mainMesh = cupMesh || meshes[0];
+        if (mainMesh) {
+          mainMesh.position.subtractInPlace(center);
+          mainMesh.rotation.y = Math.PI;
         }
 
-        // Centra il modello (logica identica a BabylonScene3)
-        if (meshes.length > 0) {
-          const boundingInfo = meshes[0].getHierarchyBoundingVectors();
-          const center = boundingInfo.min.add(boundingInfo.max).scale(0.5);
-
-          // Trova il mesh principale per centrare
-          const mainMesh = cupMesh || meshes[0];
-          if (mainMesh) {
-            mainMesh.position.subtractInPlace(center);
-            mainMesh.rotation.y = Math.PI; // Stessa rotazione di BabylonScene3
+        const scale = sizeMap[selectedSize] || 1.0;
+        meshes.forEach(mesh => {
+          if (mesh.parent === null) {
+            mesh.scaling = new Vector3(scale, scale, scale);
           }
+        });
 
-          // Applica la scala iniziale
-          const scale = sizeMap[selectedSize] || 1.0;
-          meshes.forEach((mesh) => {
-            if (mesh.parent === null) {
-              mesh.scaling = new Vector3(scale, scale, scale);
-            }
-          });
-
-          // Camera adjustment come in BabylonScene3
-          const radius =
-            boundingInfo.max.subtract(boundingInfo.min).length() / 2;
+        const radius = boundingInfo.max.subtract(boundingInfo.min).length() / 2;
+        const camera = scene.activeCamera as ArcRotateCamera;
+        if (camera) {
           camera.radius = radius * 3;
           camera.target = Vector3.Zero();
         }
-
-        console.log(
-          "Modello tazza caricato e configurato con StandardMaterial."
-        );
-      },
-      (progress) => {
-        console.log("Caricamento in corso...", progress);
-      },
-      (error) => {
-        console.error("Errore nel caricamento del modello:", error);
-        // Mostra un messaggio di errore all'utente
-        alert(
-          `Errore nel caricamento del modello ${selectedType}.glb. Verifica che il file esista nella cartella public/models/`
-        );
       }
-    );
+    },
+    undefined,
+    (error) => {
+      console.error("Errore nel caricamento:", error);
+    }
+  );
+}, [selectedType, selectedColor, selectedMaterial, selectedSize]);
 
-    // Loop di rendering
-    engine.runRenderLoop(() => {
-      scene.render();
-    });
 
-    // Gestione del ridimensionamento
-    const handleResize = () => engine.resize();
-    window.addEventListener("resize", handleResize);
 
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      engine.dispose();
-    };
-  }, [selectedType]);
+
+
+
   const canvas = canvasRef.current;
 
   const handleMouseEnter = () => {
