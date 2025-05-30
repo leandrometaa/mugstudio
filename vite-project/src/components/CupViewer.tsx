@@ -10,6 +10,7 @@ import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
 import { Material } from "@babylonjs/core/Materials/material";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import "@babylonjs/loaders/glTF";
+import { Layer } from "@babylonjs/core";
 
 interface CupViewerProps {
   selectedColor: string;
@@ -82,7 +83,10 @@ const CupViewer: React.FC<CupViewerProps> = ({
     sceneRef.current = scene;
 
     // AGGIUNTA SFONDO CHIARO - Opzione 1: Colore di clear semplice
-    scene.clearColor = new Color4(0.95, 0.95, 0.95, 1); // Grigio molto chiaro
+    // scene.clearColor = new Color4(0.95, 0.95, 0.95, 1); // Grigio molto chiaro
+    const background = new Layer("bg", "images/sfondoBlur.jpg", scene, true);
+    background.isBackground = true; // Fai in modo che stia dietro tutto
+    background.texture!.level = 0; // Non influisce sulla luminosità globale
 
     // OPZIONE ALTERNATIVA 2: Sfondo bianco puro
     // scene.clearColor = new Color3(1, 1, 1); // Bianco puro
@@ -344,7 +348,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
     uploadedImage,
     imageSize,
     selectedTexture,
-    selectedType
+    selectedType,
   ]);
 
   // Funzione per aggiornare il materiale (gestisce sia colore che texture)
