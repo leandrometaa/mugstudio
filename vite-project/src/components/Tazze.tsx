@@ -27,10 +27,10 @@ const cupData = [
   },
   {
     id: 3,
-    name: "Elegante",
-    value: "tazzina",
-    image: "/images/tazzina.png",
-    description: "Piccola e raffinata, perfetta per un espresso di classe.",
+    name: "Campione",
+    value: "tazza_top",
+    image: "/images/tazza_top.png",
+    description: "La tazza per la colazione dei veri campioni.",
   },
   {
     id: 4,

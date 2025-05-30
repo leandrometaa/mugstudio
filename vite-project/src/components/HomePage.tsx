@@ -59,13 +59,13 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
         },
         {
             id: 3,
-            name: "Elegante",
-            value: "tazzina",
+            name: "Campione",
+            value: "tazza_top",
             sizes: [
-                { name: "Piccola", height: "5cm", price: "9,50€" }, // Prezzo base originale
-                { name: "Media", height: "8cm", price: "10,50€" },
+                { name: "Piccola", height: "15cm", price: "30,50€" }, // Prezzo base originale
+                { name: "Grande", height: "25cm", price: "39,50€" },
             ],
-            supportsImage: false,
+            supportsImage: true,
         },
         {
             id: 4,
@@ -326,7 +326,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                         </div>
 
                         {/* Texture */}
-                        {selectedType !== 3 && (
                         <div className="mb-6">
                             <h3 className="font-semibold text-gray-800 mb-2">Texture</h3>
                             <p className="text-sm text-gray-600 mb-3">
@@ -361,7 +360,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                 ))}
                             </div>
                         </div>
-                        )}
 
                         {/* Immagine personalizzata */}
                         <div className="mb-6">
