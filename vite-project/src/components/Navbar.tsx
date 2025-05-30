@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Logo } from "./Logo.tsx";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useAppStore } from "@/stores/appStore.ts";
-import clsx from "clsx";
-import { CartSheet } from "../features/cart/components/CartSheet.tsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Logo } from './Logo.tsx';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { useAppStore } from '@/stores/appStore.ts';
+import clsx from 'clsx';
+import { CartSheet } from '../features/cart/components/CartSheet.tsx';
 
 const Navbar = () => {
   // Ottiene selectedPage e setSelectedPage dallo store Zustand.
@@ -14,7 +14,7 @@ const Navbar = () => {
    * Gestisce il click sul link della Navbab.
    * @param page Il nome della pagina associata al link.
    */
-  const handleLinkClick = (page: "mugs" | "configurator") => {
+  const handleLinkClick = (page: 'mugs' | 'configurator') => {
     setSelectedPage(page);
   };
 
@@ -24,34 +24,34 @@ const Navbar = () => {
         <Logo />
         <ul className="flex items-center gap-6 text-white">
           <a
-            className={clsx("cursor-pointer", {
-              "opacity-80 hover:opacity-100": selectedPage === "mugs",
-              "text-[#DCB690]": selectedPage === "mugs",
+            className={clsx('cursor-pointer', {
+              'opacity-80 hover:opacity-100': selectedPage === 'mugs',
+              'text-[#DCB690]': selectedPage === 'mugs',
             })}
-            style={{ fontFamily: "DynaPuff" }}
-            onClick={() => handleLinkClick("mugs")}
+            style={{ fontFamily: 'DynaPuff' }}
+            onClick={() => handleLinkClick('mugs')}
           >
             Tazze
           </a>
           <a
-            className={clsx("cursor-pointer", {
-              "opacity-80 hover:opacity-100": selectedPage !== "configurator",
-              "text-[#DCB690]": selectedPage === "configurator",
+            className={clsx('cursor-pointer', {
+              'opacity-80 hover:opacity-100': selectedPage !== 'configurator',
+              'text-[#DCB690]': selectedPage === 'configurator',
             })}
-            style={{ fontFamily: "DynaPuff" }}
-            onClick={() => handleLinkClick("configurator")}
+            style={{ fontFamily: 'DynaPuff' }}
+            onClick={() => handleLinkClick('configurator')}
           >
             Configuratore
           </a>
           <a
             className="cursor-pointer opacity-80 hover:opacity-100"
-            style={{ fontFamily: "DynaPuff" }}
+            style={{ fontFamily: 'DynaPuff' }}
           >
             Chi siamo
           </a>
           <a
             className="cursor-pointer opacity-80 hover:opacity-100"
-            style={{ fontFamily: "DynaPuff" }}
+            style={{ fontFamily: 'DynaPuff' }}
           >
             Contattaci
           </a>
@@ -61,7 +61,7 @@ const Navbar = () => {
             <FontAwesomeIcon
               icon={faUser}
               className="cursor-pointer opacity-80 hover:opacity-100"
-              style={{ fontFamily: "DynaPuff" }}
+              style={{ fontFamily: 'DynaPuff' }}
             />
           </a>
           <a>
