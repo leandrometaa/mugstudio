@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +119,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+* {
+  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
 }

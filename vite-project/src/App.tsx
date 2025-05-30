@@ -1,14 +1,15 @@
-import Navbar from "./components/Navbar";
-import "./App.css";
+import { Toaster } from "sonner";
 import { Footer } from "./components/Footer.tsx";
-import HomePage from "./components/HomePage";
+import { Main } from "./components/Main.tsx";
+import Navbar from "./components/Navbar.tsx";
 
 export default function App() {
   return (
-    <div>
+    <>
       <Navbar />
-      <HomePage />
+      <Main />
       <Footer />
-    </div>
+      <Toaster />
+    </>
   );
 }

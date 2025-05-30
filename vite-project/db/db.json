@@ -1,0 +1,240 @@
+{
+  "types": [
+    {
+      "id": "1",
+      "name": "Moderna",
+      "fileName": "tazza_1",
+      "price": 9.9,
+      "supportsImage": true,
+      "supportsTexture": true,
+      "description": "Linee decise e stile contemporaneo per chi ama distinguersi."
+    },
+    {
+      "id": "2",
+      "name": "Classica",
+      "fileName": "tazza_2",
+      "price": 8.9,
+      "supportsImage": true,
+      "supportsTexture": true,
+      "description": "Una tazza dal design semplice e pulito, ideale per ogni momento della giornata."
+    },
+    {
+      "id": "3",
+      "name": "Vintage",
+      "fileName": "tazza_3",
+      "price": 10.9,
+      "supportsImage": true,
+      "supportsTexture": true,
+      "description": "Un tocco retrò con un fascino intramontabile."
+    },
+    {
+      "id": "4",
+      "name": "Sportiva",
+      "fileName": "tazza_4",
+      "price": 11.9,
+      "supportsImage": true,
+      "supportsTexture": true,
+      "description": "Piccola e raffinata, perfetta per un espresso di classe."
+    },
+    {
+      "id": "5",
+      "name": "Top",
+      "fileName": "tazza_top",
+      "price": 30.5,
+      "supportsImage": true,
+      "supportsTexture": true,
+      "description": "La tazza per la colazione dei veri campioni."
+    }
+  ],
+  "sizes": [
+    {
+      "id": "1",
+      "name": "Piccola",
+      "scale": 0.85,
+      "height": "16 cm",
+      "price": 2
+    },
+    {
+      "id": "2",
+      "name": "Media",
+      "scale": 1,
+      "height": "24 cm",
+      "price": 4
+    },
+    {
+      "id": "3",
+      "name": "Grande",
+      "scale": 1.25,
+      "height": "32 cm",
+      "price": 8
+    }
+  ],
+  "colors": [
+    {
+      "id": "1",
+      "name": "Bianco",
+      "code": "#FFFFFF",
+      "price": 1
+    },
+    {
+      "id": "2",
+      "name": "Grigio",
+      "code": "#697282",
+      "price": 1
+    },
+    {
+      "id": "3",
+      "name": "Nero",
+      "code": "#0F0F0F",
+      "price": 1
+    },
+    {
+      "id": "4",
+      "name": "Beige",
+      "code": "#FEF9C2",
+      "price": 1
+    },
+    {
+      "id": "5",
+      "name": "Rosso",
+      "code": "#FA2C37",
+      "price": 1.5
+    },
+    {
+      "id": "6",
+      "name": "Blu",
+      "code": "#165DFB",
+      "price": 1.5
+    },
+    {
+      "id": "7",
+      "name": "Verde",
+      "code": "#00A63E",
+      "price": 1.5
+    },
+    {
+      "id": "8",
+      "name": "Rosa",
+      "code": "#FEA5D5",
+      "price": 1.5
+    },
+    {
+      "id": "9",
+      "name": "Azzurro",
+      "code": "#52EAFD",
+      "price": 1.5
+    },
+    {
+      "id": "10",
+      "name": "Menta",
+      "code": "#7AF2A8",
+      "price": 1.5
+    }
+  ],
+  "materials": [
+    {
+      "id": "1",
+      "name": "Ceramica lucida",
+      "code": "glossyCeramic",
+      "price": 0.5,
+      "alpha": 1,
+      "transparencyMode": "opaque",
+      "metallic": 0.1,
+      "roughness": 0.15,
+      "indexOfRefraction": 1.52
+    },
+    {
+      "id": "2",
+      "name": "Ceramica opaca",
+      "code": "matteCeramic",
+      "price": 2,
+      "alpha": 1,
+      "transparencyMode": "opaque",
+      "metallic": 0.05,
+      "roughness": 0.85,
+      "indexOfRefraction": 1.52
+    },
+    {
+      "id": "3",
+      "name": "Vetro",
+      "code": "glass",
+      "price": 3,
+      "alpha": 0.15,
+      "transparencyMode": "alphablend",
+      "metallic": 0,
+      "roughness": 0.05,
+      "indexOfRefraction": 1.52
+    },
+    {
+      "id": "4",
+      "name": "Acciacio",
+      "code": "steel",
+      "price": 3.5,
+      "alpha": 1,
+      "transparencyMode": "opaque",
+      "metallic": 1,
+      "roughness": 0.35,
+      "indexOfRefraction": 1.52
+    },
+    {
+      "id": "5",
+      "name": "Plastica",
+      "code": "plastic",
+      "price": -1,
+      "alpha": 1,
+      "transparencyMode": "opaque",
+      "metallic": 0,
+      "roughness": 0.4,
+      "indexOfRefraction": 1.52
+    }
+  ],
+  "textures": [
+    {
+      "id": "1",
+      "name": "Deserto",
+      "fileName": "texture_1",
+      "price": 1
+    },
+    {
+      "id": "2",
+      "name": "Montagna",
+      "fileName": "texture_2",
+      "price": 1
+    },
+    {
+      "id": "3",
+      "name": "Paradiso",
+      "fileName": "texture_3",
+      "price": 1
+    },
+    {
+      "id": "4",
+      "name": "Allucinogeno",
+      "fileName": "texture_4",
+      "price": 1
+    },
+    {
+      "id": "5",
+      "name": "Legno",
+      "fileName": "texture_5",
+      "price": 1
+    }
+  ],
+  "orders": [
+    {
+      "id": "VecchioOrdine-2025/05/29",
+      "date": "2025-05-29T21:13:41.145Z",
+      "totalPrice": 13.9,
+      "products": {
+        "type": "3",
+        "dimension": "2",
+        "color": "2",
+        "material": "1",
+        "image": false,
+        "texture": false,
+        "quantity": 1,
+        "price": 13.9
+      }
+    }
+  ]
+}
