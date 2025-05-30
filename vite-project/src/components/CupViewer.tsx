@@ -65,123 +65,138 @@ const CupViewer: React.FC<CupViewerProps> = ({
     Media: 1,
     Grande: 1.25,
   };
-useEffect(() => {
-  if (!canvasRef.current) return;
+  useEffect(() => {
+    if (!canvasRef.current) return;
 
-  const engine = new Engine(canvasRef.current, true, {
-    antialias: true,
-    stencil: true,
-    preserveDrawingBuffer: false,
-    powerPreference: "high-performance",
-  });
+    const engine = new Engine(canvasRef.current, true, {
+      antialias: true,
+      stencil: true,
+      preserveDrawingBuffer: false,
+      powerPreference: "high-performance",
+    });
 
-  const scene = new Scene(engine);
-  engineRef.current = engine;
-  sceneRef.current = scene;
+    const scene = new Scene(engine);
+    engineRef.current = engine;
+    sceneRef.current = scene;
 
-  // Imposta colore di sfondo
-  scene.clearColor = new Color4(0.95, 0.95, 0.95, 1);
+    // Imposta colore di sfondo
+    scene.clearColor = new Color4(0.95, 0.95, 0.95, 1);
 
-  // ✅ Aggiungi solo una volta il background
-  const background = new Layer("bg", "images/sfondoBlur.jpg", scene, true);
-  background.isBackground = true;
-  background.texture!.level = 0;
+    // ✅ Aggiungi solo una volta il background
+    const background = new Layer("bg", "images/sfondoBlur.jpg", scene, true);
+    background.isBackground = true;
+    background.texture!.level = 0;
 
-  // Aggiungi camera e luci
-  const camera = new ArcRotateCamera("camera", 0, Math.PI / 3, 15, Vector3.Zero(), scene);
-  camera.attachControl(canvasRef.current, true);
-  camera.lowerRadiusLimit = 8;
-  camera.upperRadiusLimit = 8;
+    // Aggiungi camera e luci
+    const camera = new ArcRotateCamera(
+      "camera",
+      0,
+      Math.PI / 3,
+      15,
+      Vector3.Zero(),
+      scene
+    );
+    camera.attachControl(canvasRef.current, true);
+    camera.lowerRadiusLimit = 8;
+    camera.upperRadiusLimit = 8;
 
-  const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-  light.intensity = 0.7;
+    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
 
-  new HemisphericLight("light2", new Vector3(0, -1, 0), scene).intensity = 0.5;
-  new HemisphericLight("light3", new Vector3(10, 0, 0), scene).intensity = 0.3;
-  new HemisphericLight("light4", new Vector3(-10, 0, 0), scene).intensity = 0.3;
+    new HemisphericLight(
+      "light2",
+      new Vector3(0, -1, 0),
+      scene
+    ).intensity = 0.5;
+    new HemisphericLight(
+      "light3",
+      new Vector3(10, 0, 0),
+      scene
+    ).intensity = 0.3;
+    new HemisphericLight(
+      "light4",
+      new Vector3(-10, 0, 0),
+      scene
+    ).intensity = 0.3;
 
-  engine.runRenderLoop(() => scene.render());
+    engine.runRenderLoop(() => scene.render());
 
-  const handleResize = () => engine.resize();
-  window.addEventListener("resize", handleResize);
+    const handleResize = () => engine.resize();
+    window.addEventListener("resize", handleResize);
 
-  return () => {
-    window.removeEventListener("resize", handleResize);
-    engine.dispose();
-  };
-}, []);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      engine.dispose();
+    };
+  }, []);
 
   // Inizializzazione della scena e caricamento del modello
-useEffect(() => {
-  const scene = sceneRef.current;
-  if (!scene) return;
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
 
-  // Rimuovi eventuali mesh precedenti
-  meshesRef.current.forEach(mesh => mesh.dispose());
-  meshesRef.current = [];
+    // Rimuovi eventuali mesh precedenti
+    meshesRef.current.forEach((mesh) => mesh.dispose());
+    meshesRef.current = [];
 
-  // Crea il nuovo materiale e carica il modello
-  const hexColor = colorMap[selectedColor] || "#808080";
-  const babylonColor = Color3.FromHexString(hexColor);
-  const isShiny = selectedMaterial === "Lucido";
+    // Crea il nuovo materiale e carica il modello
+    const hexColor = colorMap[selectedColor] || "#808080";
+    const babylonColor = Color3.FromHexString(hexColor);
+    const isShiny = selectedMaterial === "Lucido";
 
-  const cupMaterial = new StandardMaterial("cup_material", scene);
-  cupMaterial.diffuseColor = babylonColor;
-  cupMaterial.specularColor = isShiny ? Color3.White() : Color3.Black();
-  cupMaterial.specularPower = isShiny ? 64 : 1;
-  cupMaterial.alphaMode = Material.MATERIAL_OPAQUE;
-  cupMaterialRef.current = cupMaterial;
+    const cupMaterial = new StandardMaterial("cup_material", scene);
+    cupMaterial.diffuseColor = babylonColor;
+    cupMaterial.specularColor = isShiny ? Color3.White() : Color3.Black();
+    cupMaterial.specularPower = isShiny ? 64 : 1;
+    cupMaterial.alphaMode = Material.MATERIAL_OPAQUE;
+    cupMaterialRef.current = cupMaterial;
 
-  SceneLoader.ImportMesh(
-    "",
-    "/models/",
-    `${selectedType}.glb`,
-    scene,
-    (meshes) => {
-      meshesRef.current = meshes;
+    SceneLoader.ImportMesh(
+      "",
+      "/models/",
+      `${selectedType}.glb`,
+      scene,
+      (meshes) => {
+        meshesRef.current = meshes;
 
-      const cupMesh = meshes.find(mesh => mesh.name === "coffee_cup");
-      if (cupMesh) {
-        cupMesh.material = cupMaterial;
-      } else {
-        meshes.forEach(mesh => mesh.material = cupMaterial);
-      }
-
-      if (meshes.length > 0) {
-        const boundingInfo = meshes[0].getHierarchyBoundingVectors();
-        const center = boundingInfo.min.add(boundingInfo.max).scale(0.5);
-        const mainMesh = cupMesh || meshes[0];
-        if (mainMesh) {
-          mainMesh.position.subtractInPlace(center);
-          mainMesh.rotation.y = Math.PI;
+        const cupMesh = meshes.find((mesh) => mesh.name === "coffee_cup");
+        if (cupMesh) {
+          cupMesh.material = cupMaterial;
+        } else {
+          meshes.forEach((mesh) => (mesh.material = cupMaterial));
         }
 
-        const scale = sizeMap[selectedSize] || 1.0;
-        meshes.forEach(mesh => {
-          if (mesh.parent === null) {
-            mesh.scaling = new Vector3(scale, scale, scale);
+        if (meshes.length > 0) {
+          const boundingInfo = meshes[0].getHierarchyBoundingVectors();
+          const center = boundingInfo.min.add(boundingInfo.max).scale(0.5);
+          const mainMesh = cupMesh || meshes[0];
+          if (mainMesh) {
+            mainMesh.position.subtractInPlace(center);
+            mainMesh.rotation.y = Math.PI;
           }
-        });
 
-        const radius = boundingInfo.max.subtract(boundingInfo.min).length() / 2;
-        const camera = scene.activeCamera as ArcRotateCamera;
-        if (camera) {
-          camera.radius = radius * 3;
-          camera.target = Vector3.Zero();
+          const scale = sizeMap[selectedSize] || 1.0;
+          meshes.forEach((mesh) => {
+            if (mesh.parent === null) {
+              mesh.scaling = new Vector3(scale, scale, scale);
+            }
+          });
+
+          const radius =
+            boundingInfo.max.subtract(boundingInfo.min).length() / 2;
+          const camera = scene.activeCamera as ArcRotateCamera;
+          if (camera) {
+            camera.radius = radius * 3;
+            camera.target = Vector3.Zero();
+          }
         }
+      },
+      undefined,
+      (error) => {
+        console.error("Errore nel caricamento:", error);
       }
-    },
-    undefined,
-    (error) => {
-      console.error("Errore nel caricamento:", error);
-    }
-  );
-}, [selectedType, selectedColor, selectedMaterial, selectedSize]);
-
-
-
-
-
+    );
+  }, [selectedType, selectedColor, selectedMaterial]);
 
   const canvas = canvasRef.current;
 
