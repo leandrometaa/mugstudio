@@ -220,5 +220,21 @@
       "price": 1
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "id": "VecchioOrdine-2025/05/29",
+      "date": "2025-05-29T21:13:41.145Z",
+      "totalPrice": 13.9,
+      "products": {
+        "type": "3",
+        "dimension": "2",
+        "color": "2",
+        "material": "1",
+        "image": false,
+        "texture": false,
+        "quantity": 1,
+        "price": 13.9
+      }
+    }
+  ]
 }

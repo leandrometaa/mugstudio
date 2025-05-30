@@ -68,7 +68,6 @@ export const useAppStore = create<AppState>()((set, get) => ({
       selectedMugColor,
       selectedMugMaterial,
       selectedMugImage,
-      quantity,
     } = get();
 
     const typePrice = selectedMugType?.price ?? 0;
@@ -78,8 +77,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const imagePrice = selectedMugImage ? 1 : 0;
 
     const total =
-      (typePrice + dimensionPrice + colorPrice + materialPrice + imagePrice) *
-      quantity;
+      typePrice + dimensionPrice + colorPrice + materialPrice + imagePrice;
 
     set({ price: total });
   },

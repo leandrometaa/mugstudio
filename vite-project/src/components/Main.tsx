@@ -6,7 +6,7 @@ import { PageHeading } from "./PageHeading.tsx";
 import { MugsConfigurator } from "@/features/mugs-configurator/components/MugsConfigurator.tsx";
 
 export const Main = () => {
-  //
+  // Ottiene selectedPage dallo store Zustand.
   const selectedPage = useAppStore((state) => state.selectedPage);
 
   return (

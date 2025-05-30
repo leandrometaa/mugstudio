@@ -9,24 +9,39 @@ interface CartItemTileProps {
 }
 
 export const CartItemTile = ({ cartItem }: CartItemTileProps) => {
-  //
+  // Ottiene tutti i dati relativi al carrello dallo store Zustand.
   const cartItems = useAppStore((state) => state.cartItems);
   const setCartItems = useAppStore((state) => state.setCartItems);
   const setCartPrice = useAppStore((state) => state.setCartPrice);
 
+  /**
+   * Rimuove un elemento dal carrello.
+   * @param id L'ID dell'elemento da rimuovere.
+   */
   const removeFromCart = (id: string) => {
+    // Rimuove l'elemento ed aggiorna gli oggetti del carrello.
     setCartItems(cartItems.filter((item: CartItem) => item.id !== id));
+    // Aggiorna il nuovo prezzo.
     setCartPrice();
   };
 
+  /**
+   * Aggiorna la quantità dell'elemento del carrello e lo rimuove se `quantity` è 0.
+   * @param id L'ID dell'elemento da aggiornare.
+   * @param quantity La quantità da modificare.
+   */
   const updateQuantity = (id: string, quantity: number) => {
+    // Aggiorna gli elementi del carrello.
     setCartItems(
+      // Trova l'elemento con lo stesso ID e aggiorna la quantità.
       cartItems
         .map((item: CartItem) =>
           item.id === id ? { ...item, quantity } : item,
         )
+        // Se `quantity` è 0, rimuove l'elemento dal carrello.
         .filter((item: CartItem) => item.quantity > 0),
     );
+    // Aggiorna il prezzo.
     setCartPrice();
   };
 

@@ -8,21 +8,28 @@ interface MugMaterialCardProps {
 }
 
 export const MugMaterialCard = ({ state, material }: MugMaterialCardProps) => {
+  // Ottiene i dettagli del materiale della tazza dallo store Zustand.
   const selectedMugMaterial = useAppStore((state) => state.selectedMugMaterial);
   const setSelectedMugMaterial = useAppStore(
     (state) => state.setSelectedMugMaterial,
   );
   const setSelectedMugImage = useAppStore((state) => state.setSelectedMugImage);
+  // Ottiene la funzione per impostare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  /**
+   * Gestisce il click sulla card del materiale.
+   * @param material Il materiale selezionato.
+   */
   const handleCardClick = (material: MugMaterial) => {
     setSelectedMugMaterial(material);
     setSelectedMugImage(null);
     setPrice();
   };
 
+  // Simulazione di `data` (dati caricati correttamente) di TanStack Query.
   if (state === "data" && material) {
-    //
+    // Variabile di supporto per indicare se la card è selezionata.
     const isSelected = selectedMugMaterial === material;
 
     return (
@@ -45,6 +52,7 @@ export const MugMaterialCard = ({ state, material }: MugMaterialCardProps) => {
     );
   }
 
+  // Simulazione di `isPending` (caricamento dei dati in corso) di TanStack Query.
   if (state === "pending") {
     return (
       <div className="flex h-12 w-24 animate-pulse flex-col justify-center gap-2 rounded-lg bg-[#C8B6A6] shadow-sm"></div>

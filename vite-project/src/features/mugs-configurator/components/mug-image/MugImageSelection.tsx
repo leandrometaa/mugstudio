@@ -5,7 +5,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const MugImageSelection = () => {
-  //
+  // Ottiene i dati sulla tazza dallo store Zustand.
   const selectedMugType = useAppStore((state) => state.selectedMugType);
   const selectedMugImage = useAppStore((state) => state.selectedMugImage);
   const setSelectedMugImage = useAppStore((state) => state.setSelectedMugImage);
@@ -13,22 +13,29 @@ export const MugImageSelection = () => {
     (state) => state.setSelectedMugTexture,
   );
 
-  //
+  // Gestisce il "caricamento" dell'immagine.
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!selectedMugType) return;
+
+    // Prende il primo file caricato.
     const file = event.target.files?.[0];
-    if (file && selectedMugType?.supportsImage) {
+    if (file && selectedMugType.supportsImage) {
       const reader = new FileReader();
       reader.onloadend = () => {
+        // Rimuove la texture selezionata.
         setSelectedMugTexture(null);
+        // Imposta l'immagine selezionata.
         setSelectedMugImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  //
+  // Gestisce il click sul pulsante per eliminare l'immagine.
   const handleDeleteImageButton = () => {
+    // Rimuove la texture selezionata.
     setSelectedMugTexture(null);
+    // Rimuove l'immagine selezionata.
     setSelectedMugImage(null);
   };
 

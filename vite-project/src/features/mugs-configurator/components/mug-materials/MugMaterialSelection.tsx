@@ -5,19 +5,23 @@ import { MugMaterialCard } from "./MugMaterialCard.tsx";
 import { useGetMaterials } from "@/hooks/hooks.ts";
 
 export const MugMaterialSelection = () => {
-  //
+  // Hook con query per fetching dei materiali disponibili.
   const { data: materials, isPending } = useGetMaterials();
 
-  //
+  // Ottiene tutti i dati relativi al materiale della tazza dallo store Zustand.
   const selectedMugMaterial = useAppStore((state) => state.selectedMugMaterial);
   const setSelectedMugMaterial = useAppStore(
     (state) => state.setSelectedMugMaterial,
   );
+  // Ottiene la funzione per aggiornare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  // Appena i materiali sono stati caricati correttamente, ...
   useEffect(() => {
     if (materials) {
+      // ... seleziona il primo materiale e ...
       setSelectedMugMaterial(materials[0]);
+      // ... aggiorna il prezzo.
       setPrice();
     }
   }, [materials, setPrice, setSelectedMugMaterial]);

@@ -10,7 +10,7 @@ import { MugTextureSelection } from "@/features/mugs-configurator/components/mug
 import { MugImageSelection } from "@/features/mugs-configurator/components/mug-image/MugImageSelection.tsx";
 
 export const MugsConfigurator = () => {
-  //
+  // Ottiene i dettagli della tazza dallo store Zustand.
   const selectedMugType = useAppStore((state) => state.selectedMugType);
   const selectedMugSize = useAppStore((state) => state.selectedMugSize);
   const selectedMugColor = useAppStore((state) => state.selectedMugColor);

@@ -46,7 +46,7 @@ export const BuyButton = () => {
     return {
       id: `order-${new Date().toISOString()}`,
       date: new Date().toISOString(),
-      totalPrice: price,
+      totalPrice: price * quantity,
       products: orderedProduct,
     };
   };
@@ -79,6 +79,7 @@ export const BuyButton = () => {
 
   return (
     <Button
+      type="button"
       className="cursor-pointer bg-[#4B2E2B] font-medium text-white hover:bg-[#4B2E2B]/90"
       onClick={handleBuyButton}
     >

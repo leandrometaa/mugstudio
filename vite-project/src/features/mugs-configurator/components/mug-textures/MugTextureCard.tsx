@@ -8,15 +8,28 @@ interface MugTextureCardProps {
 }
 
 export const MugTextureCard = ({ state, texture }: MugTextureCardProps) => {
+  // Ottiene i dettagli della tazza dallo store Zustand.
   const selectedMugTexture = useAppStore((state) => state.selectedMugTexture);
   const setSelectedMugTexture = useAppStore(
     (state) => state.setSelectedMugTexture,
   );
   const setSelectedMugImage = useAppStore((state) => state.setSelectedMugImage);
+  // Ottiene la funzione per impostare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  /**
+   * Gestisce il click sulla card della texture.
+   * @param texture La texture selezionata.
+   */
+  const handleCardClick = (texture: MugTexture) => {
+    setSelectedMugTexture(texture);
+    setSelectedMugImage(null);
+    setPrice();
+  };
+
+  // Simulazione di `data` (dati caricati correttamente) di TanStack Query.
   if (state === "data" && texture) {
-    //
+    // Variabile di supporto per indicare se la card è selezionata.
     const isSelected = selectedMugTexture === texture;
 
     return (
@@ -28,11 +41,7 @@ export const MugTextureCard = ({ state, texture }: MugTextureCardProps) => {
             "scale-95 border-[#4B2E2B]": isSelected,
           },
         )}
-        onClick={() => {
-          setSelectedMugTexture(texture);
-          setSelectedMugImage(null);
-          setPrice();
-        }}
+        onClick={() => handleCardClick(texture)}
       >
         <img
           src={`/images/textures/${texture.fileName}.jpg`}
@@ -42,6 +51,7 @@ export const MugTextureCard = ({ state, texture }: MugTextureCardProps) => {
     );
   }
 
+  // Simulazione di `isPending` (caricamento dei dati in corso) di TanStack Query.
   if (state === "pending") {
     return (
       <div className="aspect-square h-10 animate-pulse rounded-full bg-[#C8B6A6] shadow-sm"></div>

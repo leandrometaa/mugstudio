@@ -2,7 +2,7 @@ import { useAppStore } from "@/stores/appStore.ts";
 import { CartItemTile } from "./CartItem.tsx";
 
 export const CartItemList = () => {
-  //
+  // Ottiene cartItems dallo store Zustand.
   const cartItems = useAppStore((state) => state.cartItems);
 
   return (

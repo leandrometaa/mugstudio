@@ -7,18 +7,22 @@ import clsx from "clsx";
 import { MugTextureCard } from "./MugTextureCard.tsx";
 
 export const MugTextureSelection = () => {
-  //
+  // Hook con query per fetching delle texture disponibili.
   const { data: textures, isPending } = useGetTextures();
 
-  //
+  // Ottiene i dettagli della tazza dallo store Zustand.
   const selectedMugTexture = useAppStore((state) => state.selectedMugTexture);
   const setSelectedMugTexture = useAppStore(
     (state) => state.setSelectedMugTexture,
   );
+  // Ottiene la funzione per impostare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  // Gestisce il click sul pulsante per rimuovere la texture.
   const handleRemoveTextureButton = () => {
+    // Rimuove la texture selezionata.
     setSelectedMugTexture(null);
+    // Aggiorna il prezzo.
     setPrice();
   };
 
@@ -50,10 +54,7 @@ export const MugTextureSelection = () => {
             </div>
           </li>
           {textures.map((texture: MugTexture) => (
-            <li
-              key={`texture-${texture.id}`}
-              onClick={() => setSelectedMugTexture(texture)}
-            >
+            <li key={`texture-${texture.id}`}>
               <MugTextureCard texture={texture} state="data" />
             </li>
           ))}

@@ -20,7 +20,8 @@ import {
 } from "@babylonjs/core";
 import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
 import "@babylonjs/loaders/glTF";
-import { useEffect, useRef } from "react";
+import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
 
 interface BabylonPreviewProps {
   selectedMugType: MugType | null;
@@ -48,6 +49,7 @@ export const BabylonPreview = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
   const isMouseOverCanvasRef = useRef<boolean>(false);
+  const [borderAnimated, setBorderAnimated] = useState(false);
   //
   const engineRef = useRef<Engine | null>(null);
   const sceneRef = useRef<Scene | null>(null);
@@ -132,7 +134,7 @@ export const BabylonPreview = ({
 
     if (meshesRef.current && meshesRef.current.length > 0) {
       const rootMesh = meshesRef.current[0].parent ?? meshesRef.current[0];
-      rootMesh.dispose(false, true); // dispose all descendants
+      rootMesh.dispose(false, true);
       meshesRef.current = null;
     }
 
@@ -178,6 +180,11 @@ export const BabylonPreview = ({
         meshesRef.current = meshes;
 
         console.log(`Tipo selezionato: ${selectedMugType.fileName}`);
+
+        setBorderAnimated(true);
+        const timeout = setTimeout(() => setBorderAnimated(false), 300); // durata animazione 500ms
+
+        return () => clearTimeout(timeout);
       } catch (error) {
         console.error("Errore durante il caricamento del modello:", error);
       }
@@ -353,7 +360,14 @@ export const BabylonPreview = ({
   return (
     <canvas
       ref={canvasRef}
-      className="h-full w-full rounded-lg focus:outline focus:outline-[#C8B6A6]"
+      // className="h-full w-full rounded-lg focus:outline focus:outline-[#C8B6A6]"
+      className={clsx(
+        "relative h-full w-full rounded-lg border transition-all duration-500 focus:outline focus:outline-[#C8B6A6]",
+        {
+          "shadow-glow scale-101 border-[#D6A77A]": borderAnimated,
+          "scale-100": !borderAnimated,
+        },
+      )}
     ></canvas>
   );
 };

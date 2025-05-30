@@ -8,12 +8,26 @@ interface MugTypeCardProps {
 }
 
 export const MugTypeCard = ({ state, type }: MugTypeCardProps) => {
+  // Ottiiene i dati relativi al tipo di tazza dallo store Zustand.
   const selectedMugType = useAppStore((state) => state.selectedMugType);
   const setSelectedMugType = useAppStore((state) => state.setSelectedMugType);
+  // Ottiene la funzione per aggiornare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  /**
+   * Gestisce il click sulla card del tipo della tazza.
+   * @param type Il tipo della tazza.
+   */
+  const handleCardClick = (type: MugType) => {
+    // Aggiorna il tipo di tazza selezionato.
+    setSelectedMugType(type);
+    // Aggiorna il prezzo.
+    setPrice();
+  };
+
+  // Simulazione di `data` (dati caricati correttamente) di TanStack Query.
   if (state === "data" && type) {
-    //
+    // Variabile di supporto per indicare se la card è selezionata.
     const isSelected = selectedMugType === type;
 
     return (
@@ -26,8 +40,7 @@ export const MugTypeCard = ({ state, type }: MugTypeCardProps) => {
           },
         )}
         onClick={() => {
-          setSelectedMugType(type);
-          setPrice();
+          handleCardClick(type);
         }}
       >
         <img
@@ -39,6 +52,7 @@ export const MugTypeCard = ({ state, type }: MugTypeCardProps) => {
     );
   }
 
+  // Simulazione di `isPending` (caricamento dei dati in corso) di TanStack Query.
   if (state === "pending") {
     return (
       <div className="aspect-square h-20 w-auto animate-pulse rounded-lg bg-[#C8B6A6] shadow-sm"></div>

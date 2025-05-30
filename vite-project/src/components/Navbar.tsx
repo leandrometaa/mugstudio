@@ -6,11 +6,14 @@ import clsx from "clsx";
 import { CartSheet } from "../features/cart/components/CartSheet.tsx";
 
 const Navbar = () => {
-  //
+  // Ottiene selectedPage e setSelectedPage dallo store Zustand.
   const selectedPage = useAppStore((state) => state.selectedPage);
   const setSelectedPage = useAppStore((state) => state.setSelectedPage);
 
-  //
+  /**
+   * Gestisce il click sul link della Navbab.
+   * @param page Il nome della pagina associata al link.
+   */
   const handleLinkClick = (page: "mugs" | "configurator") => {
     setSelectedPage(page);
   };
@@ -18,10 +21,7 @@ const Navbar = () => {
   return (
     <header className="flex min-h-16 items-center justify-center bg-[#6c544e]">
       <nav className="sticky top-0 z-50 flex items-center justify-center gap-36 text-sm font-bold text-white">
-        {/* Logo */}
         <Logo />
-
-        {/* Navigation Links */}
         <ul className="flex items-center gap-6 text-white">
           <a
             className={clsx("cursor-pointer", {
@@ -56,8 +56,6 @@ const Navbar = () => {
             Contattaci
           </a>
         </ul>
-
-        {/* Icons */}
         <div className="flex items-center gap-4 text-lg text-white">
           <a>
             <FontAwesomeIcon

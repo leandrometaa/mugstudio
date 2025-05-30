@@ -1,12 +1,12 @@
-import { Logo } from './Logo.tsx';
+import { Logo } from "./Logo.tsx";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#2A2A2A] flex gap-8 items-center justify-center min-h-16">
+    <footer className="flex min-h-16 items-center justify-center gap-8 bg-[#2A2A2A]">
       <Logo />
       <p
-        className="text-white text-sm opacity-80"
-        style={{ fontFamily: 'Work Sans' }}
+        className="text-sm text-white opacity-80"
+        style={{ fontFamily: "Work Sans" }}
       >
         © Tutti i diritti sono riservati.
       </p>

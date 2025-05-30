@@ -5,17 +5,21 @@ import { useEffect } from "react";
 import { MugSizeCard } from "./MugSizeCard.tsx";
 
 export const MugSizeSelection = () => {
-  //
+  // Hook con query per fetching delle dimensioni disponibili.
   const { data: sizes, isPending } = useGetSizes();
 
-  //
+  // Ottiene tutti i dati relativi alle dimensioni della tazza dallo store Zustand.
   const selectedMugSize = useAppStore((state) => state.selectedMugSize);
   const setSelectedMugSize = useAppStore((state) => state.setSelectedMugSize);
+  // Ottiene la funzione per aggiornare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  // Appena le dimensioni sono state caricate correttamente, ...
   useEffect(() => {
     if (sizes) {
+      // ... seleziona la seconda dimensione e ...
       setSelectedMugSize(sizes[1]);
+      // ... aggiorna il prezzo.
       setPrice();
     }
   }, [sizes, setPrice, setSelectedMugSize]);

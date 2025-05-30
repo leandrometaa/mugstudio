@@ -1,11 +1,12 @@
 import { useAppStore } from "@/stores/appStore";
 
 export const ProductInfo = () => {
-  //
+  // Ottiene price dallo store Zustand.
   const price = useAppStore((state) => state.price);
 
-  //
+  // Formatta il prezzo aggiungendo le prime due cifre decimali dopo il punto.
   const formattedPrice = price.toFixed(2);
+  // Divide il prezzo in due (parte intera e decimale) in corrispondenza del punto.
   const [integerPart, decimalPart] = formattedPrice.split(".");
 
   return (

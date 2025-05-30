@@ -32,7 +32,6 @@ export const CartSheet = () => {
           )}
         </button>
       </SheetTrigger>
-
       <SheetContent className="w-[400px] border-none bg-[#F5F0E8] sm:w-[540px]">
         <SheetHeader>
           <SheetTitle
@@ -43,11 +42,9 @@ export const CartSheet = () => {
           </SheetTitle>
           {cartItems.length > 0 && (
             <SheetDescription className="text-black opacity-80">
-              <p>
-                {cartItems.length > 1
-                  ? `Hai ${cartItems.length} articoli nel carrelli.`
-                  : `Hai ${cartItems.length} articolo nel carrello.`}
-              </p>
+              {cartItems.length > 1
+                ? `Hai ${cartItems.length} articoli nel carrelli.`
+                : `Hai ${cartItems.length} articolo nel carrello.`}
             </SheetDescription>
           )}
         </SheetHeader>

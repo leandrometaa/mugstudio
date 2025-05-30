@@ -5,17 +5,21 @@ import { MugColorCard } from "./MugColorCard.tsx";
 import type { MugColor } from "@/types/types.ts";
 
 export const MugColorSelection = () => {
-  //
+  // Hook con query per fetching dei colori disponibili.
   const { data: colors, isPending } = useGetColors();
 
-  //
+  // Ottiene tutti i dati relativi al colore della tazza dallo store Zustand.
   const selectedMugColor = useAppStore((state) => state.selectedMugColor);
   const setSelectedMugColor = useAppStore((state) => state.setSelectedMugColor);
+  // Ottiene la funzione per aggiornare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  // Appena i colori sono stati caricati correttamente, ...
   useEffect(() => {
     if (colors) {
+      // ... seleziona il secondo colore e ...
       setSelectedMugColor(colors[1]);
+      // ... aggiorna il prezzo.
       setPrice();
     }
   }, [colors, setPrice, setSelectedMugColor]);
@@ -34,10 +38,7 @@ export const MugColorSelection = () => {
       {colors && (
         <ul className="flex w-full gap-2">
           {colors.map((color: MugColor) => (
-            <li
-              key={`color-${color.id}`}
-              onClick={() => setSelectedMugColor(color)}
-            >
+            <li key={`color-${color.id}`}>
               <MugColorCard color={color} state="data" />
             </li>
           ))}

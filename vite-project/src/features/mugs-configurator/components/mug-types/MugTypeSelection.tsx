@@ -5,20 +5,23 @@ import { useEffect } from "react";
 import { MugTypeCard } from "./MugTypeCard.tsx";
 
 export const MugTypeSelection = () => {
-  //
+  // Hook con query per fetching dei tipi di tazza disponibili.
   const { data: types, isPending } = useGetTypes();
 
-  //
+  // Ottiene tutti i dati relativi al tipo della tazza dallo store Zustand.
   const selectedMugType = useAppStore((state) => state.selectedMugType);
   const setSelectedMugType = useAppStore((state) => state.setSelectedMugType);
+  // Ottiene la funzione per aggiornare il prezzo dallo store Zustand.
   const setPrice = useAppStore((state) => state.setPrice);
 
+  // Appena i tipi di tazza sono stati caricati correttamente, ...
   useEffect(() => {
     if (types) {
       if (!selectedMugType) {
+        // ... seleziona il primo tipo e ...
         setSelectedMugType(types[0]);
       }
-
+      // ... aggiorna il prezzo.
       setPrice();
     }
   }, [types, setPrice, setSelectedMugType, selectedMugType]);

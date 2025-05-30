@@ -7,22 +7,31 @@ import { AddToCartButton } from "./AddToCartButton.tsx";
 import { BuyButton } from "./BuyButton.tsx";
 
 export const BuySection = () => {
-  //
+  // Ottiene i dati del prodotto corrente (quantità e prezzo) dallo store Zustand.
   const quantity = useAppStore((state) => state.quantity);
   const setQuantity = useAppStore((state) => state.setQuantity);
   const setPrice = useAppStore((state) => state.setPrice);
 
-  //
+  /**
+   * Gestisce il click cul pulsante per diminuire la quantità.
+   */
   const handleSubButton = () => {
+    // Azioni successive eseguibili solo se la quantità è maggiore di 1.
     if (quantity > 1) {
+      // Aggiorna la quantità del prodotto.
       setQuantity(quantity - 1);
+      // Aggiorna il prezzo del prodotto.
       setPrice();
     }
   };
 
-  //
+  /**
+   * Gestisce il click cul pulsante per incrementare la quantità.
+   */
   const handleAddButton = () => {
+    // Aggiorna la quantità del prodotto.
     setQuantity(quantity + 1);
+    // Aggiorna il prezzo del prodotto.
     setPrice();
   };
 

@@ -7,8 +7,8 @@ export const PageHeading = ({ title, paragraph }: PageHeadingProps) => {
   return (
     <div className="flex flex-col gap-1">
       <h1
-        className="text-2xl font-bold text-[#4B2E2B] m-0"
-        style={{ fontFamily: 'DynaPuff' }}
+        className="m-0 text-2xl font-bold text-[#4B2E2B]"
+        style={{ fontFamily: "DynaPuff" }}
       >
         {title}
       </h1>
