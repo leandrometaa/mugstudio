@@ -36,7 +36,6 @@ const CupViewer: React.FC<CupViewerProps> = ({
   const engineRef = useRef<Engine | null>(null);
   const cupMaterialRef = useRef<StandardMaterial | null>(null);
   const meshesRef = useRef<any[]>([]);
-  const isMouseOverCanvasRef = useRef<boolean>(false);
   const uploadedTextureRef = useRef<Texture | null>(null);
   const [borderAnimated, setBorderAnimated] = useState(false);
 
@@ -197,29 +196,6 @@ const CupViewer: React.FC<CupViewerProps> = ({
       }
     );
   }, [selectedType, selectedColor, selectedMaterial]);
-
-  const canvas = canvasRef.current;
-
-  const handleMouseEnter = () => {
-    isMouseOverCanvasRef.current = true;
-  };
-
-  const handleMouseLeave = () => {
-    isMouseOverCanvasRef.current = false;
-  };
-
-  const handleWheel = (event: WheelEvent) => {
-    if (isMouseOverCanvasRef.current) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  };
-
-  if (canvas) {
-    canvas.addEventListener("mouseenter", handleMouseEnter);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
-    canvas.addEventListener("wheel", handleWheel, { passive: false });
-  }
 
   // Aggiornamento del materiale quando cambiano colore o finitura
   useEffect(() => {
