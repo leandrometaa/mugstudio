@@ -344,6 +344,7 @@ const CupViewer: React.FC<CupViewerProps> = ({
     uploadedImage,
     imageSize,
     selectedTexture,
+    selectedType
   ]);
 
   // Funzione per aggiornare il materiale (gestisce sia colore che texture)
