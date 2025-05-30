@@ -131,11 +131,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
         }
     };
 
-    const handlePourCoffee = () => {
-        //TODO
-        console.log("Versa il caffè");
-    };
-
     return (
         <div className="min-h-screen" style={{ backgroundColor: "#F5F0E8" }}>
             {/* Breadcrumb */}
@@ -180,14 +175,6 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     selectedTexture={selectedTexture}
                                 />
                             </div>
-
-                            <button
-                                className="hover:bg-orange-500 text-white px-3 py-1 rounded-lg font-medium transition-colors mt-2"
-                                style={{ backgroundColor: "#D6A77A" }}
-                                onClick={handlePourCoffee}
-                            >
-                                Versa il caffè
-                            </button>
                         </div>
                     </div>
 
