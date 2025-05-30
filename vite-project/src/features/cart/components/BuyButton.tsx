@@ -81,7 +81,7 @@ export const BuyButton = () => {
 
     // Mostra un toast custom con la conferma dell'acquisto.
     toast.custom(() => (
-      <div className="flex items-center gap-4 rounded-lg bg-[#4B2E2B] px-4 py-3 text-white shadow-sm">
+      <div className="flex cursor-pointer items-center gap-4 rounded-lg bg-[#4B2E2B] px-4 py-3 text-white shadow-sm">
         <div className="flex aspect-square h-6 w-6 items-center justify-center rounded-full bg-white p-2">
           <FontAwesomeIcon icon={faCheck} color={"#4B2E2B"} />
         </div>

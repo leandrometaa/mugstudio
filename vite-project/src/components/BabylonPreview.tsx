@@ -14,6 +14,7 @@ import {
   Engine,
   HemisphericLight,
   ImportMeshAsync,
+  Layer,
   Scene,
   Texture,
   Vector3,
@@ -40,32 +41,31 @@ export const BabylonPreview = ({
   selectedMugTexture,
   selectedMugImage,
 }: BabylonPreviewProps) => {
-  //
+  // Ottiene i dettagli dell'anteprima dallo store Zustand.
   const setCamera = useBabylonStore((state) => state.setCamera);
   const setScene = useBabylonStore((state) => state.setScene);
   const setEngine = useBabylonStore((state) => state.setEngine);
 
-  //
+  // Impostazione dei Ref e degli State del canvas.
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
   const isMouseOverCanvasRef = useRef<boolean>(false);
   const [borderAnimated, setBorderAnimated] = useState(false);
-  //
+  // Impostazione dei Ref di Babylon.
   const engineRef = useRef<Engine | null>(null);
   const sceneRef = useRef<Scene | null>(null);
   const scene = sceneRef.current;
-  //
   const meshesRef = useRef<AbstractMesh[] | null>(null);
   const meshes = meshesRef.current;
   const materialRef = useRef<PBRMaterial | null>(null);
   const material = materialRef.current;
-  //
   const normalizationScaleRef = useRef(1);
 
   // Inizializzazione scena
   useEffect(() => {
     if (!canvas) return;
 
+    // Creazione engine.
     const engine = new Engine(canvasRef.current, true, {
       antialias: true,
       stencil: true,
@@ -74,51 +74,58 @@ export const BabylonPreview = ({
     });
 
     engineRef.current = engine;
-    // Zustand
     setEngine(engine);
 
+    // Creazione scena.
     const scene = new Scene(engine);
     sceneRef.current = scene;
-    // Zustand
     setScene(scene);
+
+    // Colore sfondo della scena.
     scene.clearColor = new Color4(0.95, 0.95, 0.95, 1);
 
+    // Immagine di sfondo della scena.
+    const background = new Layer("bg", "images/sfondoBlur.jpg", scene, true);
+    background.isBackground = true;
+    background.texture!.level = 0;
+
+    // Creazione camera.
     const camera = new ArcRotateCamera(
       "camera",
       0,
       Math.PI / 3,
-      10,
+      15,
       Vector3.Zero(),
       scene,
     );
 
-    // Zustand
     setCamera(camera);
 
+    // Impostazioni camera.
     camera.attachControl(canvasRef.current, true);
     camera.lowerRadiusLimit = 8;
     camera.upperRadiusLimit = 8;
+    camera.lowerBetaLimit = 0.01;
 
-    const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-    light.intensity = 0.7;
-    const light2 = new HemisphericLight("light2", new Vector3(0, -1, 0), scene);
-    const light3 = new HemisphericLight("light3", new Vector3(10, 0, 0), scene);
-    const light4 = new HemisphericLight(
-      "light4",
-      new Vector3(-10, 0, 0),
-      scene,
-    );
-    light4.intensity = 0.3;
-    light3.intensity = 0.3;
-    light2.intensity = 0.5;
+    // Creazione luci.
+    new HemisphericLight("light", new Vector3(0, 1, 0), scene).intensity = 0.7;
+    new HemisphericLight("light2", new Vector3(0, -1, 0), scene).intensity =
+      0.5;
+    new HemisphericLight("light3", new Vector3(10, 0, 0), scene).intensity =
+      0.3;
+    new HemisphericLight("light4", new Vector3(-10, 0, 0), scene).intensity =
+      0.3;
 
+    // Creazione materiale.
     const mat = new PBRMaterial("mugPBRMat", sceneRef.current);
     materialRef.current = mat;
 
+    // Re-render della scena.
     engine.runRenderLoop(() => {
       scene.render();
     });
 
+    // Ridimensionamento della scena.
     const handleResize = () => engine.resize();
     window.addEventListener("resize", handleResize);
 
@@ -132,12 +139,18 @@ export const BabylonPreview = ({
   useEffect(() => {
     if (!scene || !selectedMugType) return;
 
+    // Elimina dalla scena un modello.
+    // Se meshRef.current esiste e non è un array vuoto...
     if (meshesRef.current && meshesRef.current.length > 0) {
+      // Ottiene il mesh 'root'.
       const rootMesh = meshesRef.current[0].parent ?? meshesRef.current[0];
+      // Elimina il mesh e tutti i suoi figli.
       rootMesh.dispose(false, true);
+      // Invalidazione della ref.
       meshesRef.current = null;
     }
 
+    // Importazione asincrona di un modello .glb locale.
     const loadModel = async () => {
       try {
         const result = await ImportMeshAsync(
@@ -145,10 +158,11 @@ export const BabylonPreview = ({
           scene,
         );
 
+        // Filtra tutti i mesh importati per rimuovere eventuali mesh non validi.
         const meshes = result.meshes.filter((m) => m != null);
         if (meshes.length === 0) return;
 
-        // Imposta lo stesso materiale a tutte le mesh
+        // Imposta lo stesso materiale a tutte le mesh.
         meshes.forEach((mesh) => {
           mesh.material = materialRef.current;
         });
@@ -179,7 +193,7 @@ export const BabylonPreview = ({
 
         meshesRef.current = meshes;
 
-        console.log(`Tipo selezionato: ${selectedMugType.fileName}`);
+        console.log(`Tipo selezionato: ${selectedMugType.fileName}`); // Debug
 
         setBorderAnimated(true);
         const timeout = setTimeout(() => setBorderAnimated(false), 300); // durata animazione 500ms
@@ -190,15 +204,7 @@ export const BabylonPreview = ({
       }
     };
 
-    console.log(
-      "Before loading:",
-      scene.meshes.map((m) => m.name),
-    );
     loadModel();
-    console.log(
-      "After loading:",
-      scene.meshes.map((m) => m.name),
-    );
   }, [meshes, scene, selectedMugSize, selectedMugType]);
 
   // Cambio colore della tazza
@@ -278,7 +284,6 @@ export const BabylonPreview = ({
         mesh.material = material;
       });
 
-      console.log("Nessuna texture selezionata");
       return;
     }
 
@@ -330,9 +335,9 @@ export const BabylonPreview = ({
 
       material.albedoTexture = texture;
 
-      console.log("Immagine personalizzata applicata", selectedMugImage);
+      console.log("Immagine personalizzata applicata", selectedMugImage); // Debug
     } catch (error) {
-      console.error("Errore durante il caricamento dell'immagine:", error);
+      console.error("Errore durante il caricamento dell'immagine:", error); // Debug
     }
   }, [material, scene, selectedMugImage]);
 
@@ -351,6 +356,7 @@ export const BabylonPreview = ({
     }
   };
 
+  // Aggiunta degli EventListener al canvas.
   if (canvas) {
     canvas.addEventListener("mouseenter", handleMouseEnter);
     canvas.addEventListener("mouseleave", handleMouseLeave);

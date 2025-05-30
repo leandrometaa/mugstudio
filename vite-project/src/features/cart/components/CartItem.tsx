@@ -72,7 +72,7 @@ export const CartItemTile = ({ cartItem }: CartItemTileProps) => {
             variant="outline"
             size="sm"
             onClick={() => updateQuantity(cartItem.id, cartItem.quantity - 1)}
-            className="h-6 w-6 p-0"
+            className="h-6 w-6 cursor-pointer p-0"
           >
             <FontAwesomeIcon icon={faMinus} />
           </Button>
@@ -83,7 +83,7 @@ export const CartItemTile = ({ cartItem }: CartItemTileProps) => {
             variant="outline"
             size="sm"
             onClick={() => updateQuantity(cartItem.id, cartItem.quantity + 1)}
-            className="h-6 w-6 p-0"
+            className="h-6 w-6 cursor-pointer p-0"
           >
             <FontAwesomeIcon icon={faPlus} />
           </Button>
@@ -91,7 +91,7 @@ export const CartItemTile = ({ cartItem }: CartItemTileProps) => {
             variant="destructive"
             size="icon"
             onClick={() => removeFromCart(cartItem.id)}
-            className="h-6 w-6 p-0"
+            className="h-6 w-6 cursor-pointer p-0"
           >
             <FontAwesomeIcon icon={faTrash} size="xs" />
           </Button>

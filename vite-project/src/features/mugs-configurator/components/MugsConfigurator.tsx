@@ -19,9 +19,9 @@ export const MugsConfigurator = () => {
   const selectedMugImage = useAppStore((state) => state.selectedMugImage);
 
   return (
-    <div className="grid h-[calc(100%-3.5rem)] grid-cols-5 gap-4 overflow-y-auto">
+    <div className="grid h-[calc(100%-3.5rem)] grid-cols-7 gap-4 overflow-y-auto">
       {/* Anteprima Babylon */}
-      <div className="col-span-2 flex flex-col p-1">
+      <div className="col-span-3 flex flex-col p-1">
         <div className="h-full w-full rounded-lg shadow-sm">
           <BabylonPreview
             selectedMugType={selectedMugType}
@@ -34,7 +34,7 @@ export const MugsConfigurator = () => {
         </div>
       </div>
       {/* Configurazione tazza */}
-      <div className="col-span-3 flex flex-col gap-2 overflow-y-auto p-1">
+      <div className="col-span-4 flex flex-col gap-2 overflow-y-auto p-1">
         <div className="scrollbar-hidden relative flex h-full flex-col gap-2 overflow-y-auto rounded-lg bg-[#FFFDF9] shadow-sm">
           {/* Info (nome prodotto e prezzo) */}
           <ProductInfo />

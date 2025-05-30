@@ -38,12 +38,12 @@
     },
     {
       "id": "5",
-      "name": "Elegante",
-      "fileName": "tazzina",
-      "price": 12.9,
-      "supportsImage": false,
-      "supportsTexture": false,
-      "description": "Design ergonomico e presa sicura per uno stile di vita attivo."
+      "name": "Top",
+      "fileName": "tazza_top",
+      "price": 30.5,
+      "supportsImage": true,
+      "supportsTexture": true,
+      "description": "La tazza per la colazione dei veri campioni."
     }
   ],
   "sizes": [
@@ -52,21 +52,21 @@
       "name": "Piccola",
       "scale": 0.85,
       "height": "16 cm",
-      "price": 0.5
+      "price": 2
     },
     {
       "id": "2",
       "name": "Media",
       "scale": 1,
       "height": "24 cm",
-      "price": 1.5
+      "price": 4
     },
     {
       "id": "3",
       "name": "Grande",
       "scale": 1.25,
       "height": "32 cm",
-      "price": 2.5
+      "price": 8
     }
   ],
   "colors": [
@@ -191,31 +191,31 @@
   "textures": [
     {
       "id": "1",
-      "name": "Texture1",
+      "name": "Deserto",
       "fileName": "texture_1",
       "price": 1
     },
     {
       "id": "2",
-      "name": "Texture2",
+      "name": "Montagna",
       "fileName": "texture_2",
       "price": 1
     },
     {
       "id": "3",
-      "name": "Texture3",
+      "name": "Paradiso",
       "fileName": "texture_3",
       "price": 1
     },
     {
       "id": "4",
-      "name": "Texture4",
+      "name": "Allucinogeno",
       "fileName": "texture_4",
       "price": 1
     },
     {
       "id": "5",
-      "name": "Texture5",
+      "name": "Legno",
       "fileName": "texture_5",
       "price": 1
     }
