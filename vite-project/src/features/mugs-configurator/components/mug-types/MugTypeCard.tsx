@@ -44,7 +44,7 @@ export const MugTypeCard = ({ state, type }: MugTypeCardProps) => {
         }}
       >
         <img
-          src={`/images/mugs/${type.fileName}.png`}
+          src={`${import.meta.env.BASE_URL}images/mugs/${type.fileName}.png`}
           alt={type.name}
           className="h-full w-full rounded-lg object-cover"
         />

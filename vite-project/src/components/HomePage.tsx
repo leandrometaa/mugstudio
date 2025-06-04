@@ -221,7 +221,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     >
                                         <div className="w-full h-full bg-gray-100 rounded">
                                             <img
-                                                src={`/images/${type.value}.png`}
+                                                src={`/mugstudio/images/${type.value}.png`}
                                                 alt={type.name}
                                                 className="w-full h-full object-cover rounded"
                                             />
@@ -351,7 +351,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                     >
                                         <div className="w-full h-full">
                                             <img
-                                                src={`/images/${texture}`}
+                                                src={`/mugstudio/images/textures/${texture}`}
                                                 alt={texture.replace(".jpg", "").replace("texture_", "Texture ")}
                                                 className="w-full h-full object-cover"
                                             />
@@ -497,7 +497,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                                         name: `Tazza ${selectedCup.name} ${selectedColor === "Nessuno" ? "" : selectedColor} ${selectedTexture === null ? "" : selectedTexture} ${selectedSize} ${selectedMaterial}`,
                                         price: parseFloat(selectedSizeDetail?.price.replace(',', '.') || '0'), // Usa il prezzo della dimensione trovata
                                         quantity: quantity,
-                                        image: `/images/${selectedCup.value}.png`,
+                                        image: `/mugstudio/images/${selectedCup.value}.png`,
                                     };
                                     addToCart(item);
                                 }}

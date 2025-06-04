@@ -289,7 +289,7 @@ export const BabylonPreview = ({
 
     try {
       const texture = new Texture(
-        `images/textures/${selectedMugTexture.fileName}.jpg`,
+        `${import.meta.env.BASE_URL}images/textures/${selectedMugTexture.fileName}.jpg`,
         scene,
       );
       texture.uScale = 1;

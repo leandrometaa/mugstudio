@@ -44,7 +44,7 @@ export const MugTextureCard = ({ state, texture }: MugTextureCardProps) => {
         onClick={() => handleCardClick(texture)}
       >
         <img
-          src={`/images/textures/${texture.fileName}.jpg`}
+          src={`/mugstudio/images/textures/${texture.fileName}.jpg`}
           className="flex aspect-square h-8 items-center justify-center rounded-full"
         ></img>
       </div>

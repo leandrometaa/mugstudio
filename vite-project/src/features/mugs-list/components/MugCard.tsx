@@ -33,7 +33,7 @@ export const MugCard = ({ state, mugType }: MugCardProps) => {
       >
         <div className="flex aspect-video h-32 justify-center rounded-t-lg bg-[#F2F2F2]">
           <img
-            src={`/images/mugs/${mugType.fileName}.png`}
+            src={`images/mugs/${mugType.fileName}.png`}
             className="h-full w-auto object-cover"
           />
         </div>
