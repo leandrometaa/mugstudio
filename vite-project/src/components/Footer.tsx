@@ -2,7 +2,7 @@ import { Logo } from "./Logo.tsx";
 
 export const Footer = () => {
   return (
-    <footer className="flex min-h-16 items-center justify-center gap-8 bg-[#2A2A2A]">
+    <footer className="flex flex-col sm:flex-row min-h-16 items-center justify-center gap-2 sm:gap-8 bg-[#2A2A2A] p-4">
       <Logo />
       <p
         className="text-sm text-white opacity-80"

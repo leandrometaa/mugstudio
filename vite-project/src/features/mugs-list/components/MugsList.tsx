@@ -6,11 +6,11 @@ export const MugsList = () => {
   const { data: mugs, isPending } = useGetTypes();
 
   return (
-    <ul className="flex h-fit gap-2">
+    <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {mugs && (
         <>
           {mugs.map((mug) => (
-            <li key={`mug-${mug.id}`} className="h-66 w-[calc(100%/5-0.3rem)]">
+            <li key={`mug-${mug.id}`} className="">
               <MugCard mugType={mug} state="data" />
             </li>
           ))}
@@ -19,7 +19,7 @@ export const MugsList = () => {
       {isPending && (
         <>
           {Array.from({ length: 5 }).map((_, index) => (
-            <li key={`mug-${index}`} className="h-66 w-[calc(100%/5-0.3rem)]">
+            <li key={`mug-${index}`} className="">
               <MugCard state="pending" />
             </li>
           ))}

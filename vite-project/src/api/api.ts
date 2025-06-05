@@ -1,53 +1,39 @@
 import type { PostOrder } from "@/types/types.ts";
 import axios from "axios";
 
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "https://raw.githubusercontent.com/leandrometaa/mugstudio/refs/heads/main/vite-project/db/db.json";
 
 export const getTypes = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/types`);
-
-  return response.data;
+  const response = await axios.get(ENDPOINT);
+  return response.data.types;
 };
 
 export const getSized = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/sizes`);
-
-  return response.data;
+  const response = await axios.get(ENDPOINT);
+  return response.data.sizes;
 };
 
 export const getColors = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/colors`);
-
-  return response.data;
+  const response = await axios.get(ENDPOINT);
+  return response.data.colors;
 };
 
 export const getMaterials = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/materials`);
-
-  return response.data;
+  const response = await axios.get(ENDPOINT);
+  return response.data.materials;
 };
 
 export const getSizes = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/sizes`);
-
-  return response.data;
+  const response = await axios.get(ENDPOINT);
+  return response.data.sizes;
 };
 
 export const getTextures = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await axios.get(`${ENDPOINT}/textures`);
-
-  return response.data;
+  const response = await axios.get(ENDPOINT);
+  return response.data.textures;
 };
 
 export const createOrder = async (data: PostOrder) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const request = await axios.post(`${ENDPOINT}/orders`, data);
-
-  return request.data;
+  console.warn("createOrder function is disabled for static deploy.", data);
+  return null;
 };

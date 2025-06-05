@@ -149,7 +149,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     {/* Left side - Product preview */}
-                    <div className="rounded-lg p-8">
+                    <div className="rounded-lg p-4 sm:p-6 lg:p-8">
                         <div>
                             <h1
                                 className="text-2xl font-bold mb-2"
@@ -162,7 +162,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
                             </p>
 
                             {/* Product preview placeholder */}
-                            <div style={{ height: "500px" }}>
+                            <div style={{ maxHeight: "500px", width: "100%" }}>
                                 <CupViewer
                                     selectedColor={
                                         selectedColor === "Arcobaleno" ? customColor : selectedColor
@@ -180,7 +180,7 @@ export default function HomePage({ addToCart, handleBuyClick, initialCupValue }:
 
                     {/* Right side - Configuration */}
                     <div
-                        className="rounded-lg p-6 mt-24 border-2 overflow-y-scroll"
+                        className="rounded-lg p-4 sm:p-6 border-2 overflow-y-scroll"
                         style={{ height: "600px" }}
                     >
                         <div className="mb-6">

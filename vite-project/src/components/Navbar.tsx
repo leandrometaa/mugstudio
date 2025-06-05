@@ -20,9 +20,10 @@ const Navbar = () => {
 
   return (
     <header className="flex min-h-16 items-center justify-center bg-[#6c544e]">
-      <nav className="sticky top-0 z-50 flex items-center justify-center gap-36 text-sm font-bold text-white">
+      <nav className="sticky top-0 z-50 flex items-center justify-between w-full px-4 md:px-8 lg:px-16 py-2 text-sm font-bold text-white">
         <Logo />
-        <ul className="flex items-center gap-6 text-white">
+        {/* Navigation links - hidden on small, visible on medium+ */}
+        <ul className="hidden md:flex items-center gap-6 text-white">
           <a
             className={clsx('cursor-pointer', {
               'opacity-80 hover:opacity-100': selectedPage === 'mugs',
@@ -67,6 +68,10 @@ const Navbar = () => {
           <a>
             <CartSheet />
           </a>
+        </div>
+        {/* Placeholder for mobile menu toggle */}
+        <div className="md:hidden">
+          {/* Hamburger icon or similar will go here */}
         </div>
       </nav>
     </header>

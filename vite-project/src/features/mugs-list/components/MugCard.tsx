@@ -28,7 +28,7 @@ export const MugCard = ({ state, mugType }: MugCardProps) => {
   if (state === "data" && mugType) {
     return (
       <div
-        className="flex h-full cursor-pointer flex-col rounded-lg shadow-sm"
+        className="flex cursor-pointer flex-col rounded-lg shadow-sm"
         onClick={() => handleCardClick(mugType)}
       >
         <div className="flex aspect-video h-32 justify-center rounded-t-lg bg-[#F2F2F2]">
@@ -39,7 +39,7 @@ export const MugCard = ({ state, mugType }: MugCardProps) => {
         </div>
         <div className="flex h-full flex-col rounded-b-lg bg-[#EADBC8] px-4 py-2 text-sm hover:bg-[#EADBC8]/90">
           <h3 style={{ fontFamily: "DynaPuff" }}>{mugType.name}</h3>
-          <p className="opacity-80">{mugType.description}</p>
+          <p className="opacity-80 overflow-hidden text-ellipsis text-xs sm:text-sm">{mugType.description}</p>
         </div>
       </div>
     );

@@ -19,10 +19,10 @@ export const MugsConfigurator = () => {
   const selectedMugImage = useAppStore((state) => state.selectedMugImage);
 
   return (
-    <div className="grid h-[calc(100%-3.5rem)] grid-cols-7 gap-4 overflow-y-auto">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[calc(100%-3.5rem)] overflow-y-auto">
       {/* Anteprima Babylon */}
-      <div className="col-span-3 flex flex-col p-1">
-        <div className="h-full w-full rounded-lg shadow-sm">
+      <div className="col-span-1 md:col-span-5 flex flex-col p-1">
+        <div className="h-full w-full rounded-md shadow-sm">
           <BabylonPreview
             selectedMugType={selectedMugType}
             selectedMugSize={selectedMugSize}
@@ -34,8 +34,8 @@ export const MugsConfigurator = () => {
         </div>
       </div>
       {/* Configurazione tazza */}
-      <div className="col-span-4 flex flex-col gap-2 overflow-y-auto p-1">
-        <div className="scrollbar-hidden relative flex h-full flex-col gap-2 overflow-y-auto rounded-lg bg-[#FFFDF9] shadow-sm">
+      <div className="col-span-1 md:col-span-7 flex flex-col gap-2 overflow-y-auto p-1">
+        <div className="scrollbar-hidden relative flex h-full flex-col gap-2 overflow-y-auto rounded-md bg-[#FFFDF9] shadow-sm">
           {/* Info (nome prodotto e prezzo) */}
           <ProductInfo />
           <div className="flex flex-col gap-4 p-4 pt-0">
@@ -53,7 +53,7 @@ export const MugsConfigurator = () => {
             <MugMaterialSelection />
           </div>
         </div>
-        <div className="rounded-lg bg-[#C8B6A6] p-2 shadow-sm">
+        <div className="rounded-md bg-[#C8B6A6] p-2 shadow-sm">
           <BuySection />
         </div>
       </div>
