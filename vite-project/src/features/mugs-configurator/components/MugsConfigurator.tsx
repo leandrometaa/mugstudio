@@ -10,7 +10,6 @@ import { MugTextureSelection } from "@/features/mugs-configurator/components/mug
 import { MugImageSelection } from "@/features/mugs-configurator/components/mug-image/MugImageSelection.tsx";
 
 export const MugsConfigurator = () => {
-  // Ottiene i dettagli della tazza dallo store Zustand.
   const selectedMugType = useAppStore((state) => state.selectedMugType);
   const selectedMugSize = useAppStore((state) => state.selectedMugSize);
   const selectedMugColor = useAppStore((state) => state.selectedMugColor);
@@ -19,10 +18,10 @@ export const MugsConfigurator = () => {
   const selectedMugImage = useAppStore((state) => state.selectedMugImage);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[calc(100%-3.5rem)] overflow-y-auto">
-      {/* Anteprima Babylon */}
-      <div className="col-span-1 md:col-span-5 flex flex-col p-1">
-        <div className="h-full w-full rounded-md shadow-sm">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 min-h-screen p-4 bg-[#fffdf9]">
+      {/* Anteprima tazza */}
+      <div className="col-span-1 md:col-span-5 flex flex-col">
+        <div className="w-full max-h-[300px] md:max-h-full rounded-2xl shadow-md overflow-hidden">
           <BabylonPreview
             selectedMugType={selectedMugType}
             selectedMugSize={selectedMugSize}
@@ -33,27 +32,23 @@ export const MugsConfigurator = () => {
           />
         </div>
       </div>
-      {/* Configurazione tazza */}
-      <div className="col-span-1 md:col-span-7 flex flex-col gap-2 overflow-y-auto p-1">
-        <div className="scrollbar-hidden relative flex h-full flex-col gap-2 overflow-y-auto rounded-md bg-[#FFFDF9] shadow-sm">
-          {/* Info (nome prodotto e prezzo) */}
+
+      {/* Configuratore */}
+      <div className="col-span-1 md:col-span-7 flex flex-col gap-4">
+        {/* Card contenente configurazioni */}
+        <div className="flex flex-col gap-4 rounded-2xl bg-white shadow-md p-4">
           <ProductInfo />
-          <div className="flex flex-col gap-4 p-4 pt-0">
-            {/* Tipo */}
-            <MugTypeSelection />
-            {/* Dimensione */}
-            <MugSizeSelection />
-            {/* Colore */}
-            <MugColorSelection />
-            {/* Texture */}
-            {selectedMugType?.supportsImage && <MugTextureSelection />}
-            {/* Immagine */}
-            {selectedMugType?.supportsTexture && <MugImageSelection />}
-            {/* Materiale */}
-            <MugMaterialSelection />
-          </div>
+
+          <MugTypeSelection />
+          <MugSizeSelection />
+          <MugColorSelection />
+          {selectedMugType?.supportsImage && <MugTextureSelection />}
+          {selectedMugType?.supportsTexture && <MugImageSelection />}
+          <MugMaterialSelection />
         </div>
-        <div className="rounded-md bg-[#C8B6A6] p-2 shadow-sm">
+
+        {/* Sezione acquisto */}
+        <div className="bg-[#C8B6A6] rounded-2xl shadow-md p-4">
           <BuySection />
         </div>
       </div>
